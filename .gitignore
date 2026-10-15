@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+.DS_Store
+
+# Database (local dev only — never commit SQLite or backups)
+data/
+*.db
+*.db-shm
+*.db-wal
+*.db.backup-*

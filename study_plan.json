@@ -1,0 +1,426 @@
+{
+  "start": "2026-10-16",
+  "end": "2026-10-26",
+  "timezone": "Asia/Kolkata (IST)",
+  "special_note": "16 October starts after the user’s NPTEL exam scheduled 09:00–12:00. Routine timing is adjustable; breaks and sleep are intentional. This schedule is a recommended plan, not an official RIL timetable.",
+  "days": [
+    {
+      "date": "2026-10-16",
+      "label": "Day 0 — Setup sprint (after NPTEL exam)",
+      "focus": "Set up the system, do not over-study after your morning NPTEL exam",
+      "blocks": [
+        {
+          "time": "17:00–17:30",
+          "task": "Recover, eat and reset after the NPTEL exam."
+        },
+        {
+          "time": "17:30–18:00",
+          "task": "Open the study dashboard; record baseline confidence in Quant, Reasoning and Instrumentation."
+        },
+        {
+          "time": "18:00–18:45",
+          "task": "Take 10 untimed diagnostic questions from each track to find obvious gaps."
+        },
+        {
+          "time": "19:00–19:45",
+          "task": "Set up your formula notebook and mistake log; review the assessment facts."
+        },
+        {
+          "time": "20:00–20:30",
+          "task": "Light recap and plan Day 1; stop early and sleep."
+        }
+      ],
+      "targets": [
+        "Start streak; finish the profile and baseline check",
+        "Do not penalise yourself for low baseline score"
+      ]
+    },
+    {
+      "date": "2026-10-17",
+      "label": "Day 1 — Aptitude foundations + measurement fundamentals",
+      "focus": "Percentages, ratios, averages; measurement terminology",
+      "blocks": [
+        {
+          "time": "07:45–09:00",
+          "task": "Percentages, ratio/proportion, averages; 20 original MCQs."
+        },
+        {
+          "time": "09:20–10:50",
+          "task": "Accuracy vs precision, sensitivity, range/span, resolution, linearity, hysteresis."
+        },
+        {
+          "time": "11:10–12:10",
+          "task": "Solve 15 technical MCQs; draw a static calibration curve."
+        },
+        {
+          "time": "13:15–14:30",
+          "task": "Time/work and speed/distance basics."
+        },
+        {
+          "time": "15:00–15:30",
+          "task": "15-minute verbal/reasoning sprint + corrections."
+        },
+        {
+          "time": "17:30–18:30",
+          "task": "Timed mixed set: 15 cognitive + 15 instrumentation."
+        },
+        {
+          "time": "19:30–20:15",
+          "task": "Error log and spaced recall of formulas."
+        }
+      ],
+      "targets": [
+        "≥70% on practice set as a first benchmark",
+        "Write definitions without notes"
+      ]
+    },
+    {
+      "date": "2026-10-18",
+      "label": "Day 2 — Temperature sensors + number/letter reasoning",
+      "focus": "RTD, thermocouple, thermistor, strain gauge",
+      "blocks": [
+        {
+          "time": "07:45–09:00",
+          "task": "Number series, letter series, coding-decoding; 25 timed questions."
+        },
+        {
+          "time": "09:20–10:50",
+          "task": "RTD, Pt100, thermocouple Seebeck effect, thermistor NTC/PTC, thermowell."
+        },
+        {
+          "time": "11:10–12:10",
+          "task": "Temperature scaling/calculation MCQs; compare sensors by range, accuracy and application."
+        },
+        {
+          "time": "13:15–14:30",
+          "task": "Strain gauge, load cell, gauge factor and Wheatstone bridge balance."
+        },
+        {
+          "time": "15:00–15:30",
+          "task": "Logical deduction and direction sense."
+        },
+        {
+          "time": "17:30–18:30",
+          "task": "Timed temperature + cognitive sectional test."
+        },
+        {
+          "time": "19:30–20:15",
+          "task": "Correct every wrong answer; revise sensor comparison matrix."
+        }
+      ],
+      "targets": [
+        "Explain RTD vs thermocouple in 60 seconds",
+        "≥75% in temperature question set"
+      ]
+    },
+    {
+      "date": "2026-10-19",
+      "label": "Day 3 — Pressure measurement + arithmetic applications",
+      "focus": "Gauge/absolute/DP pressure; profit-loss, interest and mixtures",
+      "blocks": [
+        {
+          "time": "07:45–09:00",
+          "task": "Profit-loss, discounts, simple interest, mixtures; 20 MCQs."
+        },
+        {
+          "time": "09:20–10:50",
+          "task": "Bourdon tube, manometer, gauge vs absolute vs differential pressure, hydrostatic pressure."
+        },
+        {
+          "time": "11:10–12:10",
+          "task": "Pressure range conversions and calibration exercises."
+        },
+        {
+          "time": "13:15–14:30",
+          "task": "Measurement errors, uncertainty, loading effect and calibration traceability."
+        },
+        {
+          "time": "15:00–15:30",
+          "task": "Short reasoning drill."
+        },
+        {
+          "time": "17:30–18:30",
+          "task": "Timed pressure + arithmetic test."
+        },
+        {
+          "time": "19:30–20:15",
+          "task": "Mistake log and unit-check drill."
+        }
+      ],
+      "targets": [
+        "Memorise p=F/A and p=ρgh, with units",
+        "≥75% pressure sectional"
+      ]
+    },
+    {
+      "date": "2026-10-20",
+      "label": "Day 4 — Flow measurement + data interpretation",
+      "focus": "DP flow, Venturi/orifice, magnetic, Coriolis, vortex, ultrasonic",
+      "blocks": [
+        {
+          "time": "07:45–09:00",
+          "task": "Data interpretation: tables, graphs, percentages; 20 timed questions."
+        },
+        {
+          "time": "09:20–10:50",
+          "task": "Orifice plate, Venturi, rotameter, magnetic, Coriolis, vortex and ultrasonic meters."
+        },
+        {
+          "time": "11:10–12:10",
+          "task": "Flowmeter choice: fluid conductivity, cleanliness, pressure loss, mass vs volume flow."
+        },
+        {
+          "time": "13:15–14:30",
+          "task": "Solve ΔP-to-flow square-root numericals and flow range scaling."
+        },
+        {
+          "time": "15:00–15:30",
+          "task": "Verbal inference sprint."
+        },
+        {
+          "time": "17:30–18:30",
+          "task": "Flow + data interpretation mini mock."
+        },
+        {
+          "time": "19:30–20:15",
+          "task": "Draw a one-page flowmeter comparison chart."
+        }
+      ],
+      "targets": [
+        "Select a flowmeter for 5 example scenarios",
+        "≥75% mixed score"
+      ]
+    },
+    {
+      "date": "2026-10-21",
+      "label": "Day 5 — Level + 4–20 mA loops",
+      "focus": "Level sensing and transmitter scaling",
+      "blocks": [
+        {
+          "time": "07:45–09:00",
+          "task": "Mixed arithmetic and reasoning set; 25 questions."
+        },
+        {
+          "time": "09:20–10:50",
+          "task": "Hydrostatic DP level, float, ultrasonic, radar and capacitance level basics."
+        },
+        {
+          "time": "11:10–12:10",
+          "task": "4–20 mA map, live zero, upscale/downscale faults and 250 Ω conversion."
+        },
+        {
+          "time": "13:15–14:30",
+          "task": "Zero/span calibration; solve 4–20 mA engineering-unit conversions."
+        },
+        {
+          "time": "15:00–15:30",
+          "task": "Quick verbal/data review."
+        },
+        {
+          "time": "17:30–18:30",
+          "task": "Level + loop scaling timed test."
+        },
+        {
+          "time": "19:30–20:15",
+          "task": "Explain 4–20 mA live zero and loop benefits without notes."
+        }
+      ],
+      "targets": [
+        "Get all 4–20 mA scaling problems correct in final retry",
+        "≥80% loop-conversion accuracy"
+      ]
+    },
+    {
+      "date": "2026-10-22",
+      "label": "Day 6 — Feedback, PID and control valves",
+      "focus": "Control-system fundamentals",
+      "blocks": [
+        {
+          "time": "07:45–09:00",
+          "task": "Time/work, rates and probability mixed set."
+        },
+        {
+          "time": "09:20–10:50",
+          "task": "Open vs closed loop, PV/SP/MV, feedback, P/I/D actions, steady-state error."
+        },
+        {
+          "time": "11:10–12:10",
+          "task": "Cascade vs feedforward; first-order time constant/dead time overview."
+        },
+        {
+          "time": "13:15–14:30",
+          "task": "Control-valve actuator, positioner and fail-state selection by hazard."
+        },
+        {
+          "time": "15:00–15:30",
+          "task": "20-question mixed reasoning sprint."
+        },
+        {
+          "time": "17:30–18:30",
+          "task": "Control-system sectional mock."
+        },
+        {
+          "time": "19:30–20:15",
+          "task": "Draw a closed-loop block diagram and annotate PV/SP/MV."
+        }
+      ],
+      "targets": [
+        "Explain PID terms and limitations",
+        "≥75% control section"
+      ]
+    },
+    {
+      "date": "2026-10-23",
+      "label": "Day 7 — PLC, DCS, SCADA, P&ID and HART",
+      "focus": "Plant automation and instrumentation communication",
+      "blocks": [
+        {
+          "time": "07:45–09:00",
+          "task": "Timed cognitive set: series, logic, data interpretation, verbal."
+        },
+        {
+          "time": "09:20–10:50",
+          "task": "PLC vs DCS vs SCADA; basic input/output, scan cycle and supervisory role."
+        },
+        {
+          "time": "11:10–12:10",
+          "task": "P&ID tags (PT, TT, FT, LT, FIC), HART and 4–20 mA context."
+        },
+        {
+          "time": "13:15–14:30",
+          "task": "Industrial safety concepts, interlocks, alarms and fail-safe design at a fundamentals level."
+        },
+        {
+          "time": "15:00–15:30",
+          "task": "Registration/account and email check; do not assume assessment link is enabled until confirmed."
+        },
+        {
+          "time": "17:30–18:30",
+          "task": "Automation + cognitive mixed test."
+        },
+        {
+          "time": "19:30–20:15",
+          "task": "Create PLC/DCS/SCADA comparison flashcards."
+        }
+      ],
+      "targets": [
+        "Give one-sentence differences between PLC, DCS and SCADA",
+        "Keep account/email ready and notifications checked"
+      ]
+    },
+    {
+      "date": "2026-10-24",
+      "label": "Day 8 — Electronics + sectional mocks",
+      "focus": "Op-amps, filters, ADC, logic, signal conditioning",
+      "blocks": [
+        {
+          "time": "07:45–09:00",
+          "task": "Cognitive sectional mock (timed). Record accuracy and time per question."
+        },
+        {
+          "time": "09:20–10:50",
+          "task": "Op-amp ideal characteristics, instrumentation amplifier, CMRR, low-pass filters."
+        },
+        {
+          "time": "11:10–12:10",
+          "task": "ADC resolution, Nyquist criterion, XOR, binary conversion and sensor conditioning."
+        },
+        {
+          "time": "13:15–14:30",
+          "task": "Instrumentation sectional mock; review all explanations."
+        },
+        {
+          "time": "15:00–15:30",
+          "task": "Break / walk and mental reset."
+        },
+        {
+          "time": "17:30–18:30",
+          "task": "Redo weakest 20 questions from previous mistakes."
+        },
+        {
+          "time": "19:30–20:15",
+          "task": "Update weak-topic ranking and progress chart."
+        }
+      ],
+      "targets": [
+        "Find top 3 weak topics using evidence, not guesswork",
+        "No repeat miss on a previously corrected question"
+      ]
+    },
+    {
+      "date": "2026-10-25",
+      "label": "Day 9 — Full mixed simulation + analysis",
+      "focus": "Exam-like stamina without claiming to mirror the official format",
+      "blocks": [
+        {
+          "time": "08:00–09:30",
+          "task": "Mixed mock A: use adjustable practice configuration, e.g. 30 cognitive + 40 technical. This is a training format, not official test length."
+        },
+        {
+          "time": "09:45–11:15",
+          "task": "Review every wrong/guessed item; classify concept, calculation, reading or time error."
+        },
+        {
+          "time": "12:30–13:30",
+          "task": "Targeted lesson/video only for the 2 weakest topics."
+        },
+        {
+          "time": "14:00–15:00",
+          "task": "Redo incorrect questions without seeing the answers."
+        },
+        {
+          "time": "16:30–17:30",
+          "task": "Mixed mock B, shorter and timed."
+        },
+        {
+          "time": "19:00–19:45",
+          "task": "Compare mock A/B, accuracy, speed and confidence."
+        }
+      ],
+      "targets": [
+        "Aim for ≥80% accuracy as a personal practice target, not an official cutoff",
+        "Keep a clean list of unresolved concepts"
+      ]
+    },
+    {
+      "date": "2026-10-26",
+      "label": "Day 10 — Final revision and readiness",
+      "focus": "Consolidate, do not cram",
+      "blocks": [
+        {
+          "time": "08:00–09:00",
+          "task": "One light cognitive set; stop if fatigue rises."
+        },
+        {
+          "time": "09:15–10:45",
+          "task": "Review one-page formula sheet, sensor comparison chart, 4–20 mA scaling and PID."
+        },
+        {
+          "time": "11:00–11:45",
+          "task": "Review wrong-answer log only; do not start long new chapters."
+        },
+        {
+          "time": "13:00–14:00",
+          "task": "Short technical quiz of 20 mixed questions."
+        },
+        {
+          "time": "14:15–15:00",
+          "task": "Review test access, Unstop email, computer/browser instructions if available."
+        },
+        {
+          "time": "16:00–16:30",
+          "task": "Confirm laptop, charger, stable network and quiet private room."
+        },
+        {
+          "time": "17:00 onward",
+          "task": "Light recall, prepare documents/ID if requested, eat normally and sleep on time."
+        }
+      ],
+      "targets": [
+        "No major unresolved high-priority concept",
+        "Device and account readiness confirmed",
+        "Do not assume midnight start is your assigned test appointment; follow individual instructions"
+      ]
+    }
+  ]
+}

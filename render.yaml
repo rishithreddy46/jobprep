@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: get-quest
+    runtime: node
+    region: singapore          # closest free region to India
+    plan: free
+    rootDir: .
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false            # set in Render dashboard — never commit
+      - key: PORT
+        value: 10000           # Render free tier default port
+      - key: AI_API_KEY
+        sync: false            # optional — AI lab disabled if absent
+      - key: AI_PROVIDER
+        value: gemini
+      - key: AI_MODEL
+        value: gemini-1.5-flash

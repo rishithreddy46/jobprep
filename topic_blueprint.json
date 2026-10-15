@@ -1,0 +1,121 @@
+{
+  "title": "RIL GET 2027 - E&I preparation blueprint",
+  "checked_on": "2026-10-15",
+  "official_known_components": [
+    "Cognitive Test",
+    "Subject Matter"
+  ],
+  "official_unknowns": [
+    "Exact question count",
+    "Duration",
+    "Scoring and negative marking",
+    "Detailed technical syllabus",
+    "Official topic weights",
+    "Browser/proctoring configuration until candidate-specific instructions"
+  ],
+  "important_disclaimer": "All priority values below are internal preparation recommendations derived from public candidate reports plus established Instrumentation curriculum. They are not official RIL weights and must not be labelled as expected percentages in the actual exam.",
+  "training_mix_default": {
+    "cognitive_percent": 40,
+    "instrumentation_percent": 60,
+    "label": "Editable practice mix only — not an official RIL weighting."
+  },
+  "priority_bands": [
+    {
+      "priority": "P0",
+      "reason": "Frequently mentioned in current/previous candidate reports and/or core instrumentation curriculum",
+      "topics": [
+        "Quantitative aptitude: percentages, ratios, averages, rates, time/work, speed/distance",
+        "Logical reasoning: series, coding, deduction, directions, data interpretation",
+        "Industrial measurement: pressure, temperature, flow, level",
+        "Transmitters and 4–20 mA signal scaling",
+        "PLC, DCS, SCADA basics",
+        "Control systems: feedback, PID basics, process variables",
+        "Project/internship discussion for later interview readiness"
+      ]
+    },
+    {
+      "priority": "P1",
+      "reason": "Core degree fundamentals and NPTEL course coverage",
+      "topics": [
+        "RTD, thermocouple, thermistor, strain gauge, LVDT",
+        "Calibration, error, accuracy, precision, sensitivity, hysteresis",
+        "Differential pressure, orifice, Venturi, magnetic, Coriolis and ultrasonic flowmeter principles",
+        "Control valves, positioners, fail-state decision logic",
+        "Analog circuits, op-amps, ADC/DAC, filters, digital logic",
+        "P&ID symbols and ISA-style instrument tags",
+        "Signal conditioning and HART basics"
+      ]
+    },
+    {
+      "priority": "P2",
+      "reason": "Broaden understanding after P0/P1 readiness",
+      "topics": [
+        "pH and analytical measurement fundamentals",
+        "Dynamic response/time constant, transfer functions and sampling",
+        "Advanced metrology details, communication nuances, safety lifecycle concepts",
+        "Extra non-verbal reasoning and verbal inference"
+      ]
+    }
+  ],
+  "topic_resources": [
+    {
+      "topic": "Cognitive quantitative aptitude",
+      "source_ids": [
+        "INDIABIX-APTITUDE"
+      ],
+      "video_search_url": "https://www.youtube.com/results?search_query=quantitative+aptitude+percentages+ratios+time+work+placement+practice"
+    },
+    {
+      "topic": "Logical reasoning",
+      "source_ids": [
+        "INDIABIX-LOGIC"
+      ],
+      "video_search_url": "https://www.youtube.com/results?search_query=logical+reasoning+series+coding+decoding+placement+practice"
+    },
+    {
+      "topic": "Verbal ability",
+      "source_ids": [
+        "INDIABIX-VERBAL"
+      ],
+      "video_search_url": "https://www.youtube.com/results?search_query=verbal+ability+placement+tests+grammar+reading+comprehension"
+    },
+    {
+      "topic": "Industrial instrumentation overview",
+      "source_ids": [
+        "NPTEL-IND-INST",
+        "NPTEL-IND-INST-CURRENT"
+      ],
+      "video_search_url": "https://www.youtube.com/results?search_query=NPTEL+Industrial+Instrumentation+Alok+Barua"
+    },
+    {
+      "topic": "Temperature sensors",
+      "source_ids": [
+        "NPTEL-IND-INST"
+      ],
+      "video_search_url": "https://www.youtube.com/results?search_query=NPTEL+RTD+thermocouple+thermistor+instrumentation"
+    },
+    {
+      "topic": "Flow and pressure measurement",
+      "source_ids": [
+        "NPTEL-IND-INST",
+        "SIEMENS-PI"
+      ],
+      "video_search_url": "https://www.youtube.com/results?search_query=NPTEL+flow+measurement+orifice+venturi+pressure+transmitter"
+    },
+    {
+      "topic": "PLC, DCS and SCADA",
+      "source_ids": [
+        "RIL-GLASSDOOR-INST-2025",
+        "RIL-BOARDINFINITY-2024"
+      ],
+      "video_search_url": "https://www.youtube.com/results?search_query=PLC+DCS+SCADA+basics+instrumentation+engineering"
+    },
+    {
+      "topic": "Control systems and PID",
+      "source_ids": [
+        "NPTEL-IND-INST"
+      ],
+      "video_search_url": "https://www.youtube.com/results?search_query=control+systems+feedback+PID+controller+NPTEL"
+    }
+  ]
+}

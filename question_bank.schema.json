@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RIL GET practice question bank schema",
+  "type": "object",
+  "required": [
+    "dataset_name",
+    "version",
+    "generated_on",
+    "total_questions",
+    "notice",
+    "questions"
+  ],
+  "properties": {
+    "dataset_name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "generated_on": {
+      "type": "string"
+    },
+    "total_questions": {
+      "type": "integer"
+    },
+    "notice": {
+      "type": "string"
+    },
+    "supported_tracks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scoring_recommendation": {
+      "type": "object"
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "track",
+          "topic",
+          "difficulty",
+          "question",
+          "options",
+          "correct_option_id",
+          "correct_answer",
+          "explanation",
+          "recommended_time_seconds",
+          "provenance"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "track": {
+            "enum": [
+              "cognitive",
+              "instrumentation"
+            ]
+          },
+          "topic": {
+            "type": "string"
+          },
+          "difficulty": {
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ]
+          },
+          "question": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "text"
+              ],
+              "properties": {
+                "id": {
+                  "enum": [
+                    "A",
+                    "B",
+                    "C",
+                    "D"
+                  ]
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "correct_option_id": {
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          "correct_answer": {
+            "type": "string"
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "recommended_time_seconds": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "provenance": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

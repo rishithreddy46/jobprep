@@ -1,0 +1,167 @@
+{
+  "checked_on": "2026-10-15",
+  "sources": [
+    {
+      "id": "RIL-2027",
+      "title": "Reliance Industries Limited – Graduate Engineer Trainee (GET) All India Hiring 2027",
+      "source_type": "current recruitment listing on Unstop",
+      "url": "https://unstop.com/jobs/crp-reliance-industries-limited-graduate-engineer-trainee-get-all-india-hiring-2027-ril-get-hiring-2026-2027-reliance-i-1766712",
+      "checked_on": "2026-10-15",
+      "recency": "Current 2027 hiring listing",
+      "reliability": "High for the details explicitly stated on this listing; it is the opportunity page used for registration, not a complete public test specification.",
+      "observed_facts": [
+        "Eligible branches shown include Chemical, Mechanical, Electrical, Fire, Civil and Instrumentation (degree titles must be mapped by RIL).",
+        "Assessment round is described as online Cognitive Test + Subject Matter.",
+        "Play/start access is branch-specific.",
+        "Candidates are instructed to take the test in a closed, quiet, private environment.",
+        "The listing does not publicly state exact question count, duration, marks distribution or detailed syllabus."
+      ],
+      "use_in_app": "Show confirmed process facts only; show missing test details as Unknown / Await official instructions."
+    },
+    {
+      "id": "RIL-GLASSDOOR-GET-2026",
+      "title": "Reliance Industries Graduate Engineering Trainee GET interview questions (candidate-submitted reports)",
+      "source_type": "candidate interview reports, Glassdoor",
+      "url": "https://static.glassdoor.co.in/Interview/Reliance-Industries-Graduate-Engineering-Trainee-GET-Interview-Questions-EI_IE10052.0,19_KO20,52.htm",
+      "checked_on": "2026-10-15",
+      "recency": "Includes candidate reports dated 30 Apr, 5 May and 2 Oct 2026",
+      "reliability": "Medium-low: anonymous self-reports; useful for themes, not an official syllabus or guaranteed assessment format.",
+      "observed_facts": [
+        "A 5 May 2026 GET candidate report says interview discussion was mostly about the candidate project and industrial instrumentation.",
+        "A 30 Apr 2026 report describes an easy-to-moderate combined HR/technical discussion and checking basic undergraduate knowledge.",
+        "These are interview reports, not validated details of the 2027 online assessment."
+      ],
+      "use_in_app": "Display as candidate-reported interview themes with date and anonymous-source disclaimer."
+    },
+    {
+      "id": "RIL-GLASSDOOR-INST-2025",
+      "title": "Reliance Industries Maintenance Engineer – Instrumentation interview experience",
+      "source_type": "candidate-submitted report, Glassdoor",
+      "url": "https://www.glassdoor.com/Interview/Reliance-Industries-Interview-Questions-E10052.htm?filter.jobTitleExact=Maintenance+Engineer+-+Instrumentation",
+      "checked_on": "2026-10-15",
+      "recency": "Report dated 16 Dec 2025",
+      "reliability": "Medium-low: single anonymous report and a different position/selection cycle.",
+      "observed_facts": [
+        "The report describes an online assessment covering aptitude and reasoning followed by interview stages.",
+        "It recommends fundamentals of industrial measurement (pressure, temperature, level and flow), PLC/DCS, projects/internship and CV extracurriculars.",
+        "This is not the same role or cycle as RIL GET 2027."
+      ],
+      "use_in_app": "Use as a topic-priority signal only, clearly labelled previous-cycle candidate report."
+    },
+    {
+      "id": "RIL-BOARDINFINITY-2024",
+      "title": "Reliance Industries GET interview questions & experience guide – forum thread",
+      "source_type": "public candidate discussion forum",
+      "url": "https://discuss.boardinfinity.com/t/reliance-industries-limited-graduate-engineer-trainee-get-interview-questions-experience-guide/23539?page=2",
+      "checked_on": "2026-10-15",
+      "recency": "Posts surfaced from 2024; older reports are also present in the thread.",
+      "reliability": "Low-to-medium: anonymous and mixed-discipline reports; details conflict and are historical.",
+      "observed_facts": [
+        "Multiple posters discuss aptitude/reasoning and core technical sections in prior RIL hiring contexts.",
+        "Some reported formats vary substantially by campus, discipline and year; question counts and durations conflict.",
+        "One report mentions industrial instrumentation/flowmeters, PLC/SCADA, core subjects and project/internship discussion."
+      ],
+      "use_in_app": "Do not use old forum numbers as a prediction for the 2027 test. Extract broad preparation themes only."
+    },
+    {
+      "id": "NPTEL-IND-INST",
+      "title": "NPTEL Industrial Instrumentation course",
+      "source_type": "educational course",
+      "url": "https://onlinecourses-archive.nptel.ac.in/noc17_ec09/preview",
+      "checked_on": "2026-10-15",
+      "recency": "Course archive; educational content remains useful, not a current hiring announcement.",
+      "reliability": "High for educational topic structure.",
+      "observed_facts": [
+        "Covers static/dynamic characteristics, strain gauges/load cells, RTD/thermocouple/thermistor, flow measurements, LVDT/capacitance sensors, piezoelectric sensors, pressure, optoelectronic sensors, pH and viscosity."
+      ],
+      "use_in_app": "Use as a curriculum/resource link; link users to the host rather than copying videos or course content."
+    },
+    {
+      "id": "NPTEL-IND-INST-CURRENT",
+      "title": "NPTEL Industrial Instrumentation course page",
+      "source_type": "educational course/topic outline",
+      "url": "https://nptel.ac.in/courses/108105064",
+      "checked_on": "2026-10-15",
+      "reliability": "High for course topic outline.",
+      "observed_facts": [
+        "Topic list includes RTD, thermocouples, thermistor, LVDT, capacitance transducers, multiple flowmeter lectures, pressure sensors, signal conditioning, piezoelectric and ultrasonic sensors, smart sensors and analytical measurements."
+      ],
+      "use_in_app": "Topic coverage reference."
+    },
+    {
+      "id": "INDIABIX-PRACTICE",
+      "title": "IndiaBIX – Aptitude, logical reasoning and verbal ability practice",
+      "source_type": "external practice resource",
+      "url": "https://www.indiabix.com/online-test/categories/",
+      "checked_on": "2026-10-15",
+      "reliability": "Useful for extra practice; third-party content and not RIL-specific.",
+      "observed_facts": [
+        "Provides online tests across aptitude, data interpretation, verbal ability, logical reasoning, verbal reasoning, and engineering topics."
+      ],
+      "use_in_app": "Show as external practice links; do not copy its question bank into local data."
+    },
+    {
+      "id": "INDIABIX-APTITUDE",
+      "title": "IndiaBIX online aptitude tests",
+      "source_type": "external practice resource",
+      "url": "https://www.indiabix.com/online-test/aptitude-test/",
+      "checked_on": "2026-10-15",
+      "reliability": "Useful practice resource; not RIL-specific.",
+      "use_in_app": "External practice link for quantitative aptitude."
+    },
+    {
+      "id": "INDIABIX-LOGIC",
+      "title": "IndiaBIX online logical reasoning tests",
+      "source_type": "external practice resource",
+      "url": "https://www.indiabix.com/online-test/logical-reasoning-test/",
+      "checked_on": "2026-10-15",
+      "reliability": "Useful practice resource; not RIL-specific.",
+      "use_in_app": "External practice link for logical reasoning."
+    },
+    {
+      "id": "INDIABIX-VERBAL",
+      "title": "IndiaBIX online verbal ability tests",
+      "source_type": "external practice resource",
+      "url": "https://www.indiabix.com/online-test/verbal-ability-test/",
+      "checked_on": "2026-10-15",
+      "reliability": "Useful practice resource; not RIL-specific.",
+      "use_in_app": "External practice link for verbal ability."
+    },
+    {
+      "id": "SIEMENS-PI",
+      "title": "Siemens SITRAIN – Process Instrumentation Introduction",
+      "source_type": "industrial learning/resource page",
+      "url": "https://www.sitrain-learning.siemens.com/en/product/chapter/QAKA0CA/course/QJDXAQN/description.do",
+      "checked_on": "2026-10-15",
+      "reliability": "High for describing industrial instrumentation topic areas; course may be paid and region dependent.",
+      "observed_facts": [
+        "Covers pressure, temperature, level, flow, electro-pneumatic positioners and instrument selection."
+      ],
+      "use_in_app": "Use as an industrial context resource link; indicate availability/cost may vary."
+    },
+    {
+      "id": "ANTIGRAVITY-OVERVIEW",
+      "title": "Google Antigravity IDE overview",
+      "source_type": "official developer documentation",
+      "url": "https://www.antigravity.google/docs/ide/overview/",
+      "checked_on": "2026-10-15",
+      "reliability": "Official product documentation.",
+      "observed_facts": [
+        "Antigravity is an agentic development environment integrating agents in workspace, terminal and browser and supporting end-to-end build/iteration workflows."
+      ],
+      "use_in_app": "The build prompt should ask Antigravity to implement, run, inspect and test the local application."
+    },
+    {
+      "id": "ANTIGRAVITY-SETTINGS",
+      "title": "Google Antigravity agent settings and permission controls",
+      "source_type": "official developer documentation",
+      "url": "https://www.antigravity.google/docs/agent-settings",
+      "checked_on": "2026-10-15",
+      "reliability": "Official product documentation.",
+      "observed_facts": [
+        "Agent settings govern terminal command execution, non-workspace file access and sandbox behavior."
+      ],
+      "use_in_app": "Recommend review/ask-before-execution for destructive commands and keeping work inside the project workspace."
+    }
+  ]
+}

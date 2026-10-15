@@ -1,0 +1,12 @@
+{
+  "validated_on": "2026-10-15",
+  "question_count": 105,
+  "unique_ids": 105,
+  "duplicate_prompts": 0,
+  "invalid_option_count": 0,
+  "missing_explanations": 0,
+  "answer_key_mismatches": 0,
+  "cognitive_count": 35,
+  "instrumentation_count": 70,
+  "method": "Programmatic schema/consistency checks. Technical correctness was curated against domain fundamentals and cited curriculum themes; it is not a formal external expert audit."
+}
