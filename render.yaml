@@ -1,11 +1,11 @@
 services:
   - type: web
-    name: get-quest
+    name: jobprep
     runtime: node
     region: singapore          # closest free region to India
     plan: free
     rootDir: .
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
