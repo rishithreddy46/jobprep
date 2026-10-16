@@ -111,216 +111,185 @@ export const MistakeNotebook: React.FC<MistakeNotebookProps> = ({ onNavigate }) 
 
   return (
     <div className="page-wrapper">
-      {/* Top Banner */}
-      <div className="card card-amber-accent" style={{ marginBottom: 24, padding: '26px 30px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
-          <div style={{ maxWidth: 750 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <span className="badge badge-amber">Error Log & Mastery Loop</span>
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                {unresolvedCount} In Backlog • {resolvedCount} Mastered
-              </span>
-            </div>
-            <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 8 }}>
-              Personal Mistake Notebook
-            </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', lineHeight: 1.6 }}>
-              Every incorrect answer from practice sets and mocks is automatically logged here. Classify your error types, note down formulas, and re-test until you score two consecutive correct answers.
-            </p>
-          </div>
-
-          <button
-            className="btn btn-primary"
-            onClick={handleLaunchRetryQuiz}
-            disabled={unresolvedCount === 0}
-            style={{
-              background: unresolvedCount > 0 ? 'linear-gradient(135deg, #ffb703 0%, #d97706 100%)' : 'var(--bg-card)',
-              color: unresolvedCount > 0 ? '#060a12' : 'var(--text-subtle)',
-              borderColor: 'rgba(255, 183, 3, 0.4)',
-            }}
-          >
-            <Play size={16} />
-            <span>Re-Test Unresolved Mistakes ({unresolvedCount})</span>
-          </button>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
+        <div>
+          <span className="section-label">07 — Targeted Weakness Elimination</span>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.02em', marginTop: 4 }}>
+            Mistake Notebook & Mastery Queue
+          </h1>
+          <p className="section-desc">
+            Continuous error revision loop. Analyze error categories, annotate root causes, and re-test until you achieve 2 consecutive correct answers.
+          </p>
         </div>
+
+        <button
+          className="btn btn-primary"
+          onClick={handleLaunchRetryQuiz}
+          disabled={unresolvedCount === 0}
+        >
+          <Play size={15} /> Re-Test Mistakes ({unresolvedCount})
+        </button>
       </div>
 
-      {/* Filters Bar */}
+      {/* Filter Tabs */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14, marginBottom: 20 }}>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', background: 'var(--bg-muted)', padding: '3px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
           <button
-            className={`btn ${filterStatus === 'unresolved' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+            className={`btn btn-sm ${filterStatus === 'unresolved' ? 'btn-primary' : 'btn-outline'}`}
+            style={{ border: 'none', boxShadow: 'none' }}
             onClick={() => setFilterStatus('unresolved')}
           >
-            Unresolved ({unresolvedCount})
+            Pending Review ({unresolvedCount})
           </button>
           <button
-            className={`btn ${filterStatus === 'resolved' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+            className={`btn btn-sm ${filterStatus === 'resolved' ? 'btn-primary' : 'btn-outline'}`}
+            style={{ border: 'none', boxShadow: 'none' }}
             onClick={() => setFilterStatus('resolved')}
           >
             Mastered ({resolvedCount})
           </button>
           <button
-            className={`btn ${filterStatus === 'all' ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+            className={`btn btn-sm ${filterStatus === 'all' ? 'btn-primary' : 'btn-outline'}`}
+            style={{ border: 'none', boxShadow: 'none' }}
             onClick={() => setFilterStatus('all')}
           >
-            All Errors ({mistakes.length})
+            All Mistakes ({mistakes.length})
           </button>
         </div>
 
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Filter Track:</span>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Track:</span>
           <select
             value={filterTrack}
             onChange={(e) => setFilterTrack(e.target.value)}
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-dim)',
-              color: '#fff',
-              padding: '6px 12px',
-              borderRadius: 'var(--radius-md)',
-              fontSize: '0.85rem',
-              outline: 'none',
-            }}
+            className="select"
+            style={{ width: 'auto', padding: '5px 12px', fontSize: '0.84rem' }}
           >
             <option value="all">All Tracks</option>
             <option value="cognitive">Cognitive Ability</option>
-            <option value="instrumentation">Instrumentation</option>
+            <option value="instrumentation">Electronics & Instrumentation</option>
           </select>
         </div>
       </div>
 
-      {/* Mistake Items List */}
+      {/* Mistakes List */}
       {filtered.length === 0 ? (
         <div className="card" style={{ padding: '60px 20px', textAlign: 'center' }}>
-          <CheckCircle2 size={44} color="var(--emerald-success)" style={{ margin: '0 auto 16px' }} />
-          <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', marginBottom: 6 }}>
-            {filterStatus === 'unresolved' ? 'Mistake Backlog Cleared!' : 'No Logged Mistakes'}
+          <CheckCircle2 size={40} color="var(--emerald-success)" style={{ margin: '0 auto 16px' }} />
+          <h3 style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 6 }}>
+            {filterStatus === 'unresolved' ? 'All Mistakes Mastered!' : 'No Logged Mistakes'}
           </h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', maxWidth: 450, margin: '0 auto' }}>
             {filterStatus === 'unresolved'
-              ? 'Outstanding performance! You have no pending unresolved errors in your notebook.'
-              : 'Incorrect answers from test runs will automatically populate here.'}
+              ? 'Your mistake backlog is completely clear. Keep up the high accuracy across future practice sessions!'
+              : 'Incorrect answers will automatically show up here for targeted revision.'}
           </p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {filtered.map((m) => {
             const isEditing = editingId === m.question_id;
 
             return (
-              <div
-                key={m.question_id}
-                className="card"
-                style={{
-                  borderLeft: `4px solid ${m.is_resolved ? 'var(--emerald-success)' : 'var(--coral-error)'}`,
-                }}
-              >
+              <div key={m.question_id} className="card">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 12 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                    <span className="badge badge-cyan">{m.track}</span>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#fff' }}>{m.topic}</span>
-                    <span className="badge badge-amber">Missed {m.retry_count}x</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-subtle)' }}>
-                      Consecutive correct: {m.consecutive_correct}/2
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <span className="badge badge-primary">{m.track}</span>
+                    <span className="badge badge-neutral">{m.topic}</span>
+                    <span className={`badge ${m.difficulty === 'hard' ? 'badge-danger' : m.difficulty === 'medium' ? 'badge-warning' : 'badge-success'}`}>
+                      {m.difficulty}
+                    </span>
+                    <span className={`badge ${m.is_resolved ? 'badge-success' : 'badge-warning'}`}>
+                      {m.is_resolved ? 'Mastered' : `Consecutive: ${m.consecutive_correct}/2`}
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    {m.is_resolved ? (
-                      <span className="badge badge-emerald"><CheckCircle2 size={13} /> Mastered</span>
-                    ) : (
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    {!m.is_resolved && (
                       <button
                         className="btn btn-secondary btn-sm"
                         onClick={() => handleResolve(m.question_id)}
-                        title="Mark as resolved and earn review XP"
                       >
-                        <CheckCircle2 size={14} color="var(--emerald-success)" />
-                        <span>Mark Mastered (+2 XP)</span>
+                        <CheckCircle2 size={13} /> Mark Mastered
                       </button>
                     )}
-
-                    {!isEditing && (
-                      <button
-                        className="btn btn-secondary btn-sm"
-                        onClick={() => handleStartEdit(m)}
-                        title="Edit error classification & personal takeaways"
-                      >
-                        <Edit3 size={14} />
-                        <span>Edit Notes</span>
-                      </button>
-                    )}
+                    <button
+                      className="btn btn-outline btn-sm"
+                      onClick={() => handleStartEdit(m)}
+                    >
+                      <Edit3 size={13} /> Notes
+                    </button>
                   </div>
                 </div>
 
-                {/* Question Prompt */}
-                <div style={{ fontSize: '1.02rem', fontWeight: 600, color: '#fff', marginBottom: 14, lineHeight: 1.5 }}>
+                <div style={{ fontSize: '0.98rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 14, lineHeight: 1.5 }}>
                   {m.question}
                 </div>
 
-                {/* Correct Answer Preview */}
-                <div style={{ background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.25)', borderRadius: 'var(--radius-md)', padding: '10px 14px', marginBottom: 14, fontSize: '0.85rem', color: 'var(--emerald-success)' }}>
-                  <strong>Correct Key ({m.correct_option_id}): </strong> {m.correct_answer}
+                {/* Options List with Correct Marked */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, marginBottom: 16 }}>
+                  {m.options?.map((opt) => (
+                    <div
+                      key={opt.id}
+                      style={{
+                        padding: '8px 12px',
+                        borderRadius: 'var(--radius-sm)',
+                        fontSize: '0.84rem',
+                        border: '1px solid',
+                        borderColor: opt.id === m.correct_option_id ? 'var(--emerald-border)' : 'var(--border-subtle)',
+                        background: opt.id === m.correct_option_id ? 'var(--emerald-bg)' : 'var(--bg-muted)',
+                        color: opt.id === m.correct_option_id ? 'var(--emerald-success)' : 'var(--text-muted)',
+                        fontWeight: opt.id === m.correct_option_id ? 600 : 400,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8,
+                      }}
+                    >
+                      <strong>{opt.id}.</strong> {opt.text}
+                      {opt.id === m.correct_option_id && <CheckCircle2 size={14} style={{ marginLeft: 'auto' }} />}
+                    </div>
+                  ))}
                 </div>
 
-                {/* Explanation */}
-                <div style={{ background: 'rgba(0, 0, 0, 0.25)', border: '1px solid var(--border-dim)', borderRadius: 'var(--radius-md)', padding: '12px 16px', marginBottom: 14, fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--cyan-primary)', textTransform: 'uppercase', marginBottom: 4 }}>
-                    Solution & Engineering Logic
-                  </div>
+                {/* Solution Explanation */}
+                <div style={{ background: 'var(--bg-muted)', padding: '12px 14px', borderRadius: 'var(--radius-md)', fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 12 }}>
+                  <strong style={{ color: 'var(--primary)', display: 'block', marginBottom: 2 }}>Solution:</strong>
                   {m.explanation}
                 </div>
 
-                {/* Error Categorization & Personal Notes */}
+                {/* Personal Notes / Editing Area */}
                 {isEditing ? (
-                  <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-cyan)', borderRadius: 'var(--radius-md)', padding: '16px', marginTop: 10 }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, marginBottom: 12 }}>
-                      <div>
-                        <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 4 }}>
+                  <div style={{ background: 'var(--bg-elevated)', padding: '14px', borderRadius: 'var(--radius-md)', marginTop: 8 }}>
+                    <div style={{ display: 'flex', gap: 12, marginBottom: 10 }}>
+                      <div style={{ flex: 1 }}>
+                        <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-main)', display: 'block', marginBottom: 4 }}>
                           Error Category
                         </label>
                         <select
+                          className="select"
                           value={editCategory}
-                          onChange={(e: any) => setEditCategory(e.target.value)}
-                          style={{
-                            width: '100%',
-                            background: 'var(--bg-card)',
-                            border: '1px solid var(--border-dim)',
-                            color: '#fff',
-                            padding: '8px 10px',
-                            borderRadius: 'var(--radius-sm)',
-                            fontSize: '0.82rem',
-                            outline: 'none',
-                          }}
+                          onChange={(e) => setEditCategory(e.target.value as any)}
                         >
-                          <option value="concept">Concept Misunderstanding</option>
-                          <option value="calculation">Calculation / Unit Error</option>
-                          <option value="misread">Question Misread</option>
-                          <option value="time_pressure">Time Pressure / Rushed</option>
+                          <option value="concept">Conceptual Misunderstanding</option>
+                          <option value="calculation">Calculation / Formula Error</option>
+                          <option value="misread">Misread Question Stem</option>
+                          <option value="time_pressure">Time Pressure Rush</option>
                         </select>
                       </div>
+                    </div>
 
-                      <div>
-                        <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 4 }}>
-                          Personal Key Takeaway & Formula Reminder
-                        </label>
-                        <input
-                          type="text"
-                          value={editNotes}
-                          onChange={(e) => setEditNotes(e.target.value)}
-                          placeholder="e.g., Remember square-root relationship in DP flow; check 3-wire RTD lead resistance."
-                          style={{
-                            width: '100%',
-                            background: 'var(--bg-card)',
-                            border: '1px solid var(--border-dim)',
-                            color: '#fff',
-                            padding: '8px 12px',
-                            borderRadius: 'var(--radius-sm)',
-                            fontSize: '0.85rem',
-                            outline: 'none',
-                          }}
-                        />
-                      </div>
+                    <div style={{ marginBottom: 10 }}>
+                      <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-main)', display: 'block', marginBottom: 4 }}>
+                        Key Takeaway / Formula Note
+                      </label>
+                      <textarea
+                        className="textarea"
+                        rows={2}
+                        value={editNotes}
+                        onChange={(e) => setEditNotes(e.target.value)}
+                        placeholder="Write down the exact formula or pitfall to avoid..."
+                      />
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
@@ -328,26 +297,15 @@ export const MistakeNotebook: React.FC<MistakeNotebookProps> = ({ onNavigate }) 
                         Cancel
                       </button>
                       <button className="btn btn-primary btn-sm" onClick={() => handleSaveEdit(m.question_id)}>
-                        <Save size={14} />
-                        <span>Save Takeaways</span>
+                        <Save size={13} /> Save Note
                       </button>
                     </div>
                   </div>
-                ) : (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: '0.8rem', color: 'var(--text-subtle)', paddingTop: 6 }}>
-                    <div>
-                      <Tag size={13} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} />
-                      <span style={{ color: 'var(--text-muted)' }}>Category: </span>
-                      <strong style={{ color: '#fff', textTransform: 'capitalize' }}>{m.error_category || 'Concept'}</strong>
-                    </div>
-
-                    {m.personal_notes && (
-                      <div style={{ color: 'var(--cyan-primary)' }}>
-                        <strong>Note: </strong> {m.personal_notes}
-                      </div>
-                    )}
+                ) : m.personal_notes ? (
+                  <div style={{ fontSize: '0.82rem', color: 'var(--amber-warning)', background: 'var(--amber-bg)', padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--amber-border)', marginTop: 6 }}>
+                    <strong>Personal Note ({m.error_category}):</strong> {m.personal_notes}
                   </div>
-                )}
+                ) : null}
               </div>
             );
           })}

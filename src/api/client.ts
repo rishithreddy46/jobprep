@@ -81,6 +81,28 @@ export const api = {
   rejectAiQuestion: (id: string) =>
     apiFetch<any>(`/ai/reject/${id}`, { method: 'POST' }),
 
+  // Companies (JobPrep Multi-Company Architecture)
+  getCompanies: () => apiFetch<any[]>('/companies'),
+  getCompany: (id: string) => apiFetch<any>(`/companies/${id}`),
+  createCompany: (data: any) =>
+    apiFetch<any>('/companies', { method: 'POST', body: JSON.stringify(data) }),
+  updateCompany: (id: string, data: any) =>
+    apiFetch<any>(`/companies/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  updateCompanyStage: (id: string, stage_status: string, note?: string) =>
+    apiFetch<any>(`/companies/${id}/stage`, { method: 'POST', body: JSON.stringify({ stage_status, note }) }),
+  deleteCompany: (id: string) =>
+    apiFetch<any>(`/companies/${id}`, { method: 'DELETE' }),
+  exportCompanies: () => window.open(`${API_BASE}/companies-export`, '_blank'),
+  importCompanies: (companies: any[]) =>
+    apiFetch<any>('/companies-import', { method: 'POST', body: JSON.stringify({ companies }) }),
+
+  // Universal Practice
+  getPracticeCategories: () => apiFetch<any[]>('/practice/categories'),
+
+  // Reschedule Plan
+  rescheduleStudyPlan: (targetDate?: string) =>
+    apiFetch<any>('/study-plan/reschedule', { method: 'POST', body: JSON.stringify({ targetDate }) }),
+
   // Export / Import / Resets
   exportData: () => window.open(`${API_BASE}/export`, '_blank'),
   importData: (payload: any) =>

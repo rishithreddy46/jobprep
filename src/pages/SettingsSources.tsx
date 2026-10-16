@@ -191,11 +191,11 @@ export const SettingsSources: React.FC = () => {
           <span className="badge badge-cyan">System Configuration</span>
           <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Local Persistence & Source Integrity</span>
         </div>
-        <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 8 }}>
+        <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.02em', marginBottom: 8 }}>
           Settings, Data Management & Sources
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', maxWidth: 800, lineHeight: 1.6 }}>
-          Configure your learner profile, manage local backups, inspect question bank QA metrics, review source citations, and explore optional practice question generation.
+          Configure your candidate profile, manage local backups, inspect question bank QA metrics, review source citations, and explore practice question generation.
         </p>
       </div>
 
@@ -203,8 +203,8 @@ export const SettingsSources: React.FC = () => {
       <div className="grid-2" style={{ marginBottom: 24 }}>
         {/* Profile Settings */}
         <div className="card">
-          <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff', marginBottom: 16 }}>
-            Learner Profile & Goals
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: 16 }}>
+            Candidate Profile & Goals
           </h2>
 
           <form onSubmit={handleSaveProfile} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -216,7 +216,7 @@ export const SettingsSources: React.FC = () => {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
+                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: 'var(--text-main)', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
               />
             </div>
 
@@ -228,7 +228,7 @@ export const SettingsSources: React.FC = () => {
                 type="text"
                 value={branch}
                 onChange={(e) => setBranch(e.target.value)}
-                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
+                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: 'var(--text-main)', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
               />
             </div>
 
@@ -241,7 +241,7 @@ export const SettingsSources: React.FC = () => {
                 value={targetDate}
                 onChange={(e) => setTargetDate(e.target.value)}
                 placeholder="2026-10-26T00:00:00"
-                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
+                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: 'var(--text-main)', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
               />
             </div>
 
@@ -253,7 +253,7 @@ export const SettingsSources: React.FC = () => {
                 type="number"
                 value={dailyGoalMins}
                 onChange={(e) => setDailyGoalMins(Number(e.target.value))}
-                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
+                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: 'var(--text-main)', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
               />
             </div>
 
@@ -266,8 +266,8 @@ export const SettingsSources: React.FC = () => {
         {/* Local Passcode Lock */}
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-            <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Shield size={18} color="var(--cyan-primary)" />
+            <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Shield size={18} color="var(--primary)" />
               Local Access Passcode Lock
             </h2>
             {profile?.passcode_hash && <span className="badge badge-emerald">Lock Enabled</span>}
@@ -289,7 +289,7 @@ export const SettingsSources: React.FC = () => {
                 placeholder="e.g. 1234"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
-                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
+                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: 'var(--text-main)', padding: '9px 12px', borderRadius: 'var(--radius-md)', fontSize: '0.9rem', outline: 'none' }}
               />
             </div>
 
@@ -323,12 +323,12 @@ export const SettingsSources: React.FC = () => {
 
       {/* Data Management & Backups */}
       <div className="card" style={{ marginBottom: 24 }}>
-        <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Database size={18} color="var(--violet-quest)" />
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <Database size={18} color="var(--purple)" />
           Data Management & Local Backups
         </h2>
         <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 16 }}>
-          All your question attempts, streaks, XP transactions, and study plans are stored locally in the SQLite database at <code>data/get_quest.db</code>.
+          All your question attempts, streaks, XP transactions, and study plans are stored in the database.
         </p>
 
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
@@ -371,7 +371,7 @@ export const SettingsSources: React.FC = () => {
       {qaReport && (
         <div className="card" style={{ marginBottom: 24 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-            <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}>
               <FileCheck2 size={18} color="var(--emerald-success)" />
               Question Bank QA Validator
             </h2>
@@ -381,21 +381,21 @@ export const SettingsSources: React.FC = () => {
           </div>
 
           <div className="grid-4" style={{ marginBottom: 14 }}>
-            <div style={{ background: 'rgba(0, 0, 0, 0.25)', padding: '12px', borderRadius: 'var(--radius-md)' }}>
+            <div style={{ background: 'var(--bg-muted)', border: '1px solid var(--border-subtle)', padding: '12px', borderRadius: 'var(--radius-md)' }}>
               <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>Total Verified Bank</div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#fff' }}>{qaReport.totalQuestions}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-main)', fontFamily: 'var(--font-m)' }}>{qaReport.totalQuestions}</div>
             </div>
-            <div style={{ background: 'rgba(0, 0, 0, 0.25)', padding: '12px', borderRadius: 'var(--radius-md)' }}>
+            <div style={{ background: 'var(--bg-muted)', border: '1px solid var(--border-subtle)', padding: '12px', borderRadius: 'var(--radius-md)' }}>
               <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>Cognitive Items</div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--cyan-primary)' }}>{qaReport.cognitiveCount}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--blue)', fontFamily: 'var(--font-m)' }}>{qaReport.cognitiveCount}</div>
             </div>
-            <div style={{ background: 'rgba(0, 0, 0, 0.25)', padding: '12px', borderRadius: 'var(--radius-md)' }}>
+            <div style={{ background: 'var(--bg-muted)', border: '1px solid var(--border-subtle)', padding: '12px', borderRadius: 'var(--radius-md)' }}>
               <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>Instrumentation Items</div>
-              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--emerald-success)' }}>{qaReport.instrumentationCount}</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--emerald-success)', fontFamily: 'var(--font-m)' }}>{qaReport.instrumentationCount}</div>
             </div>
-            <div style={{ background: 'rgba(0, 0, 0, 0.25)', padding: '12px', borderRadius: 'var(--radius-md)' }}>
+            <div style={{ background: 'var(--bg-muted)', border: '1px solid var(--border-subtle)', padding: '12px', borderRadius: 'var(--radius-md)' }}>
               <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>Difficulties (E/M/H)</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--amber-warning)' }}>
+              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--amber-warning)', fontFamily: 'var(--font-m)' }}>
                 {qaReport.difficulties?.easy} / {qaReport.difficulties?.medium} / {qaReport.difficulties?.hard}
               </div>
             </div>
@@ -433,7 +433,7 @@ export const SettingsSources: React.FC = () => {
                 <select
                   value={genTrack}
                   onChange={(e) => setGenTrack(e.target.value)}
-                  style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '8px', borderRadius: 'var(--radius-sm)' }}
+                  style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: 'var(--text-main)', padding: '8px', borderRadius: 'var(--radius-sm)' }}
                 >
                   <option value="instrumentation">Instrumentation</option>
                   <option value="cognitive">Cognitive</option>
@@ -446,7 +446,7 @@ export const SettingsSources: React.FC = () => {
                   type="text"
                   value={genTopic}
                   onChange={(e) => setGenTopic(e.target.value)}
-                  style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '8px', borderRadius: 'var(--radius-sm)' }}
+                  style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: 'var(--text-main)', padding: '8px', borderRadius: 'var(--radius-sm)' }}
                 />
               </div>
 
@@ -455,7 +455,7 @@ export const SettingsSources: React.FC = () => {
                 <select
                   value={genDifficulty}
                   onChange={(e) => setGenDifficulty(e.target.value)}
-                  style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '8px', borderRadius: 'var(--radius-sm)' }}
+                  style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', color: 'var(--text-main)', padding: '8px', borderRadius: 'var(--radius-sm)' }}
                 >
                   <option value="easy">Easy</option>
                   <option value="medium">Medium</option>
@@ -475,13 +475,13 @@ export const SettingsSources: React.FC = () => {
 
             {/* Generated Items Review Queue */}
             {generatedItems.length > 0 && (
-              <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--border-dim)' }}>
-                <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#fff', marginBottom: 12 }}>
+              <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--border-subtle)' }}>
+                <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: 12 }}>
                   Pending Review Queue
                 </h4>
                 {generatedItems.map((q) => (
-                  <div key={q.id} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-cyan)', borderRadius: 'var(--radius-md)', padding: '16px', marginBottom: 12 }}>
-                    <div style={{ fontWeight: 600, color: '#fff', marginBottom: 8 }}>{q.question}</div>
+                  <div key={q.id} style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '16px', marginBottom: 12 }}>
+                    <div style={{ fontWeight: 600, color: 'var(--text-main)', marginBottom: 8 }}>{q.question}</div>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 10, fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                       {q.options?.map((o: any) => (
                         <div key={o.id}>{o.id}: {o.text} {o.id === q.correct_option_id && '✓'}</div>
@@ -498,7 +498,7 @@ export const SettingsSources: React.FC = () => {
             )}
           </div>
         ) : (
-          <div style={{ background: 'rgba(0, 0, 0, 0.25)', padding: '12px 16px', borderRadius: 'var(--radius-md)', fontSize: '0.82rem', color: 'var(--text-subtle)' }}>
+          <div style={{ background: 'var(--bg-muted)', border: '1px solid var(--border-subtle)', padding: '12px 16px', borderRadius: 'var(--radius-md)', fontSize: '0.82rem', color: 'var(--text-subtle)' }}>
             The app operates 100% offline with the canonical 105 verified questions. To enable AI generation, add <code>AI_API_KEY=your_key</code> in <code>server/.env</code>.
           </div>
         )}
@@ -508,7 +508,7 @@ export const SettingsSources: React.FC = () => {
       <div className="card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
           <div>
-            <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff' }}>
+            <h2 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-main)' }}>
               Source Registry & Evidence Audit
             </h2>
             <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)' }}>
@@ -542,8 +542,8 @@ export const SettingsSources: React.FC = () => {
               const linkCheck = linkStatuses[s.url];
               return (
                 <tr key={s.id}>
-                  <td style={{ fontWeight: 700, color: 'var(--cyan-primary)', fontSize: '0.78rem' }}>{s.id}</td>
-                  <td style={{ fontWeight: 600, color: '#fff' }}>{s.title}</td>
+                  <td style={{ fontWeight: 700, color: 'var(--primary)', fontSize: '0.78rem' }}>{s.id}</td>
+                  <td style={{ fontWeight: 600, color: 'var(--text-main)' }}>{s.title}</td>
                   <td style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{s.source_type}</td>
                   <td>
                     <span className={`badge ${s.reliability?.includes('High') ? 'badge-emerald' : 'badge-amber'}`}>
@@ -556,7 +556,7 @@ export const SettingsSources: React.FC = () => {
                   <td>
                     {s.url && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--cyan-primary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.78rem' }}>
+                        <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.78rem' }}>
                           <span>Open</span>
                           <ExternalLink size={12} />
                         </a>
@@ -580,7 +580,7 @@ export const SettingsSources: React.FC = () => {
         <div className="modal-overlay">
           <div className="modal-content" style={{ maxWidth: 440, textAlign: 'center' }}>
             <AlertTriangle size={36} color="var(--coral-error)" style={{ margin: '0 auto 12px' }} />
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', marginBottom: 8 }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: 8 }}>
               Reset User Progress Data?
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 20 }}>
@@ -603,7 +603,7 @@ export const SettingsSources: React.FC = () => {
         <div className="modal-overlay">
           <div className="modal-content" style={{ maxWidth: 440, textAlign: 'center' }}>
             <AlertTriangle size={36} color="var(--coral-error)" style={{ margin: '0 auto 12px' }} />
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', marginBottom: 8 }}>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: 8 }}>
               Reset Question Bank to Seed?
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 20 }}>

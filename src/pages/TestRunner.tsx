@@ -299,8 +299,8 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
   if (loading) {
     return (
       <div className="page-wrapper" style={{ textAlign: 'center', padding: '100px 0' }}>
-        <Clock size={40} color="var(--cyan-primary)" className="spin-slow" style={{ margin: '0 auto 16px' }} />
-        <h2 style={{ color: '#fff' }}>Configuring Assessment Arena...</h2>
+        <Clock size={40} color="var(--primary)" className="spin-slow" style={{ margin: '0 auto 16px' }} />
+        <h2 style={{ color: 'var(--text-main)' }}>Configuring Assessment Arena...</h2>
         <p style={{ color: 'var(--text-muted)' }}>Shuffling verified questions and initializing timing engine.</p>
       </div>
     );
@@ -310,7 +310,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
     return (
       <div className="page-wrapper" style={{ textAlign: 'center', padding: '100px 0' }}>
         <AlertCircle size={40} color="var(--amber-warning)" style={{ margin: '0 auto 16px' }} />
-        <h2 style={{ color: '#fff' }}>No Questions Found</h2>
+        <h2 style={{ color: 'var(--text-main)' }}>No Questions Found</h2>
         <p style={{ color: 'var(--text-muted)', marginBottom: 20 }}>
           No unseen questions match your current filter criteria.
         </p>
@@ -337,14 +337,14 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
     return (
       <div className="page-wrapper">
         {/* Scorecard Hero Banner */}
-        <div className="card card-cyan-accent" style={{ marginBottom: 24, padding: '32px' }}>
+        <div className="card" style={{ marginBottom: 24, padding: '28px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                <span className="badge badge-cyan">Assessment Result</span>
+                <span className="badge badge-primary">Assessment Result</span>
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{submissionResult.date}</span>
               </div>
-              <h1 style={{ fontSize: '1.9rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 6 }}>
+              <h1 style={{ fontSize: '1.65rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.02em', marginBottom: 6 }}>
                 {submissionResult.title}
               </h1>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem' }}>
@@ -352,15 +352,15 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
               </p>
             </div>
 
-            <div style={{ textAlign: 'center', background: 'rgba(0, 0, 0, 0.35)', padding: '16px 28px', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-dim)' }}>
+            <div style={{ textAlign: 'center', background: 'var(--bg-muted)', padding: '16px 28px', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-subtle)' }}>
               <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
                 Overall Accuracy
               </div>
               <div style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: '2.8rem',
+                fontSize: '2.6rem',
                 fontWeight: 800,
-                color: submissionResult.accuracy >= 80 ? 'var(--emerald-success)' : submissionResult.accuracy >= 60 ? 'var(--cyan-primary)' : 'var(--amber-warning)',
+                color: submissionResult.accuracy >= 80 ? 'var(--emerald-success)' : submissionResult.accuracy >= 60 ? 'var(--primary)' : 'var(--amber-warning)',
               }}>
                 {submissionResult.accuracy}%
               </div>
@@ -473,7 +473,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
                   </div>
                 </div>
 
-                <div style={{ fontSize: '1rem', fontWeight: 600, color: '#fff', marginBottom: 16, lineHeight: 1.5 }}>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 16, lineHeight: 1.5 }}>
                   {q.question}
                 </div>
 
@@ -566,9 +566,9 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
       {/* Top Test Navigation Bar */}
       <div style={{
         background: 'var(--bg-surface)',
-        border: '1px solid var(--border-dim)',
+        border: '1px solid var(--border-subtle)',
         borderRadius: 'var(--radius-lg)',
-        padding: '16px 24px',
+        padding: '14px 20px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -576,14 +576,14 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
         position: 'sticky',
         top: 'calc(var(--header-height) + 10px)',
         zIndex: 30,
-        boxShadow: 'var(--shadow-md)',
+        boxShadow: 'var(--shadow-sm)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div>
-            <div style={{ fontWeight: 800, color: '#fff', fontSize: '1.05rem' }}>
+            <div style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '1rem' }}>
               {config?.title || 'Practice Mock Test'}
             </div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)' }}>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
               Question {currentIndex + 1} of {questions.length} • {currentQuestion?.track} • {currentQuestion?.topic}
             </div>
           </div>
@@ -593,20 +593,20 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 10,
-          background: isTimeCritical ? 'rgba(244, 63, 94, 0.15)' : 'rgba(0, 0, 0, 0.3)',
+          gap: 8,
+          background: isTimeCritical ? 'var(--coral-bg)' : 'var(--bg-muted)',
           border: '1px solid',
-          borderColor: isTimeCritical ? 'var(--coral-error)' : 'var(--border-dim)',
-          padding: '8px 18px',
+          borderColor: isTimeCritical ? 'var(--coral-border)' : 'var(--border-subtle)',
+          padding: '6px 14px',
           borderRadius: 'var(--radius-full)',
         }}>
-          <Clock size={18} color={isTimeCritical ? 'var(--coral-error)' : 'var(--cyan-primary)'} />
+          <Clock size={16} color={isTimeCritical ? 'var(--coral-error)' : 'var(--primary)'} />
           <span style={{
             fontFamily: 'var(--font-mono)',
-            fontSize: '1.15rem',
-            fontWeight: 800,
-            color: isTimeCritical ? 'var(--coral-error)' : '#fff',
-            letterSpacing: '0.05em',
+            fontSize: '1rem',
+            fontWeight: 700,
+            color: isTimeCritical ? 'var(--coral-error)' : 'var(--text-main)',
+            letterSpacing: '0.02em',
           }}>
             {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
           </span>
@@ -616,9 +616,9 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
         <button
           className="btn btn-primary btn-sm"
           onClick={() => setShowSubmitModal(true)}
-          style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', borderColor: 'rgba(16, 185, 129, 0.4)' }}
+          style={{ background: 'var(--emerald-success)' }}
         >
-          <Send size={15} />
+          <Send size={14} />
           <span>Submit Test</span>
         </button>
       </div>
@@ -653,7 +653,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
           <div style={{
             fontSize: '1.15rem',
             fontWeight: 600,
-            color: '#fff',
+            color: 'var(--text-main)',
             lineHeight: 1.6,
             marginBottom: 28,
             minHeight: 80,
@@ -716,7 +716,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Question Palette Card */}
           <div className="card" style={{ padding: '20px' }}>
-            <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#fff', marginBottom: 14 }}>
+            <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-main)', marginBottom: 14 }}>
               Question Palette
             </div>
 
@@ -745,7 +745,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
             </div>
 
             {/* Legend */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16, paddingTop: 14, borderTop: '1px solid var(--border-dim)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16, paddingTop: 14, borderTop: '1px solid var(--border-subtle)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ width: 10, height: 10, borderRadius: 2, background: 'var(--emerald-success)' }}></span>
                 <span>Answered ({answeredCount})</span>
@@ -755,26 +755,26 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
                 <span>Flagged ({flaggedCount})</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ width: 10, height: 10, borderRadius: 2, background: 'var(--bg-card)', border: '1px solid var(--border-dim)' }}></span>
+                <span style={{ width: 10, height: 10, borderRadius: 2, background: 'var(--bg-card)', border: '1px solid var(--border-subtle)' }}></span>
                 <span>Unanswered ({unansweredCount})</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ width: 10, height: 10, borderRadius: 2, border: '2px solid var(--cyan-primary)' }}></span>
+                <span style={{ width: 10, height: 10, borderRadius: 2, border: '2px solid var(--primary)' }}></span>
                 <span>Current</span>
               </div>
             </div>
           </div>
 
           {/* Keyboard Shortcuts Hint */}
-          <div className="card" style={{ padding: '16px 20px', background: 'rgba(0, 0, 0, 0.2)' }}>
+          <div className="card" style={{ padding: '16px 20px', background: 'var(--bg-muted)' }}>
             <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 6 }}>
               Keyboard Navigation
             </div>
             <div style={{ fontSize: '0.78rem', color: 'var(--text-subtle)', lineHeight: 1.6 }}>
-              • Keys <code style={{ color: 'var(--cyan-primary)' }}>1, 2, 3, 4</code> or <code style={{ color: 'var(--cyan-primary)' }}>A, B, C, D</code> select options<br />
-              • <code style={{ color: 'var(--cyan-primary)' }}>N</code> or <code style={{ color: 'var(--cyan-primary)' }}>→</code> moves to Next question<br />
-              • <code style={{ color: 'var(--cyan-primary)' }}>P</code> or <code style={{ color: 'var(--cyan-primary)' }}>←</code> moves to Previous question<br />
-              • <code style={{ color: 'var(--cyan-primary)' }}>F</code> toggles Flag for Review
+              • Keys <code style={{ color: 'var(--primary)', fontWeight: 600 }}>1, 2, 3, 4</code> or <code style={{ color: 'var(--primary)', fontWeight: 600 }}>A, B, C, D</code> select options<br />
+              • <code style={{ color: 'var(--primary)', fontWeight: 600 }}>N</code> or <code style={{ color: 'var(--primary)', fontWeight: 600 }}>→</code> moves to Next question<br />
+              • <code style={{ color: 'var(--primary)', fontWeight: 600 }}>P</code> or <code style={{ color: 'var(--primary)', fontWeight: 600 }}>←</code> moves to Previous question<br />
+              • <code style={{ color: 'var(--primary)', fontWeight: 600 }}>F</code> toggles Flag for Review
             </div>
           </div>
         </div>
@@ -784,28 +784,28 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
       {showSubmitModal && (
         <div className="modal-overlay">
           <div className="modal-content" style={{ maxWidth: 440, textAlign: 'center' }}>
-            <div style={{ width: 50, height: 50, borderRadius: '50%', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid var(--emerald-success)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 50, height: 50, borderRadius: '50%', background: 'rgba(5, 150, 105, 0.1)', border: '1px solid var(--emerald-border)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Send size={24} color="var(--emerald-success)" />
             </div>
 
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', marginBottom: 6 }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: 6 }}>
               Ready to Submit Your Test?
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 20 }}>
               Review your question status before finalizing. Once submitted, your score will be computed and solutions revealed.
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, background: 'rgba(0, 0, 0, 0.3)', padding: '14px', borderRadius: 'var(--radius-md)', marginBottom: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, background: 'var(--bg-muted)', border: '1px solid var(--border-subtle)', padding: '14px', borderRadius: 'var(--radius-md)', marginBottom: 20 }}>
               <div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--emerald-success)' }}>{answeredCount}</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--emerald-success)', fontFamily: 'var(--font-m)' }}>{answeredCount}</div>
                 <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>Answered</div>
               </div>
               <div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--violet-quest)' }}>{flaggedCount}</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--purple)', fontFamily: 'var(--font-m)' }}>{flaggedCount}</div>
                 <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>Flagged</div>
               </div>
               <div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--amber-warning)' }}>{unansweredCount}</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--amber-warning)', fontFamily: 'var(--font-m)' }}>{unansweredCount}</div>
                 <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>Unanswered</div>
               </div>
             </div>

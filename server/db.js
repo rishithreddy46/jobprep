@@ -249,6 +249,29 @@ CREATE TABLE IF NOT EXISTS ai_generated_questions (
   provider_model           TEXT,
   created_at               TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS companies (
+  id                    TEXT PRIMARY KEY,
+  name                  TEXT NOT NULL,
+  logo_initials         TEXT NOT NULL,
+  category              TEXT NOT NULL,
+  roles_json            TEXT NOT NULL DEFAULT '[]',
+  eligibility_json      TEXT NOT NULL DEFAULT '{}',
+  restrictions          TEXT DEFAULT '',
+  registration_deadline TEXT,
+  assessment_date       TEXT,
+  interview_dates       TEXT,
+  opportunity_url       TEXT,
+  stage_status          TEXT NOT NULL DEFAULT 'interested',
+  activity_history_json TEXT NOT NULL DEFAULT '[]',
+  syllabus_json         TEXT NOT NULL DEFAULT '[]',
+  resources_json        TEXT NOT NULL DEFAULT '[]',
+  notes                 TEXT DEFAULT '',
+  is_verified           INTEGER NOT NULL DEFAULT 1,
+  source                TEXT DEFAULT 'Official Portal / Verified',
+  created_at            TIMESTAMPTZ DEFAULT NOW(),
+  updated_at            TIMESTAMPTZ DEFAULT NOW()
+);
 `;
 
 const SQLITE_SCHEMA = `
@@ -331,6 +354,28 @@ const SQLITE_SCHEMA = `
     explanation TEXT NOT NULL, recommended_time_seconds INTEGER DEFAULT 60,
     status TEXT DEFAULT 'pending_review', provider_model TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
+  CREATE TABLE IF NOT EXISTS companies (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    logo_initials TEXT NOT NULL,
+    category TEXT NOT NULL,
+    roles_json TEXT NOT NULL DEFAULT '[]',
+    eligibility_json TEXT NOT NULL DEFAULT '{}',
+    restrictions TEXT DEFAULT '',
+    registration_deadline TEXT,
+    assessment_date TEXT,
+    interview_dates TEXT,
+    opportunity_url TEXT,
+    stage_status TEXT NOT NULL DEFAULT 'interested',
+    activity_history_json TEXT NOT NULL DEFAULT '[]',
+    syllabus_json TEXT NOT NULL DEFAULT '[]',
+    resources_json TEXT NOT NULL DEFAULT '[]',
+    notes TEXT DEFAULT '',
+    is_verified INTEGER NOT NULL DEFAULT 1,
+    source TEXT DEFAULT 'Official Portal / Verified',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 `;
 
@@ -457,14 +502,195 @@ async function ensureProfile() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Preloaded Company Directory
+// ─────────────────────────────────────────────────────────────────────────────
+const SEED_COMPANIES = [
+  {
+    id: 'ril_get_2027',
+    name: 'Reliance Industries Limited (RIL GET 2027)',
+    logo_initials: 'RIL',
+    category: 'Conglomerate & Energy / Petrochemicals',
+    roles_json: JSON.stringify([
+      'Graduate Engineer Trainee — Instrumentation',
+      'Graduate Engineer Trainee — Electrical',
+      'Graduate Engineer Trainee — Chemical'
+    ]),
+    eligibility_json: JSON.stringify({
+      min_cgpa: '6.0 / 60%',
+      branches: ['Electronics & Instrumentation', 'Instrumentation & Control', 'Applied Electronics'],
+      backlogs_allowed: 0,
+      degree: 'B.Tech / B.E. (Graduating 2026/2027)',
+      notes: 'Minimum 60% aggregate across 10th, 12th/Diploma and B.Tech'
+    }),
+    restrictions: 'No active backlogs allowed at the time of online assessment.',
+    registration_deadline: '2026-10-18T23:59:59',
+    assessment_date: '2026-10-26T10:00:00',
+    interview_dates: 'November 10 - November 20, 2026 (Tentative)',
+    opportunity_url: 'https://careers.ril.com',
+    stage_status: 'assessment_upcoming',
+    activity_history_json: JSON.stringify([
+      { timestamp: '2026-10-01T09:00:00Z', stage: 'registered', note: 'Application submitted on campus placement portal' },
+      { timestamp: '2026-10-10T14:30:00Z', stage: 'assessment_upcoming', note: 'Online assessment scheduled for Oct 26, 2026' }
+    ]),
+    syllabus_json: JSON.stringify([
+      { subject: 'Cognitive Ability', topics: ['Quantitative Aptitude', 'Logical Reasoning', 'Verbal Ability', 'Data Interpretation'] },
+      { subject: 'Electronics & Instrumentation', topics: ['Sensors & Transducers', 'Industrial Instrumentation', 'Process Control & PID', 'Signal Conditioning', 'PLC & DCS', 'Analytical Instrumentation'] }
+    ]),
+    resources_json: JSON.stringify([
+      { title: 'Industrial Instrumentation Principles', url: 'https://archive.org/details/books', type: 'Reference Manual' },
+      { title: 'Process Control Loops & Tuning (NPTEL)', url: 'https://nptel.ac.in', type: 'Lecture Video' }
+    ]),
+    notes: 'Primary targeted recruitment drive. Complete dedicated question bank and daily study plan active.',
+    is_verified: 1,
+    source: 'RIL Campus Recruitment Cell 2026-2027'
+  },
+  {
+    id: 'lnt_get_2027',
+    name: 'Larsen & Toubro (L&T GET 2027)',
+    logo_initials: 'L&T',
+    category: 'Engineering & Infrastructure',
+    roles_json: JSON.stringify([
+      'Graduate Engineer Trainee — Automation',
+      'Graduate Engineer Trainee — Electrical & Instrumentation'
+    ]),
+    eligibility_json: JSON.stringify({
+      min_cgpa: '6.5 / 65%',
+      branches: ['Electronics & Instrumentation', 'Electrical & Electronics', 'Mechanical'],
+      backlogs_allowed: 0,
+      degree: 'B.E. / B.Tech (Full-time)',
+      notes: 'Cleared all semesters in first attempt'
+    }),
+    restrictions: 'No live backlogs. Age under 24 years at the time of joining.',
+    registration_deadline: '2026-11-05T23:59:59',
+    assessment_date: '2026-11-18T10:00:00',
+    interview_dates: 'December 2026',
+    opportunity_url: 'https://www.larsentoubro.com/corporate/careers/',
+    stage_status: 'interested',
+    activity_history_json: JSON.stringify([
+      { timestamp: '2026-10-12T10:00:00Z', stage: 'interested', note: 'Drive notification recorded in preparation workspace' }
+    ]),
+    syllabus_json: JSON.stringify([
+      { subject: 'Cognitive & Core Tech', topics: ['Quantitative Aptitude', 'Logical Reasoning', 'Electrical Fundamentals', 'Process Automation'] }
+    ]),
+    resources_json: JSON.stringify([
+      { title: 'L&T Recruitment Overview', url: 'https://www.larsentoubro.com', type: 'Information Guide' }
+    ]),
+    notes: 'Core industrial and automation projects focus.',
+    is_verified: 1,
+    source: 'Campus Placement Notification'
+  },
+  {
+    id: 'tcs_prime_2027',
+    name: 'Tata Consultancy Services (TCS Prime / Digital)',
+    logo_initials: 'TCS',
+    category: 'Technology & Systems',
+    roles_json: JSON.stringify([
+      'Systems Engineer — Prime',
+      'Developer — Digital'
+    ]),
+    eligibility_json: JSON.stringify({
+      min_cgpa: '7.0 / 70%',
+      branches: ['All Engineering Disciplines'],
+      backlogs_allowed: 1,
+      degree: 'B.Tech / B.E. / M.Tech',
+      notes: 'Up to 1 active backlog allowed at time of exam'
+    }),
+    restrictions: 'Max 24 months academic gap permitted.',
+    registration_deadline: '2026-10-30T23:59:59',
+    assessment_date: '2026-11-12T09:00:00',
+    interview_dates: 'November 2026',
+    opportunity_url: 'https://www.tcs.com/careers',
+    stage_status: 'checking_eligibility',
+    activity_history_json: JSON.stringify([
+      { timestamp: '2026-10-14T11:00:00Z', stage: 'checking_eligibility', note: 'Checking gap and percentage criteria' }
+    ]),
+    syllabus_json: JSON.stringify([
+      { subject: 'Foundation & Advanced Cognitive', topics: ['Numerical Ability', 'Verbal Ability', 'Reasoning Ability', 'Advanced Coding'] }
+    ]),
+    resources_json: JSON.stringify([
+      { title: 'TCS Prep Hub', url: 'https://www.tcs.com', type: 'Official Portal' }
+    ]),
+    notes: 'National Qualifier Test track.',
+    is_verified: 1,
+    source: 'TCS NextStep Portal'
+  }
+];
+
+export async function ensureCompanies() {
+  const { rows } = await query('SELECT COUNT(*) AS count FROM companies');
+  const count = parseInt(rows[0].count, 10);
+  if (count > 0) return count;
+
+  for (const c of SEED_COMPANIES) {
+    if (USE_PG) {
+      await pool.query(`
+        INSERT INTO companies
+          (id, name, logo_initials, category, roles_json, eligibility_json,
+           restrictions, registration_deadline, assessment_date, interview_dates,
+           opportunity_url, stage_status, activity_history_json, syllabus_json,
+           resources_json, notes, is_verified, source)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
+        ON CONFLICT(id) DO NOTHING
+      `, [
+        c.id, c.name, c.logo_initials, c.category, c.roles_json, c.eligibility_json,
+        c.restrictions, c.registration_deadline, c.assessment_date, c.interview_dates,
+        c.opportunity_url, c.stage_status, c.activity_history_json, c.syllabus_json,
+        c.resources_json, c.notes, c.is_verified, c.source
+      ]);
+    } else {
+      sqliteDb.prepare(`
+        INSERT OR IGNORE INTO companies
+          (id, name, logo_initials, category, roles_json, eligibility_json,
+           restrictions, registration_deadline, assessment_date, interview_dates,
+           opportunity_url, stage_status, activity_history_json, syllabus_json,
+           resources_json, notes, is_verified, source)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+      `).run(
+        c.id, c.name, c.logo_initials, c.category, c.roles_json, c.eligibility_json,
+        c.restrictions, c.registration_deadline, c.assessment_date, c.interview_dates,
+        c.opportunity_url, c.stage_status, c.activity_history_json, c.syllabus_json,
+        c.resources_json, c.notes, c.is_verified, c.source
+      );
+    }
+  }
+  return SEED_COMPANIES.length;
+}
+
+async function runMigrations() {
+  if (USE_PG) {
+    try {
+      await pool.query("ALTER TABLE study_tasks ADD COLUMN IF NOT EXISTS company_id TEXT DEFAULT 'ril_get_2027'");
+    } catch (_) {}
+    try {
+      await pool.query("ALTER TABLE test_runs ADD COLUMN IF NOT EXISTS company_id TEXT DEFAULT 'ril_get_2027'");
+    } catch (_) {}
+  } else {
+    try {
+      const cols = sqliteDb.prepare("PRAGMA table_info(study_tasks)").all();
+      if (!cols.some(c => c.name === 'company_id')) {
+        sqliteDb.exec("ALTER TABLE study_tasks ADD COLUMN company_id TEXT DEFAULT 'ril_get_2027'");
+      }
+    } catch (_) {}
+    try {
+      const cols = sqliteDb.prepare("PRAGMA table_info(test_runs)").all();
+      if (!cols.some(c => c.name === 'company_id')) {
+        sqliteDb.exec("ALTER TABLE test_runs ADD COLUMN company_id TEXT DEFAULT 'ril_get_2027'");
+      }
+    } catch (_) {}
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Boot sequence — called once at server startup
 // ─────────────────────────────────────────────────────────────────────────────
 export async function initDB() {
   await initSchema();
+  await runMigrations();
   await ensureProfile();
   await seedQuestions();
   await seedStudyPlan();
-  console.log('[db] Initialisation complete');
+  await ensureCompanies();
+  console.log('[db] Initialisation complete (including multi-company directory)');
 }
 
 // Export pool/sqliteDb for any edge case direct usage

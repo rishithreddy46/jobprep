@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Zap, Shield, Clock, Calendar, Lock } from 'lucide-react';
+import { Flame, Zap, Shield, Clock, Calendar, Lock, Building2 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 interface HeaderProps {
@@ -7,9 +7,11 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenSettings }) => {
-  const { profile, xpStreak, currentDate, setCurrentDate, focusTimer, openFocusTimer, lockApp } = useApp();
+  const { profile, xpStreak, currentDate, setCurrentDate, companies, activeCompanyId, setActiveCompanyId, lockApp } = useApp();
 
-  // Countdown Calculation
+  const activeCompany = companies.find(c => c.id === activeCompanyId) || companies[0];
+
+  // Target assessment countdown
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; mins: number; secs: number }>({
     days: 0,
     hours: 0,
@@ -18,7 +20,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings }) => {
   });
 
   useEffect(() => {
-    const target = new Date(profile?.target_date || '2026-10-26T00:00:00').getTime();
+    const targetDateStr = activeCompany?.assessment_date || profile?.target_date || '2026-10-26T10:00:00';
+    const target = new Date(targetDateStr).getTime();
 
     const updateCountdown = () => {
       const now = new Date().getTime();
@@ -35,105 +38,145 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings }) => {
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
-  }, [profile?.target_date]);
-
-  // Determine Day Label
-  const getDayLabel = (dateStr: string) => {
-    if (dateStr === '2026-10-15') return 'Pre-Sprint Diagnostic (15 Oct)';
-    if (dateStr === '2026-10-16') return 'Day 0 — Setup Sprint (Post-NPTEL)';
-    if (dateStr === '2026-10-17') return 'Day 1 — Aptitude & Measurement';
-    if (dateStr === '2026-10-18') return 'Day 2 — Temperature & Logic';
-    if (dateStr === '2026-10-19') return 'Day 3 — Pressure & Arithmetic';
-    if (dateStr === '2026-10-20') return 'Day 4 — Flow & Data Interpretation';
-    if (dateStr === '2026-10-21') return 'Day 5 — Level & 4–20 mA Loops';
-    if (dateStr === '2026-10-22') return 'Day 6 — PID & Control Valves';
-    if (dateStr === '2026-10-23') return 'Day 7 — PLC, DCS, SCADA & P&ID';
-    if (dateStr === '2026-10-24') return 'Day 8 — Electronics & Mocks';
-    if (dateStr === '2026-10-25') return 'Day 9 — Full Mixed Simulation';
-    if (dateStr === '2026-10-26') return 'Day 10 — Final Readiness';
-    return `Prep Date: ${dateStr}`;
-  };
+  }, [activeCompany?.assessment_date, profile?.target_date]);
 
   return (
     <header className="top-header">
       <div className="header-left">
-        {/* Date Selector / Current Day Badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--bg-card)', border: '1px solid var(--border-dim)', padding: '5px 12px', borderRadius: 'var(--radius-md)' }}>
-            <Calendar size={15} color="var(--cyan-primary)" />
-            <select
-              value={currentDate}
-              onChange={(e) => setCurrentDate(e.target.value)}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: '#fff',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-                outline: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              <option value="2026-10-15" style={{ background: '#0b1322', color: '#fff' }}>15 Oct (Today / Pre-Sprint)</option>
-              <option value="2026-10-16" style={{ background: '#0b1322', color: '#fff' }}>16 Oct (Day 0 — Post NPTEL)</option>
-              <option value="2026-10-17" style={{ background: '#0b1322', color: '#fff' }}>17 Oct (Day 1 — Aptitude & Measurement)</option>
-              <option value="2026-10-18" style={{ background: '#0b1322', color: '#fff' }}>18 Oct (Day 2 — Temperature & Logic)</option>
-              <option value="2026-10-19" style={{ background: '#0b1322', color: '#fff' }}>19 Oct (Day 3 — Pressure & Arithmetic)</option>
-              <option value="2026-10-20" style={{ background: '#0b1322', color: '#fff' }}>20 Oct (Day 4 — Flow & Data)</option>
-              <option value="2026-10-21" style={{ background: '#0b1322', color: '#fff' }}>21 Oct (Day 5 — Level & Loops)</option>
-              <option value="2026-10-22" style={{ background: '#0b1322', color: '#fff' }}>22 Oct (Day 6 — Control Valves & PID)</option>
-              <option value="2026-10-23" style={{ background: '#0b1322', color: '#fff' }}>23 Oct (Day 7 — PLC, DCS, SCADA)</option>
-              <option value="2026-10-24" style={{ background: '#0b1322', color: '#fff' }}>24 Oct (Day 8 — Electronics & Mocks)</option>
-              <option value="2026-10-25" style={{ background: '#0b1322', color: '#fff' }}>25 Oct (Day 9 — Full Mixed Simulation)</option>
-              <option value="2026-10-26" style={{ background: '#0b1322', color: '#fff' }}>26 Oct (Day 10 — Readiness)</option>
-            </select>
-          </div>
+        {/* Target Company Selector */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--bg-surface)', border: '1px solid var(--border)', padding: '5px 12px', borderRadius: 'var(--radius-full)' }}>
+          <span className="poly-badge-dot" />
+          <Building2 size={15} color="var(--blue)" />
+          <span style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-m)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Track</span>
+          <select
+            value={activeCompanyId}
+            onChange={(e) => setActiveCompanyId(e.target.value)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--text-main)',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.84rem',
+              fontWeight: 600,
+              outline: 'none',
+              cursor: 'pointer',
+              maxWidth: '220px',
+            }}
+          >
+            {companies.map(c => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--emerald-success)', display: 'inline-block' }}></span>
-            <span>{getDayLabel(currentDate)}</span>
-          </div>
+        {/* Date Selector */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--bg-surface)', border: '1px solid var(--border)', padding: '5px 12px', borderRadius: 'var(--radius-full)' }}>
+          <Calendar size={14} color="var(--cyan)" />
+          <input
+            type="date"
+            value={currentDate}
+            onChange={(e) => setCurrentDate(e.target.value)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--text-main)',
+              fontFamily: 'var(--font-m)',
+              fontSize: '0.78rem',
+              fontWeight: 500,
+              outline: 'none',
+              cursor: 'pointer',
+            }}
+          />
         </div>
       </div>
 
       <div className="header-right">
-        {/* Countdown */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(0, 0, 0, 0.3)', border: '1px solid var(--border-dim)', padding: '5px 12px', borderRadius: 'var(--radius-md)' }}>
-          <Clock size={15} color="var(--amber-warning)" />
-          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 600 }}>RIL GET Window:</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', fontWeight: 700, color: 'var(--amber-warning)' }}>
-            {timeLeft.days}d {timeLeft.hours}h {timeLeft.mins}m {timeLeft.secs}s
-          </span>
-        </div>
+        {/* Target Assessment Countdown */}
+        {activeCompany && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              background: 'rgba(217, 119, 87, 0.08)',
+              border: '1px solid rgba(217, 119, 87, 0.25)',
+              padding: '5px 12px',
+              borderRadius: 'var(--radius-full)',
+            }}
+          >
+            <Clock size={14} color="var(--coral)" />
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-m)', textTransform: 'uppercase' }}>
+              {activeCompany.logo_initials}
+            </span>
+            <span style={{ fontFamily: 'var(--font-m)', fontSize: '0.8rem', fontWeight: 700, color: 'var(--coral)' }}>
+              {timeLeft.days}d {timeLeft.hours}h {timeLeft.mins}m
+            </span>
+          </div>
+        )}
 
         {/* Streak Chip */}
-        <div className="header-stat-chip streak" title="Consecutive Qualifying Days">
-          <Flame size={16} />
-          <span>{xpStreak ? xpStreak.currentStreak : 0} Day Streak</span>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            background: 'rgba(217, 119, 6, 0.08)',
+            border: '1px solid rgba(217, 119, 6, 0.25)',
+            padding: '5px 12px',
+            borderRadius: 'var(--radius-full)',
+            color: 'var(--amber-warning)',
+            fontSize: '0.78rem',
+            fontFamily: 'var(--font-m)',
+            fontWeight: 700,
+          }}
+          title="Consecutive Qualifying Days"
+        >
+          <Flame size={14} />
+          <span>{xpStreak ? xpStreak.currentStreak : 0}d streak</span>
         </div>
 
-        {/* Level & XP Chip */}
-        <div className="header-stat-chip level" title={`${xpStreak?.title || 'Cadet'} (${xpStreak?.progressPct || 0}% to next level)`}>
-          <Shield size={16} />
-          <span>Lvl {xpStreak ? xpStreak.level : 1}: {xpStreak?.title?.split(' ')[0] || 'Cadet'}</span>
-        </div>
-
-        {/* Total XP */}
-        <div className="header-stat-chip xp" title="Cumulative Preparation XP">
-          <Zap size={16} />
+        {/* Level / XP */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            background: 'rgba(46, 165, 201, 0.08)',
+            border: '1px solid rgba(46, 165, 201, 0.25)',
+            padding: '5px 12px',
+            borderRadius: 'var(--radius-full)',
+            color: 'var(--cyan)',
+            fontSize: '0.78rem',
+            fontFamily: 'var(--font-m)',
+            fontWeight: 700,
+          }}
+          title={`${xpStreak?.title || 'Cadet'} (Level ${xpStreak?.level || 1})`}
+        >
+          <Zap size={14} />
           <span>{xpStreak ? xpStreak.totalXP : 0} XP</span>
         </div>
 
-        {/* Privacy Lock button if passcode is configured */}
+        {/* Settings button */}
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={onOpenSettings}
+          title="Candidate Profile"
+          style={{ padding: '6px 14px', fontSize: '0.8rem', fontWeight: 600, borderRadius: 'var(--radius-full)' }}
+        >
+          {profile?.name ? profile.name.split(' ')[0] : 'Profile'}
+        </button>
+
+        {/* Passcode Lock button if passcode configured */}
         {profile?.passcode_hash && (
           <button
             className="btn btn-secondary btn-sm"
             onClick={lockApp}
-            title="Lock local session"
+            title="Lock session"
             style={{ padding: '6px 10px' }}
           >
-            <Lock size={15} />
+            <Lock size={14} />
           </button>
         )}
       </div>

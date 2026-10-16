@@ -1,42 +1,38 @@
 import React, { useState } from 'react';
 import {
-  Compass,
+  CalendarDays,
   CheckCircle2,
   Clock,
-  Swords,
   ChevronDown,
   ChevronUp,
-  BookOpen,
   Target,
-  Flame,
-  CheckSquare,
-  Square,
-  AlertCircle,
   Play,
+  Calendar,
   RotateCcw,
+  Plus,
+  Building2,
+  Filter,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../api/client';
 import { StudyDay, StudyTask } from '../types';
 
-interface DailyMissionsProps {
+interface MyPlanProps {
   onNavigate: (tab: string, extra?: any) => void;
 }
 
-export const DailyMissions: React.FC<DailyMissionsProps> = ({ onNavigate }) => {
-  const { studyPlan, refreshStudyPlan, currentDate, setCurrentDate, addToast, triggerConfetti, openFocusTimer } = useApp();
+export const DailyMissions: React.FC<MyPlanProps> = ({ onNavigate }) => {
+  const { studyPlan, refreshStudyPlan, currentDate, setCurrentDate, companies, activeCompanyId, addToast, triggerConfetti } = useApp();
   const [expandedDate, setExpandedDate] = useState<string>(currentDate);
   const [updatingTaskId, setUpdatingTaskId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'daily' | 'timeline'>('daily');
+  const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState<boolean>(false);
+  const [rescheduleDate, setRescheduleDate] = useState<string>('2026-10-26');
 
   const days: StudyDay[] = studyPlan?.days || [];
+  const activeCompany = companies.find((c) => c.id === activeCompanyId) || companies[0];
 
   const handleToggleTaskStatus = async (task: StudyTask, currentStatus: string) => {
-    // Check if task is score-dependent:
-    // If task requires solving or scoring (e.g. "Take 10 untimed diagnostic questions", "Solve 15 technical MCQs", "Timed mixed set"),
-    // check if it requires taking a test
-    const isTestRequired = /MCQs|diagnostic questions|timed|test|quiz|score/i.test(task.task_text);
-
-    // If clicking from not_started to completed and it's a test task without verification, warn or prompt
     let nextStatus: 'not_started' | 'in_progress' | 'completed' | 'skipped' = 'completed';
     if (currentStatus === 'completed') {
       nextStatus = 'not_started';
@@ -48,13 +44,14 @@ export const DailyMissions: React.FC<DailyMissionsProps> = ({ onNavigate }) => {
       setUpdatingTaskId(task.id);
       const res = await api.updateTask(task.id, {
         status: nextStatus,
+        actual_minutes: nextStatus === 'completed' ? 45 : 0,
       });
 
       if (nextStatus === 'completed') {
-        addToast('Mission Task Completed!', `Earned +${res.xpAwarded} XP`, 'success');
+        addToast('Task Completed', `Earned +${res.xpAwarded} XP!`, 'success');
         if (res.xpAwarded > 0) triggerConfetti();
       } else {
-        addToast('Task Reverted', 'Status set to Not Started', 'info');
+        addToast('Task Reopened', 'Status marked as Not Started.', 'info');
       }
 
       await refreshStudyPlan();
@@ -65,286 +62,353 @@ export const DailyMissions: React.FC<DailyMissionsProps> = ({ onNavigate }) => {
     }
   };
 
-  const handleLaunchBossBattle = (day: StudyDay) => {
-    // Parse focus to extract topics for a custom test
-    let track: 'cognitive' | 'instrumentation' | 'mixed' = 'mixed';
-    let topic = 'all';
-
-    if (day.date === '2026-10-18') {
-      topic = 'Temperature Measurement';
-      track = 'instrumentation';
-    } else if (day.date === '2026-10-19') {
-      topic = 'Pressure Measurement';
-      track = 'instrumentation';
-    } else if (day.date === '2026-10-20') {
-      topic = 'Flow Measurement';
-      track = 'instrumentation';
-    } else if (day.date === '2026-10-21') {
-      topic = 'Level Measurement';
-      track = 'instrumentation';
-    } else if (day.date === '2026-10-22') {
-      topic = 'Control Systems';
-      track = 'instrumentation';
-    } else if (day.date === '2026-10-23') {
-      topic = 'Industrial Automation';
-      track = 'instrumentation';
+  const handleReschedulePlan = async () => {
+    try {
+      const res = await api.rescheduleStudyPlan(rescheduleDate);
+      addToast('Plan Rescheduled', `Redistributed pending tasks across ${res.daysCount} days.`, 'success');
+      setIsRescheduleModalOpen(false);
+      await refreshStudyPlan();
+    } catch (err: any) {
+      addToast('Reschedule Error', err.message, 'warning');
     }
-
-    onNavigate('test-runner', {
-      config: {
-        title: `${day.label} — Daily Boss Battle Quiz`,
-        test_type: 'boss_battle',
-        track,
-        topic,
-        difficulty: 'all',
-        questionCount: 15,
-        timeLimitMinutes: 20,
-        shuffleOptions: true,
-      },
-    });
   };
+
+  const currentDay = days.find((d) => d.date === currentDate) || days[0];
 
   return (
     <div className="page-wrapper">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 24 }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 32 }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-            <span className="badge badge-cyan">Daily Preparation Missions</span>
-            <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>16–26 October 2026</span>
-          </div>
-          <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em' }}>
-            GET 2027 Quest Campaign Roadmap
+          <span className="section-label">04 — Structured Study Timeline</span>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.02em', marginTop: 4 }}>
+            My Preparation Plan
           </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: 750, marginTop: 4 }}>
-            An 11-day structured preparation roadmap starting after your NPTEL exam on 16 October and concluding with the assessment-readiness protocol on 26 October.
+          <p className="section-desc">
+            Universal preparation roadmap combining cognitive aptitude and {activeCompany?.name || 'company'} technical syllabus.
           </p>
         </div>
 
         <div style={{ display: 'flex', gap: 10 }}>
-          <button className="btn btn-secondary btn-sm" onClick={() => openFocusTimer()}>
-            <Clock size={16} />
-            <span>Launch Study Timer</span>
+          <div style={{ display: 'flex', background: 'var(--bg-muted)', padding: '3px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+            <button
+              className={`btn btn-sm ${viewMode === 'daily' ? 'btn-primary' : 'btn-outline'}`}
+              style={{ border: 'none', boxShadow: 'none' }}
+              onClick={() => setViewMode('daily')}
+            >
+              Day View
+            </button>
+            <button
+              className={`btn btn-sm ${viewMode === 'timeline' ? 'btn-primary' : 'btn-outline'}`}
+              style={{ border: 'none', boxShadow: 'none' }}
+              onClick={() => setViewMode('timeline')}
+            >
+              Full Roadmap
+            </button>
+          </div>
+
+          <button className="btn btn-secondary" onClick={() => setIsRescheduleModalOpen(true)}>
+            <RotateCcw size={15} /> Reschedule Plan
           </button>
         </div>
       </div>
 
-      {/* Special Schedule Notice */}
-      <div style={{ background: 'rgba(0, 229, 255, 0.05)', border: '1px solid var(--border-dim)', borderRadius: 'var(--radius-md)', padding: '14px 20px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
-        <AlertCircle size={20} color="var(--cyan-primary)" style={{ flexShrink: 0 }} />
-        <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-          <strong style={{ color: '#fff' }}>Candidate Note: </strong>
-          {studyPlan?.special_note || '16 October schedule starts after your morning NPTEL exam (09:00–12:00). Routines are flexible, sleep is prioritized, and progress is never erased when dates change.'}
-        </div>
-      </div>
-
-      {/* Days Campaign List */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-        {days.map((day) => {
-          const isExpanded = expandedDate === day.date;
-          const isSelectedDate = currentDate === day.date;
-          const dayTasks = day.tasks || [];
-          const completedCount = dayTasks.filter((t) => t.status === 'completed').length;
-          const progressPct = dayTasks.length > 0 ? Math.round((completedCount / dayTasks.length) * 100) : 0;
-
-          return (
-            <div
-              key={day.date}
-              className="card"
-              style={{
-                borderColor: isSelectedDate ? 'var(--cyan-primary)' : isExpanded ? 'rgba(255, 255, 255, 0.18)' : 'var(--border-dim)',
-                boxShadow: isSelectedDate ? '0 0 25px rgba(0, 229, 255, 0.12)' : 'none',
-              }}
-            >
-              {/* Day Header Row */}
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  userSelect: 'none',
-                  flexWrap: 'wrap',
-                  gap: 14,
-                }}
-                onClick={() => setExpandedDate(isExpanded ? '' : day.date)}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div
-                    style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: 'var(--radius-md)',
-                      background: progressPct === 100 ? 'rgba(16, 185, 129, 0.15)' : 'rgba(0, 229, 255, 0.1)',
-                      border: '1px solid',
-                      borderColor: progressPct === 100 ? 'var(--emerald-success)' : 'rgba(0, 229, 255, 0.3)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontWeight: 800,
-                      fontSize: '1rem',
-                      color: progressPct === 100 ? 'var(--emerald-success)' : 'var(--cyan-primary)',
-                    }}
-                  >
-                    {progressPct === 100 ? <CheckCircle2 size={24} /> : day.date.split('-')[2]}
-                  </div>
-
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff' }}>
-                        {day.label}
-                      </h3>
-                      {isSelectedDate && <span className="badge badge-cyan">Active Date</span>}
-                      {progressPct === 100 && <span className="badge badge-emerald">Completed</span>}
-                    </div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: 2 }}>
-                      {day.focus}
-                    </div>
-                  </div>
+      {viewMode === 'daily' ? (
+        /* Daily View */
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24, alignItems: 'flex-start' }}>
+          {/* Main Tasks List */}
+          <div className="card">
+            <div className="card-header" style={{ marginBottom: 16 }}>
+              <div>
+                <div className="card-title">
+                  {currentDay?.label || 'Preparation Schedule'} — {currentDate}
                 </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                  {/* Progress bar */}
-                  <div style={{ width: 140, textAlign: 'right' }}>
-                    <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-subtle)' }}>
-                      {completedCount} / {dayTasks.length} Tasks ({progressPct}%)
-                    </div>
-                    <div className="progress-bar-bg" style={{ height: 6, margin: '4px 0 0' }}>
-                      <div
-                        className="progress-bar-fill"
-                        style={{
-                          width: `${progressPct}%`,
-                          background: progressPct === 100 ? 'var(--emerald-success)' : 'linear-gradient(90deg, #00b4d8, #00e5ff)',
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCurrentDate(day.date);
-                      addToast('Preparation Date Switched', `Set mission view to ${day.date}`, 'info');
-                    }}
-                    title="Set as active prep date"
-                  >
-                    Set Active
-                  </button>
-
-                  {isExpanded ? <ChevronUp size={20} color="var(--text-muted)" /> : <ChevronDown size={20} color="var(--text-muted)" />}
+                <div className="card-subtitle">
+                  Focus: {currentDay?.focus || 'Core Engineering & Cognitive Practice'}
                 </div>
               </div>
 
-              {/* Expanded Content */}
-              {isExpanded && (
-                <div style={{ marginTop: 22, paddingTop: 20, borderTop: '1px solid var(--border-dim)' }}>
-                  {/* Targets & Boss Battle Button */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14, background: 'rgba(0, 0, 0, 0.25)', padding: '14px 18px', borderRadius: 'var(--radius-md)', marginBottom: 20 }}>
-                    <div>
-                      <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-                        Key Day Benchmark Targets
-                      </div>
-                      <div style={{ display: 'flex', gap: 12, marginTop: 4, flexWrap: 'wrap' }}>
-                        {day.targets.map((t, idx) => (
-                          <span key={idx} style={{ fontSize: '0.82rem', color: '#fff', display: 'flex', alignItems: 'center', gap: 6 }}>
-                            <Target size={14} color="var(--amber-warning)" /> {t}
-                          </span>
-                        ))}
-                      </div>
+              <span className="badge badge-primary">
+                {currentDay?.tasks?.filter((t) => t.status === 'completed').length || 0} of {currentDay?.tasks?.length || 0} Done
+              </span>
+            </div>
+
+            {/* Target Checklist */}
+            {currentDay?.targets && currentDay.targets.length > 0 && (
+              <div style={{ background: 'var(--bg-muted)', padding: '12px 16px', borderRadius: 'var(--radius-md)', marginBottom: 20 }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-subtle)', textTransform: 'uppercase', marginBottom: 6 }}>
+                  Today's Core Learning Objectives
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {currentDay.targets.map((tgt, i) => (
+                    <div key={i} style={{ fontSize: '0.86rem', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)', flexShrink: 0 }}></span>
+                      <span>{tgt}</span>
                     </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
-                    <button
-                      className="btn btn-primary btn-sm"
-                      onClick={() => handleLaunchBossBattle(day)}
-                    >
-                      <Swords size={16} />
-                      <span>Launch Day Boss Battle Quiz</span>
-                    </button>
-                  </div>
+            {/* Tasks list */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {currentDay?.tasks?.map((task, idx) => {
+                const isCompleted = task.status === 'completed';
+                return (
+                  <div
+                    key={task.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '14px 18px',
+                      borderRadius: 'var(--radius-md)',
+                      border: '1px solid',
+                      borderColor: isCompleted ? 'var(--border-subtle)' : 'var(--border-hover)',
+                      background: isCompleted ? 'var(--bg-muted)' : 'var(--bg-surface)',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, minWidth: 0, flex: 1, paddingRight: 16 }}>
+                      <button
+                        onClick={() => handleToggleTaskStatus(task, task.status)}
+                        disabled={updatingTaskId === task.id}
+                        style={{
+                          width: 24,
+                          height: 24,
+                          borderRadius: '50%',
+                          border: isCompleted ? 'none' : '2px solid var(--border-hover)',
+                          background: isCompleted ? 'var(--emerald-success)' : 'transparent',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#fff',
+                          cursor: 'pointer',
+                          marginTop: 2,
+                          flexShrink: 0,
+                        }}
+                      >
+                        {isCompleted && <CheckCircle2 size={16} />}
+                      </button>
 
-                  {/* Tasks Checklist */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      Scheduled Study Blocks & Checkable Tasks
-                    </div>
-
-                    {dayTasks.map((task) => {
-                      const isCompleted = task.status === 'completed';
-                      return (
+                      <div style={{ minWidth: 0 }}>
                         <div
-                          key={task.id}
                           style={{
-                            background: isCompleted ? 'rgba(16, 185, 129, 0.06)' : 'rgba(255, 255, 255, 0.02)',
-                            border: '1px solid',
-                            borderColor: isCompleted ? 'rgba(16, 185, 129, 0.25)' : 'var(--border-dim)',
-                            borderRadius: 'var(--radius-md)',
-                            padding: '14px 18px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            flexWrap: 'wrap',
-                            gap: 12,
+                            fontSize: '0.92rem',
+                            fontWeight: 500,
+                            color: isCompleted ? 'var(--text-muted)' : 'var(--text-main)',
+                            textDecoration: isCompleted ? 'line-through' : 'none',
+                            lineHeight: 1.5,
                           }}
                         >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 14, flex: 1, minWidth: 260 }}>
-                            <button
-                              onClick={() => handleToggleTaskStatus(task, task.status)}
-                              disabled={updatingTaskId === task.id}
-                              style={{
-                                background: 'transparent',
-                                border: 'none',
-                                cursor: 'pointer',
-                                color: isCompleted ? 'var(--emerald-success)' : 'var(--text-subtle)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                padding: 0,
-                              }}
-                            >
-                              {isCompleted ? <CheckSquare size={22} /> : <Square size={22} />}
-                            </button>
-
-                            <div>
-                              <div style={{
-                                fontSize: '0.92rem',
-                                fontWeight: 600,
-                                color: isCompleted ? 'var(--text-muted)' : '#fff',
-                                textDecoration: isCompleted ? 'line-through' : 'none',
-                              }}>
-                                {task.task_text}
-                              </div>
-                              {task.block_time && (
-                                <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', marginTop: 2 }}>
-                                  <Clock size={12} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} />
-                                  {task.block_time} IST
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                            <button
-                              className="btn btn-secondary btn-sm"
-                              onClick={() => openFocusTimer(task.task_text)}
-                              title="Time this specific study block"
-                            >
-                              <Clock size={14} />
-                              <span>Timer</span>
-                            </button>
-
-                            <span className={`badge ${isCompleted ? 'badge-emerald' : 'badge-cyan'}`}>
-                              {isCompleted ? 'Completed (+10 XP)' : '10 XP'}
-                            </span>
-                          </div>
+                          {task.task_text}
                         </div>
-                      );
-                    })}
+
+                        <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginTop: 4, fontSize: '0.78rem', color: 'var(--text-subtle)' }}>
+                          {task.block_time && (
+                            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                              <Clock size={12} /> {task.block_time}
+                            </span>
+                          )}
+                          <span>•</span>
+                          <span className="badge badge-neutral" style={{ padding: '1px 6px', fontSize: '0.7rem' }}>
+                            {activeCompany?.logo_initials || 'Shared'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+                      <button
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => onNavigate('practice')}
+                      >
+                        Practice Topic
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Navigation Panel: All Days Quick Select */}
+          <div className="card" style={{ padding: 16 }}>
+            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-subtle)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 12 }}>
+              Plan Calendar ({days.length} Days)
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {days.map((day) => {
+                const isSelected = day.date === currentDate;
+                const doneCount = day.tasks?.filter((t) => t.status === 'completed').length || 0;
+                const totalCount = day.tasks?.length || 0;
+                const isAllDone = totalCount > 0 && doneCount === totalCount;
+
+                return (
+                  <div
+                    key={day.date}
+                    onClick={() => setCurrentDate(day.date)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '10px 12px',
+                      borderRadius: 'var(--radius-md)',
+                      border: '1px solid',
+                      borderColor: isSelected ? 'var(--primary)' : 'var(--border-subtle)',
+                      background: isSelected ? 'var(--primary-light)' : 'var(--bg-surface)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: '0.86rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                        {day.label}
+                      </div>
+                      <div style={{ fontSize: '0.74rem', color: 'var(--text-subtle)' }}>
+                        {day.date}
+                      </div>
+                    </div>
+
+                    <span
+                      style={{
+                        fontSize: '0.72rem',
+                        fontWeight: 600,
+                        padding: '2px 8px',
+                        borderRadius: 'var(--radius-full)',
+                        background: isAllDone ? 'var(--emerald-bg)' : 'var(--bg-muted)',
+                        color: isAllDone ? 'var(--emerald-success)' : 'var(--text-muted)',
+                      }}
+                    >
+                      {doneCount}/{totalCount}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Full Roadmap / Timeline View */
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {days.map((day) => {
+            const isExpanded = expandedDate === day.date;
+            const completedCount = day.tasks?.filter((t) => t.status === 'completed').length || 0;
+            const totalCount = day.tasks?.length || 0;
+
+            return (
+              <div key={day.date} className="card" style={{ padding: 20 }}>
+                <div
+                  onClick={() => setExpandedDate(isExpanded ? '' : day.date)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                    <div
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: 'var(--radius-sm)',
+                        background: completedCount === totalCount ? 'var(--emerald-bg)' : 'var(--primary-light)',
+                        color: completedCount === totalCount ? 'var(--emerald-success)' : 'var(--primary)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 700,
+                        fontSize: '0.85rem',
+                      }}
+                    >
+                      {completedCount}/{totalCount}
+                    </div>
+
+                    <div>
+                      <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                        {day.label} ({day.date})
+                      </div>
+                      <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                        Focus: {day.focus}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentDate(day.date);
+                        setViewMode('daily');
+                      }}
+                    >
+                      Open Day
+                    </button>
+                    {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                   </div>
                 </div>
-              )}
+
+                {isExpanded && (
+                  <div style={{ marginTop: 16, borderTop: '1px solid var(--border-subtle)', paddingTop: 14, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {day.tasks?.map((t) => (
+                      <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.88rem' }}>
+                        <CheckCircle2
+                          size={16}
+                          color={t.status === 'completed' ? 'var(--emerald-success)' : 'var(--text-subtle)'}
+                        />
+                        <span style={{ color: t.status === 'completed' ? 'var(--text-muted)' : 'var(--text-main)', textDecoration: t.status === 'completed' ? 'line-through' : 'none' }}>
+                          {t.task_text}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Reschedule Plan Modal */}
+      {isRescheduleModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content" style={{ maxWidth: '440px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-main)' }}>
+                Reschedule Incomplete Tasks
+              </h3>
+              <button className="btn btn-outline btn-sm" onClick={() => setIsRescheduleModalOpen(false)}>✕</button>
             </div>
-          );
-        })}
-      </div>
+
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: 16 }}>
+              Our deterministic local scheduler redistributes your uncompleted study tasks evenly across remaining days up to your assessment deadline without deleting completed tasks.
+            </p>
+
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)', display: 'block', marginBottom: 6 }}>
+                Target Assessment Date
+              </label>
+              <input
+                type="date"
+                className="input"
+                value={rescheduleDate}
+                onChange={(e) => setRescheduleDate(e.target.value)}
+              />
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
+              <button className="btn btn-secondary" onClick={() => setIsRescheduleModalOpen(false)}>
+                Cancel
+              </button>
+              <button className="btn btn-primary" onClick={handleReschedulePlan}>
+                Recalculate Roadmap
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

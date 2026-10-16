@@ -23,14 +23,14 @@ export const PasscodeModal: React.FC = () => {
   return (
     <div className="modal-overlay" style={{ zIndex: 9999 }}>
       <div className="modal-content" style={{ maxWidth: 400, textAlign: 'center' }}>
-        <div style={{ width: 50, height: 50, borderRadius: '50%', background: 'rgba(0, 229, 255, 0.15)', border: '1px solid var(--border-cyan)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Lock size={24} color="var(--cyan-primary)" />
+        <div style={{ width: 50, height: 50, borderRadius: '50%', background: 'rgba(27, 94, 181, 0.1)', border: '1px solid var(--primary-border)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Lock size={24} color="var(--primary)" />
         </div>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', marginBottom: 6 }}>
-          GET Quest Locked
+        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: 6 }}>
+          JobPrep Session Locked
         </h2>
         <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: 20 }}>
-          Enter your local access passcode to resume your preparation arena.
+          Enter your local access PIN to resume your preparation workspace.
         </p>
 
         <form onSubmit={handleUnlock}>
@@ -38,14 +38,14 @@ export const PasscodeModal: React.FC = () => {
             <KeyRound size={18} color="var(--text-subtle)" style={{ position: 'absolute', left: 14, top: 13 }} />
             <input
               type="password"
-              placeholder="Enter passcode"
+              placeholder="Enter PIN"
               value={enteredPin}
               onChange={(e) => setEnteredPin(e.target.value)}
               style={{
                 width: '100%',
-                background: 'var(--bg-card)',
-                border: error ? '1px solid var(--coral-error)' : '1px solid var(--border-dim)',
-                color: '#fff',
+                background: 'var(--bg-surface)',
+                border: error ? '1px solid var(--coral-error)' : '1px solid var(--border-subtle)',
+                color: 'var(--text-main)',
                 padding: '10px 14px 10px 42px',
                 borderRadius: 'var(--radius-md)',
                 fontSize: '1rem',

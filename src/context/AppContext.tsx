@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { api } from '../api/client';
-import { LearnerProfile, XpStreakData, StudyPlanData } from '../types';
+import { LearnerProfile, XpStreakData, StudyPlanData, Company } from '../types';
 
 interface Toast {
   id: string;
@@ -26,6 +26,10 @@ interface AppContextType {
   setCurrentDate: (date: string) => void;
   studyPlan: StudyPlanData | null;
   refreshStudyPlan: () => Promise<void>;
+  companies: Company[];
+  activeCompanyId: string;
+  setActiveCompanyId: (id: string) => void;
+  refreshCompanies: () => Promise<void>;
   activeTestConfig: any | null;
   startTest: (config: any) => void;
   exitTest: () => void;
@@ -51,6 +55,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [profile, setProfile] = useState<LearnerProfile | null>(null);
   const [xpStreak, setXpStreak] = useState<XpStreakData | null>(null);
   const [studyPlan, setStudyPlan] = useState<StudyPlanData | null>(null);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [activeCompanyId, setActiveCompanyId] = useState<string>('ril_get_2027');
   
   // Current local preparation date - default to today's local date (e.g. 2026-10-15)
   const [currentDate, setCurrentDate] = useState<string>(() => {
@@ -91,20 +97,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       particleCount: 80,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#00e5ff', '#00b4d8', '#ffb703', '#10b981', '#a855f7'],
+      colors: ['#4f46e5', '#06b6d4', '#10b981', '#f59e0b', '#8b5cf6'],
     });
+  };
+
+  const refreshCompanies = async () => {
+    try {
+      const data = await api.getCompanies();
+      setCompanies(data);
+    } catch (err) {
+      console.error('Error fetching companies:', err);
+    }
   };
 
   const loadData = async () => {
     try {
-      const [profData, xpData, planData] = await Promise.all([
+      const [profData, xpData, planData, compData] = await Promise.all([
         api.getProfile(),
         api.getXpStreak(),
         api.getStudyPlan(),
+        api.getCompanies().catch(() => []),
       ]);
       setProfile(profData);
       setXpStreak(xpData);
       setStudyPlan(planData);
+      setCompanies(compData || []);
 
       if (profData?.passcode_hash && !sessionStorage.getItem('get_quest_unlocked')) {
         setIsLocked(true);
@@ -228,6 +245,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setCurrentDate,
         studyPlan,
         refreshStudyPlan,
+        companies,
+        activeCompanyId,
+        setActiveCompanyId,
+        refreshCompanies,
         activeTestConfig,
         startTest,
         exitTest,

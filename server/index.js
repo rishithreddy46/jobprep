@@ -483,6 +483,363 @@ app.get('/api/test-runs/:id', async (req, res) => {
   }
 });
 
+// ─── Multi-Company Directory API (JobPrep Platform) ─────────────────────────
+
+app.get('/api/companies', async (req, res) => {
+  try {
+    const { rows } = await query('SELECT * FROM companies ORDER BY created_at ASC');
+    const formatted = rows.map(r => ({
+      ...r,
+      roles: JSON.parse(r.roles_json || '[]'),
+      eligibility: JSON.parse(r.eligibility_json || '{}'),
+      activity_history: JSON.parse(r.activity_history_json || '[]'),
+      syllabus: JSON.parse(r.syllabus_json || '[]'),
+      resources: JSON.parse(r.resources_json || '[]'),
+    }));
+    res.json(formatted);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/companies/:id', async (req, res) => {
+  try {
+    const r = await queryOne('SELECT * FROM companies WHERE id = $1', [req.params.id]);
+    if (!r) return res.status(404).json({ error: 'Company not found' });
+    res.json({
+      ...r,
+      roles: JSON.parse(r.roles_json || '[]'),
+      eligibility: JSON.parse(r.eligibility_json || '{}'),
+      activity_history: JSON.parse(r.activity_history_json || '[]'),
+      syllabus: JSON.parse(r.syllabus_json || '[]'),
+      resources: JSON.parse(r.resources_json || '[]'),
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/companies', async (req, res) => {
+  try {
+    const {
+      id: customId,
+      name,
+      logo_initials,
+      category,
+      roles = [],
+      eligibility = {},
+      restrictions = '',
+      registration_deadline,
+      assessment_date,
+      interview_dates,
+      opportunity_url = '',
+      stage_status = 'interested',
+      activity_note = 'Company added to tracking list',
+      syllabus = [],
+      resources = [],
+      notes = '',
+      is_verified = 0,
+      source = 'User Added'
+    } = req.body;
+
+    if (!name || !category) {
+      return res.status(400).json({ error: 'Company name and category are required' });
+    }
+
+    const companyId = customId || ('comp_' + Date.now() + '_' + name.toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 15));
+    const initials = logo_initials || name.split(' ').map(w => w[0]).join('').slice(0, 4).toUpperCase();
+    const initialHistory = [
+      { timestamp: new Date().toISOString(), stage: stage_status, note: activity_note }
+    ];
+
+    await query(`
+      INSERT INTO companies
+        (id, name, logo_initials, category, roles_json, eligibility_json,
+         restrictions, registration_deadline, assessment_date, interview_dates,
+         opportunity_url, stage_status, activity_history_json, syllabus_json,
+         resources_json, notes, is_verified, source)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
+    `, [
+      companyId, name, initials, category,
+      JSON.stringify(roles), JSON.stringify(eligibility),
+      restrictions, registration_deadline || null, assessment_date || null, interview_dates || null,
+      opportunity_url, stage_status, JSON.stringify(initialHistory), JSON.stringify(syllabus),
+      JSON.stringify(resources), notes, is_verified ? 1 : 0, source
+    ]);
+
+    res.json({ success: true, companyId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/companies/:id', async (req, res) => {
+  try {
+    const {
+      name, logo_initials, category, roles, eligibility,
+      restrictions, registration_deadline, assessment_date, interview_dates,
+      opportunity_url, stage_status, syllabus, resources, notes, is_verified, source
+    } = req.body;
+
+    const existing = await queryOne('SELECT * FROM companies WHERE id = $1', [req.params.id]);
+    if (!existing) return res.status(404).json({ error: 'Company not found' });
+
+    let history = JSON.parse(existing.activity_history_json || '[]');
+    if (stage_status && stage_status !== existing.stage_status) {
+      history.push({
+        timestamp: new Date().toISOString(),
+        stage: stage_status,
+        note: req.body.status_note || `Stage updated to ${stage_status}`
+      });
+    }
+
+    await query(`
+      UPDATE companies SET
+        name = COALESCE($1, name),
+        logo_initials = COALESCE($2, logo_initials),
+        category = COALESCE($3, category),
+        roles_json = COALESCE($4, roles_json),
+        eligibility_json = COALESCE($5, eligibility_json),
+        restrictions = COALESCE($6, restrictions),
+        registration_deadline = COALESCE($7, registration_deadline),
+        assessment_date = COALESCE($8, assessment_date),
+        interview_dates = COALESCE($9, interview_dates),
+        opportunity_url = COALESCE($10, opportunity_url),
+        stage_status = COALESCE($11, stage_status),
+        activity_history_json = $12,
+        syllabus_json = COALESCE($13, syllabus_json),
+        resources_json = COALESCE($14, resources_json),
+        notes = COALESCE($15, notes),
+        is_verified = COALESCE($16, is_verified),
+        source = COALESCE($17, source),
+        updated_at = NOW()
+      WHERE id = $18
+    `, [
+      name, logo_initials, category,
+      roles ? JSON.stringify(roles) : null,
+      eligibility ? JSON.stringify(eligibility) : null,
+      restrictions, registration_deadline, assessment_date, interview_dates,
+      opportunity_url, stage_status, JSON.stringify(history),
+      syllabus ? JSON.stringify(syllabus) : null,
+      resources ? JSON.stringify(resources) : null,
+      notes, is_verified !== undefined ? (is_verified ? 1 : 0) : null, source,
+      req.params.id
+    ]);
+
+    res.json({ success: true, message: 'Company updated' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/companies/:id/stage', async (req, res) => {
+  try {
+    const { stage_status, note = '' } = req.body;
+    if (!stage_status) return res.status(400).json({ error: 'stage_status is required' });
+
+    const existing = await queryOne('SELECT activity_history_json FROM companies WHERE id = $1', [req.params.id]);
+    if (!existing) return res.status(404).json({ error: 'Company not found' });
+
+    const history = JSON.parse(existing.activity_history_json || '[]');
+    history.push({
+      timestamp: new Date().toISOString(),
+      stage: stage_status,
+      note: note || `Stage updated to ${stage_status}`
+    });
+
+    await query(`
+      UPDATE companies SET
+        stage_status = $1,
+        activity_history_json = $2,
+        updated_at = NOW()
+      WHERE id = $3
+    `, [stage_status, JSON.stringify(history), req.params.id]);
+
+    res.json({ success: true, stage_status, history });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/companies/:id', async (req, res) => {
+  try {
+    if (req.params.id === 'ril_get_2027') {
+      return res.status(400).json({ error: 'The primary preloaded company track cannot be deleted' });
+    }
+    const { rowCount } = await query('DELETE FROM companies WHERE id = $1', [req.params.id]);
+    if (rowCount === 0) return res.status(404).json({ error: 'Company not found' });
+    res.json({ success: true, message: 'Company deleted' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/companies-export', async (req, res) => {
+  try {
+    const { rows } = await query('SELECT * FROM companies ORDER BY created_at ASC');
+    const formatted = rows.map(r => ({
+      ...r,
+      roles: JSON.parse(r.roles_json || '[]'),
+      eligibility: JSON.parse(r.eligibility_json || '{}'),
+      activity_history: JSON.parse(r.activity_history_json || '[]'),
+      syllabus: JSON.parse(r.syllabus_json || '[]'),
+      resources: JSON.parse(r.resources_json || '[]'),
+    }));
+    res.setHeader('Content-Disposition', 'attachment; filename="jobprep_companies.json"');
+    res.json({ version: '1.0', export_date: new Date().toISOString(), companies: formatted });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/companies-import', async (req, res) => {
+  try {
+    const { companies } = req.body;
+    if (!Array.isArray(companies)) {
+      return res.status(400).json({ error: 'Expected an array of companies' });
+    }
+    let imported = 0;
+    for (const c of companies) {
+      if (!c.id || !c.name) continue;
+      await query(`
+        INSERT INTO companies
+          (id, name, logo_initials, category, roles_json, eligibility_json,
+           restrictions, registration_deadline, assessment_date, interview_dates,
+           opportunity_url, stage_status, activity_history_json, syllabus_json,
+           resources_json, notes, is_verified, source)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
+        ON CONFLICT(id) DO UPDATE SET
+          name = EXCLUDED.name,
+          logo_initials = EXCLUDED.logo_initials,
+          category = EXCLUDED.category,
+          roles_json = EXCLUDED.roles_json,
+          eligibility_json = EXCLUDED.eligibility_json,
+          restrictions = EXCLUDED.restrictions,
+          registration_deadline = EXCLUDED.registration_deadline,
+          assessment_date = EXCLUDED.assessment_date,
+          interview_dates = EXCLUDED.interview_dates,
+          opportunity_url = EXCLUDED.opportunity_url,
+          stage_status = EXCLUDED.stage_status,
+          activity_history_json = EXCLUDED.activity_history_json,
+          syllabus_json = EXCLUDED.syllabus_json,
+          resources_json = EXCLUDED.resources_json,
+          notes = EXCLUDED.notes,
+          is_verified = EXCLUDED.is_verified,
+          source = EXCLUDED.source,
+          updated_at = NOW()
+      `, [
+        c.id, c.name, c.logo_initials || 'CO', c.category || 'General',
+        JSON.stringify(c.roles || []), JSON.stringify(c.eligibility || {}),
+        c.restrictions || '', c.registration_deadline || null, c.assessment_date || null, c.interview_dates || null,
+        c.opportunity_url || '', c.stage_status || 'interested', JSON.stringify(c.activity_history || []),
+        JSON.stringify(c.syllabus || []), JSON.stringify(c.resources || []), c.notes || '',
+        c.is_verified ? 1 : 0, c.source || 'Imported'
+      ]);
+      imported++;
+    }
+    res.json({ success: true, count: imported, message: `Successfully imported ${imported} companies` });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Deterministic Study Plan Reschedule (No AI dependency)
+app.post('/api/study-plan/reschedule', async (req, res) => {
+  try {
+    const { targetDate } = req.body;
+    const { rows: pendingTasks } = await query(
+      "SELECT * FROM study_tasks WHERE status != 'completed' ORDER BY date ASC, task_index ASC"
+    );
+
+    if (pendingTasks.length === 0) {
+      return res.json({ success: true, message: 'All tasks completed! Nothing to reschedule.' });
+    }
+
+    const today = new Date();
+    const end = targetDate ? new Date(targetDate) : new Date(Date.now() + 14 * 86400000);
+    const dayDiff = Math.max(1, Math.round((end - today) / (1000 * 60 * 60 * 24)));
+
+    const tasksPerDay = Math.ceil(pendingTasks.length / dayDiff);
+    let currentDayOffset = 0;
+    let dayTaskCount = 0;
+
+    for (const t of pendingTasks) {
+      const targetDay = new Date(today.getTime() + currentDayOffset * 86400000);
+      const dateStr = targetDay.toISOString().split('T')[0];
+
+      await query(
+        'UPDATE study_tasks SET date = $1, task_index = $2, updated_at = NOW() WHERE id = $3',
+        [dateStr, dayTaskCount, t.id]
+      );
+
+      dayTaskCount++;
+      if (dayTaskCount >= tasksPerDay && currentDayOffset < dayDiff - 1) {
+        currentDayOffset++;
+        dayTaskCount = 0;
+      }
+    }
+
+    res.json({ success: true, rescheduledCount: pendingTasks.length, daysCount: currentDayOffset + 1 });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Universal Practice Categories
+app.get('/api/practice/categories', async (req, res) => {
+  try {
+    const { rows: qRows } = await query('SELECT id, track, topic, difficulty FROM questions WHERE is_active = 1');
+    const { rows: aRows } = await query('SELECT question_id, is_correct FROM question_attempts');
+
+    const attemptMap = {};
+    for (const a of aRows) {
+      if (!attemptMap[a.question_id]) attemptMap[a.question_id] = { attempted: 0, correct: 0 };
+      attemptMap[a.question_id].attempted++;
+      if (a.is_correct) attemptMap[a.question_id].correct++;
+    }
+
+    const categories = [
+      { id: 'quantitative_aptitude', title: 'Quantitative Aptitude', track: 'cognitive', matchTopics: ['Quantitative Aptitude', 'Arithmetic', 'Speed', 'Profit', 'Ratio', 'Algebra', 'Number'] },
+      { id: 'logical_reasoning', title: 'Logical Reasoning', track: 'cognitive', matchTopics: ['Logical Reasoning', 'Deductive', 'Series', 'Pattern', 'Arrangement', 'Syllogism', 'Blood'] },
+      { id: 'verbal_ability', title: 'Verbal Ability', track: 'cognitive', matchTopics: ['Verbal Ability', 'Sentence', 'Reading', 'Vocabulary', 'Grammar', 'Comprehension'] },
+      { id: 'data_interpretation', title: 'Data Interpretation', track: 'cognitive', matchTopics: ['Data Interpretation', 'Chart', 'Graph', 'Table'] },
+      { id: 'instrumentation', title: 'Sensors & Transducers', track: 'instrumentation', matchTopics: ['Sensors', 'Transducers', 'Measurement', 'Flow', 'Level', 'Pressure', 'Temperature'] },
+      { id: 'process_control', title: 'Process Control & Industrial Automation', track: 'instrumentation', matchTopics: ['Process Control', 'PID', 'Signal Conditioning', 'PLC', 'DCS', 'Analytical'] },
+      { id: 'tech_fundamentals', title: 'Technical Fundamentals & Electronics', track: 'instrumentation', matchTopics: ['Basic Electronics', 'Control Systems', 'Digital Logic', 'Circuits', 'Industrial'] },
+    ];
+
+    const result = categories.map(cat => {
+      const catQuestions = qRows.filter(q =>
+        cat.matchTopics.some(mt => q.topic.toLowerCase().includes(mt.toLowerCase())) ||
+        (cat.track && q.track.toLowerCase() === cat.track.toLowerCase() && cat.id === 'instrumentation')
+      );
+
+      let totalAttempted = 0;
+      let totalCorrect = 0;
+      for (const q of catQuestions) {
+        if (attemptMap[q.id]) {
+          totalAttempted += attemptMap[q.id].attempted;
+          totalCorrect += attemptMap[q.id].correct;
+        }
+      }
+
+      return {
+        id: cat.id,
+        title: cat.title,
+        track: cat.track,
+        questionCount: catQuestions.length,
+        attemptedCount: totalAttempted,
+        accuracy: totalAttempted > 0 ? Math.round((totalCorrect / totalAttempted) * 100) : 0,
+        topics: [...new Set(catQuestions.map(q => q.topic))]
+      };
+    });
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // 7. Mistake Notebook
 app.get('/api/mistakes', async (req, res) => {
   try {

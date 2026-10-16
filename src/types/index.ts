@@ -12,6 +12,78 @@ export interface LearnerProfile {
   updated_at?: string;
 }
 
+export type CompanyStage =
+  | 'interested'
+  | 'checking_eligibility'
+  | 'eligible'
+  | 'registered'
+  | 'assessment_upcoming'
+  | 'assessment_completed'
+  | 'shortlisted'
+  | 'interview_scheduled'
+  | 'interview_completed'
+  | 'offered'
+  | 'rejected'
+  | 'withdrawn';
+
+export interface CompanyActivity {
+  timestamp: string;
+  stage: CompanyStage | string;
+  note: string;
+}
+
+export interface CompanyEligibility {
+  min_cgpa?: string;
+  branches?: string[];
+  backlogs_allowed?: number;
+  degree?: string;
+  notes?: string;
+}
+
+export interface CompanySyllabusItem {
+  subject: string;
+  topics: string[];
+}
+
+export interface CompanyResourceItem {
+  title: string;
+  url: string;
+  type: string;
+}
+
+export interface Company {
+  id: string;
+  name: string;
+  logo_initials: string;
+  category: string;
+  roles: string[];
+  eligibility: CompanyEligibility;
+  restrictions?: string;
+  registration_deadline?: string | null;
+  assessment_date?: string | null;
+  interview_dates?: string | null;
+  opportunity_url?: string;
+  stage_status: CompanyStage;
+  activity_history: CompanyActivity[];
+  syllabus: CompanySyllabusItem[];
+  resources: CompanyResourceItem[];
+  notes?: string;
+  is_verified?: number;
+  source?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface PracticeCategory {
+  id: string;
+  title: string;
+  track: string;
+  questionCount: number;
+  attemptedCount: number;
+  accuracy: number;
+  topics: string[];
+}
+
 export interface QuestionOption {
   id: 'A' | 'B' | 'C' | 'D';
   text: string;

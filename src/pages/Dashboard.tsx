@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Compass,
   Play,
   RotateCcw,
   CheckCircle2,
   Clock,
   Target,
-  Brain,
-  Sliders,
   Flame,
-  Award,
-  AlertTriangle,
   ArrowRight,
-  Sparkles,
+  Building2,
+  Calendar,
+  AlertCircle,
+  FileCheck2,
+  BookX,
+  ExternalLink,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../api/client';
@@ -23,11 +23,11 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
-  const { profile, xpStreak, currentDate, studyPlan, activeTestConfig, openFocusTimer } = useApp();
+  const { profile, xpStreak, currentDate, studyPlan, activeTestConfig, companies, activeCompanyId } = useApp();
   const [dailyReport, setDailyReport] = useState<DailyReportData | null>(null);
   const [cumulativeReport, setCumulativeReport] = useState<CumulativeReportData | null>(null);
   const [recentMocks, setRecentMocks] = useState<any[]>([]);
-  const [unresolvedMistakesCount, setUnresolvedMistakesCount] = useState<number>(0);
+  const [unresolvedMistakes, setUnresolvedMistakes] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -42,8 +42,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         ]);
         setDailyReport(daily);
         setCumulativeReport(cum);
-        setRecentMocks(mocks.slice(0, 3));
-        setUnresolvedMistakesCount(mistakes.filter((m) => !m.is_resolved).length);
+        setRecentMocks(mocks.slice(0, 4));
+        setUnresolvedMistakes(mistakes.filter((m) => !m.is_resolved).slice(0, 5));
       } catch (err) {
         console.error('Error fetching dashboard metrics:', err);
       } finally {
@@ -68,452 +68,409 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   ) || 0;
   const overallCompletionPct = Math.round((totalCompletedTasks / totalTasksCount) * 100);
 
-  const isZeroState = !cumulativeReport || cumulativeReport.totalQuestionsAttempted === 0;
+  const activeCompany = companies.find(c => c.id === activeCompanyId) || companies[0];
 
   return (
     <div className="page-wrapper">
-      {/* Active Test Resume Shortcut Banner */}
+      {/* Active Test Resume Banner */}
       {activeTestConfig && (
-        <div style={{
-          background: 'linear-gradient(90deg, rgba(0, 229, 255, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%)',
-          border: '1px solid var(--border-cyan)',
-          borderRadius: 'var(--radius-lg)',
-          padding: '16px 24px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 24,
-          boxShadow: '0 0 20px rgba(0, 229, 255, 0.2)',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <RotateCcw size={24} color="var(--cyan-primary)" className="spin-slow" />
+        <div
+          style={{
+            background: 'var(--primary-light)',
+            border: '1px solid var(--primary-border)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '16px 20px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 24,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <RotateCcw size={20} color="var(--primary)" />
             <div>
-              <div style={{ fontWeight: 800, color: '#fff', fontSize: '1rem' }}>
+              <div style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '0.95rem' }}>
                 Unfinished Test in Progress: {activeTestConfig.title}
               </div>
               <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                Your responses have been autosaved. Click to resume immediately without losing progress.
+                Your responses are autosaved. Resume immediately to continue.
               </div>
             </div>
           </div>
-          <button className="btn btn-primary" onClick={() => onNavigate('test-runner')}>
-            <Play size={16} />
-            <span>Resume Test</span>
+          <button className="btn btn-primary btn-sm" onClick={() => onNavigate('test-runner')}>
+            <Play size={14} /> Resume Test
           </button>
         </div>
       )}
 
-      {/* Top Welcome & Mission Banner */}
-      <div className="card card-cyan-accent" style={{ marginBottom: 24, padding: '28px 32px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 20 }}>
-          <div style={{ maxWidth: 750 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <span className="badge badge-cyan">Mission Control</span>
-              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{currentDate}</span>
-            </div>
-            <h1 style={{ fontSize: '1.9rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 10 }}>
-              {todayMission ? todayMission.label : 'RIL GET 2027 Preparation Arena'}
-            </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: 18 }}>
-              {todayMission?.focus || 'Systematic preparation for Reliance Industries Limited Graduate Engineer Trainee recruitment assessment.'}
-            </p>
+      {/* Greeting & Main Objective */}
+      <div style={{ marginBottom: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
+        <div>
+          <span className="section-label">01 — Overview & Workspace</span>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.02em', marginTop: 4 }}>
+            Welcome back, <span className="gradient-text">{profile?.name ? profile.name.split(' ')[0] : 'Candidate'}</span>
+          </h1>
+          <p className="section-desc">
+            Continuous job readiness loop. Currently active track: <strong style={{ color: 'var(--blue)' }}>{activeCompany?.name || 'General Preparation'}</strong>.
+          </p>
+        </div>
 
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <button className="btn btn-primary" onClick={() => onNavigate('missions')}>
-                <Compass size={17} />
-                <span>Start Today's Mission</span>
-              </button>
-              <button className="btn btn-secondary" onClick={() => onNavigate('mocks')}>
-                <Play size={17} />
-                <span>Launch Mock Test</span>
-              </button>
-              <button className="btn btn-secondary" onClick={() => openFocusTimer(todayMission?.focus)}>
-                <Clock size={17} />
-                <span>Start Focus Timer</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Level Progress Dial */}
-          <div style={{
-            background: 'rgba(0, 0, 0, 0.3)',
-            border: '1px solid var(--border-dim)',
-            borderRadius: 'var(--radius-lg)',
-            padding: '20px 24px',
-            minWidth: 260,
-            textAlign: 'center',
-          }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-              Current Rank & Level
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 800, color: '#fff', margin: '6px 0 2px' }}>
-              Level {xpStreak?.level || 1}
-            </div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--cyan-primary)', fontWeight: 600, marginBottom: 12 }}>
-              {xpStreak?.title || 'Novice Cadet'}
-            </div>
-
-            <div className="progress-bar-bg">
-              <div className="progress-bar-fill" style={{ width: `${xpStreak?.progressPct || 0}%` }}></div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem', color: 'var(--text-subtle)' }}>
-              <span>{xpStreak?.totalXP || 0} XP</span>
-              <span>Next: {xpStreak?.nextThreshold || 100} XP ({xpStreak?.progressPct || 0}%)</span>
-            </div>
-          </div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button className="btn btn-primary" onClick={() => onNavigate('mocks')}>
+            <Play size={15} /> Take a Mock Test
+          </button>
+          <button className="btn btn-secondary" onClick={() => onNavigate('plan')}>
+            <Calendar size={15} /> View Schedule
+          </button>
         </div>
       </div>
 
-      {/* Core Key Metrics Grid */}
-      <div className="grid-4" style={{ marginBottom: 24 }}>
-        {/* Today's Completion */}
+      {/* Key Metrics Row with Polymath Tinted Icon Boxes */}
+      <div className="grid-4" style={{ marginBottom: 28 }}>
         <div className="metric-card">
           <div className="metric-label">
-            <span>Today's Tasks</span>
-            <CheckCircle2 size={16} color="var(--cyan-primary)" />
-          </div>
-          <div className="metric-value" style={{ color: 'var(--cyan-primary)' }}>
-            {todayCompletionPct}%
-          </div>
-          <div className="metric-subtitle">
-            {completedCount} of {todayTasks.length} tasks completed today
-          </div>
-        </div>
-
-        {/* Overall Plan Completion */}
-        <div className="metric-card">
-          <div className="metric-label">
-            <span>Total Campaign</span>
-            <Compass size={16} color="var(--violet-quest)" />
-          </div>
-          <div className="metric-value" style={{ color: 'var(--violet-quest)' }}>
-            {overallCompletionPct}%
-          </div>
-          <div className="metric-subtitle">
-            {totalCompletedTasks} of {totalTasksCount} scheduled tasks
-          </div>
-        </div>
-
-        {/* Current & Longest Streak */}
-        <div className="metric-card">
-          <div className="metric-label">
-            <span>Prep Streak</span>
-            <Flame size={16} color="var(--amber-warning)" />
-          </div>
-          <div className="metric-value" style={{ color: 'var(--amber-warning)' }}>
-            {xpStreak?.currentStreak || 0} <span style={{ fontSize: '1.1rem', fontWeight: 600 }}>Days</span>
-          </div>
-          <div className="metric-subtitle">
-            Longest recorded: {xpStreak?.longestStreak || 0} days
-          </div>
-        </div>
-
-        {/* Overall Accuracy */}
-        <div className="metric-card">
-          <div className="metric-label">
-            <span>Overall Accuracy</span>
-            <Target size={16} color="var(--emerald-success)" />
-          </div>
-          <div className="metric-value" style={{ color: 'var(--emerald-success)' }}>
-            {cumulativeReport ? `${cumulativeReport.cumulativeAccuracy}%` : '0%'}
-          </div>
-          <div className="metric-subtitle">
-            {cumulativeReport?.totalQuestionsCorrect || 0} / {cumulativeReport?.totalQuestionsAttempted || 0} attempted
-          </div>
-        </div>
-      </div>
-
-      {/* Track Accuracy & Speed */}
-      <div className="grid-3" style={{ marginBottom: 24 }}>
-        {/* Cognitive Accuracy */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, color: '#fff' }}>
-              <Brain size={18} color="var(--cyan-primary)" />
-              <span>Cognitive Aptitude</span>
+            <span>Today's Plan</span>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(27, 94, 181, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Target size={16} color="var(--blue)" />
             </div>
-            <span className="badge badge-cyan">40% Suggested Mix</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 8 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 800, color: '#fff' }}>
-              {cumulativeReport?.cognitive.accuracy || 0}%
-            </span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-subtle)' }}>
-              ({cumulativeReport?.cognitive.correct || 0} of {cumulativeReport?.cognitive.attempted || 0} correct)
-            </span>
+          <div className="metric-value" style={{ fontFamily: 'var(--font-m)' }}>{todayCompletionPct}%</div>
+          <div className="progress-bar-bg">
+            <div className="progress-bar-fill" style={{ width: `${todayCompletionPct}%`, background: 'var(--blue)' }}></div>
+          </div>
+          <div className="metric-subtitle" style={{ fontFamily: 'var(--font-m)', fontSize: '0.74rem' }}>
+            {completedCount}/{todayTasks.length} tasks completed today
+          </div>
+        </div>
+
+        <div className="metric-card">
+          <div className="metric-label">
+            <span>Overall Roadmap</span>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(46, 165, 201, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Clock size={16} color="var(--cyan)" />
+            </div>
+          </div>
+          <div className="metric-value" style={{ fontFamily: 'var(--font-m)' }}>{overallCompletionPct}%</div>
+          <div className="progress-bar-bg">
+            <div className="progress-bar-fill" style={{ width: `${overallCompletionPct}%`, background: 'var(--cyan)' }}></div>
+          </div>
+          <div className="metric-subtitle" style={{ fontFamily: 'var(--font-m)', fontSize: '0.74rem' }}>
+            {totalCompletedTasks}/{totalTasksCount} roadmap tasks finished
+          </div>
+        </div>
+
+        <div className="metric-card">
+          <div className="metric-label">
+            <span>Question Accuracy</span>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(5, 150, 105, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <CheckCircle2 size={16} color="var(--emerald-success)" />
+            </div>
+          </div>
+          <div className="metric-value" style={{ fontFamily: 'var(--font-m)' }}>
+            {cumulativeReport ? cumulativeReport.cumulativeAccuracy : 0}%
           </div>
           <div className="progress-bar-bg">
-            <div className="progress-bar-fill" style={{ width: `${cumulativeReport?.cognitive.accuracy || 0}%` }}></div>
+            <div className="progress-bar-fill" style={{ width: `${cumulativeReport ? cumulativeReport.cumulativeAccuracy : 0}%`, background: 'var(--emerald-success)' }}></div>
           </div>
-          <button
-            className="btn btn-secondary btn-sm"
-            style={{ width: '100%', marginTop: 12 }}
-            onClick={() => onNavigate('cognitive')}
-          >
-            Practice Cognitive Sets <ArrowRight size={14} />
-          </button>
+          <div className="metric-subtitle" style={{ fontFamily: 'var(--font-m)', fontSize: '0.74rem' }}>
+            {cumulativeReport ? cumulativeReport.totalQuestionsCorrect : 0} correct / {cumulativeReport ? cumulativeReport.totalQuestionsAttempted : 0} attempted
+          </div>
         </div>
 
-        {/* Instrumentation Accuracy */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, color: '#fff' }}>
-              <Sliders size={18} color="var(--teal-accent)" />
-              <span>Instrumentation Core</span>
+        <div className="metric-card">
+          <div className="metric-label">
+            <span>Active Streak</span>
+            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(217, 119, 6, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Flame size={16} color="var(--amber-warning)" />
             </div>
-            <span className="badge badge-emerald">60% Suggested Mix</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 8 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 800, color: '#fff' }}>
-              {cumulativeReport?.instrumentation.accuracy || 0}%
-            </span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-subtle)' }}>
-              ({cumulativeReport?.instrumentation.correct || 0} of {cumulativeReport?.instrumentation.attempted || 0} correct)
-            </span>
-          </div>
+          <div className="metric-value" style={{ fontFamily: 'var(--font-m)' }}>{xpStreak ? xpStreak.currentStreak : 0}d</div>
           <div className="progress-bar-bg">
-            <div className="progress-bar-fill" style={{ width: `${cumulativeReport?.instrumentation.accuracy || 0}%`, background: 'linear-gradient(90deg, #10b981, #00e5ff)' }}></div>
+            <div className="progress-bar-fill" style={{ width: `${Math.min(100, (xpStreak ? xpStreak.currentStreak : 0) * 10)}%`, background: 'var(--amber-warning)' }}></div>
           </div>
-          <button
-            className="btn btn-secondary btn-sm"
-            style={{ width: '100%', marginTop: 12 }}
-            onClick={() => onNavigate('instrumentation')}
-          >
-            Practice Technical Sets <ArrowRight size={14} />
-          </button>
-        </div>
-
-        {/* Study Timing & Mistake Backlog */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontWeight: 700, color: '#fff' }}>
-              <Clock size={18} color="var(--amber-warning)" />
-              <span>Speed & Review</span>
-            </div>
-            <span className="badge badge-amber">{unresolvedMistakesCount} In Backlog</span>
+          <div className="metric-subtitle" style={{ fontFamily: 'var(--font-m)', fontSize: '0.74rem' }}>
+            {xpStreak ? xpStreak.totalXP : 0} XP earned across runs
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
-            <div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', textTransform: 'uppercase' }}>Avg Time / Q</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff' }}>
-                {cumulativeReport?.avgTimePerQuestion || 0}s
-              </div>
-            </div>
-            <div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', textTransform: 'uppercase' }}>Total Focused Mins</div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff' }}>
-                {cumulativeReport?.totalStudyMins || 0}m
-              </div>
-            </div>
-          </div>
-          <button
-            className="btn btn-secondary btn-sm"
-            style={{ width: '100%', borderColor: unresolvedMistakesCount > 0 ? 'var(--amber-warning)' : 'var(--border-dim)' }}
-            onClick={() => onNavigate('mistakes')}
-          >
-            Review Mistake Notebook ({unresolvedMistakesCount}) <ArrowRight size={14} />
-          </button>
         </div>
       </div>
 
-      {/* Remaining Missions for Today & Weakest Topics Section */}
-      <div className="grid-2" style={{ marginBottom: 24 }}>
-        {/* Remaining Today Missions */}
+      {/* Main Grid: Today's Tasks + Upcoming Assessments */}
+      <div className="grid-2" style={{ marginBottom: 28 }}>
+        {/* Today's Tasks */}
         <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff' }}>
-              Today's Remaining Missions
-            </h3>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              {todayTasks.filter((t) => t.status !== 'completed').length} pending
-            </span>
+          <div className="card-header">
+            <div>
+              <div className="card-title">Today's Scheduled Tasks</div>
+              <div className="card-subtitle">
+                {todayTasks.length} study block(s) scheduled for {currentDate}
+              </div>
+            </div>
+            <button className="btn btn-outline btn-sm" onClick={() => onNavigate('plan')}>
+              View All <ArrowRight size={13} />
+            </button>
           </div>
 
-          {todayTasks.length === 0 ? (
-            <div style={{ padding: '30px 20px', textAlign: 'center', color: 'var(--text-subtle)' }}>
-              No scheduled missions for this date.
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {todayTasks.slice(0, 4).map((t, idx) => (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {todayTasks.length === 0 ? (
+              <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-subtle)', fontSize: '0.9rem' }}>
+                No tasks planned for today. Click "View Schedule" to add or reschedule.
+              </div>
+            ) : (
+              todayTasks.slice(0, 4).map((task) => (
                 <div
-                  key={t.id || idx}
+                  key={task.id}
                   style={{
-                    background: t.status === 'completed' ? 'rgba(16, 185, 129, 0.08)' : 'rgba(255, 255, 255, 0.02)',
-                    border: '1px solid',
-                    borderColor: t.status === 'completed' ? 'rgba(16, 185, 129, 0.3)' : 'var(--border-dim)',
-                    borderRadius: 'var(--radius-md)',
-                    padding: '12px 16px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    padding: '12px 14px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--border-subtle)',
+                    background: task.status === 'completed' ? 'var(--bg-muted)' : 'var(--bg-surface)',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+                    <div
+                      style={{
+                        width: 22,
+                        height: 22,
+                        borderRadius: '50%',
+                        border: task.status === 'completed' ? 'none' : '2px solid var(--border-hover)',
+                        background: task.status === 'completed' ? 'var(--emerald-success)' : 'transparent',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#fff',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {task.status === 'completed' && <CheckCircle2 size={16} />}
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <div
+                        style={{
+                          fontSize: '0.88rem',
+                          fontWeight: 500,
+                          color: task.status === 'completed' ? 'var(--text-muted)' : 'var(--text-main)',
+                          textDecoration: task.status === 'completed' ? 'line-through' : 'none',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {task.task_text}
+                      </div>
+                      <div style={{ fontSize: '0.76rem', color: 'var(--text-subtle)', display: 'flex', gap: 8, marginTop: 2 }}>
+                        {task.block_time && <span>{task.block_time}</span>}
+                        <span>•</span>
+                        <span className="badge badge-neutral" style={{ padding: '1px 5px', fontSize: '0.68rem' }}>
+                          {activeCompany?.logo_initials || 'General'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {task.status !== 'completed' && (
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      style={{ flexShrink: 0 }}
+                      onClick={() => onNavigate('practice')}
+                    >
+                      Start
+                    </button>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Tracked Companies & Upcoming Assessments */}
+        <div className="card">
+          <div className="card-header">
+            <div>
+              <div className="card-title">Target Companies & Drives</div>
+              <div className="card-subtitle">
+                {companies.length} recruitment track(s) currently being monitored
+              </div>
+            </div>
+            <button className="btn btn-outline btn-sm" onClick={() => onNavigate('companies')}>
+              Manage <ArrowRight size={13} />
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {companies.map((comp) => {
+              const assessmentDate = comp.assessment_date
+                ? new Date(comp.assessment_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                : 'TBD';
+              return (
+                <div
+                  key={comp.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '12px 14px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--border-subtle)',
+                    background: comp.id === activeCompanyId ? 'var(--primary-light)' : 'var(--bg-surface)',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{
-                      width: 22,
-                      height: 22,
-                      borderRadius: '50%',
-                      border: t.status === 'completed' ? 'none' : '2px solid var(--border-dim)',
-                      background: t.status === 'completed' ? 'var(--emerald-success)' : 'transparent',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#060a12',
-                    }}>
-                      {t.status === 'completed' && <CheckCircle2 size={16} color="#060a12" />}
+                    <div
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: 'var(--radius-md)',
+                        background: comp.id === activeCompanyId ? 'var(--primary)' : 'var(--bg-elevated)',
+                        color: comp.id === activeCompanyId ? '#fff' : 'var(--text-main)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: 700,
+                        fontSize: '0.85rem',
+                      }}
+                    >
+                      {comp.logo_initials}
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.88rem', fontWeight: 600, color: t.status === 'completed' ? 'var(--text-muted)' : '#fff', textDecoration: t.status === 'completed' ? 'line-through' : 'none' }}>
-                        {t.task_text}
+                      <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                        {comp.name}
                       </div>
-                      {t.block_time && (
-                        <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>{t.block_time}</div>
-                      )}
+                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                        Assessment: <strong style={{ color: 'var(--text-main)' }}>{assessmentDate}</strong>
+                      </div>
                     </div>
                   </div>
-                  <span className={`badge ${t.status === 'completed' ? 'badge-emerald' : 'badge-cyan'}`}>
-                    {t.status === 'completed' ? 'Done (+10 XP)' : '10 XP'}
-                  </span>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span className={`badge ${comp.stage_status === 'assessment_upcoming' ? 'badge-warning' : comp.stage_status === 'eligible' ? 'badge-success' : 'badge-neutral'}`}>
+                      {comp.stage_status.replace(/_/g, ' ')}
+                    </span>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => onNavigate('companies', { companyId: comp.id })}
+                    >
+                      View
+                    </button>
+                  </div>
                 </div>
-              ))}
-
-              <button
-                className="btn btn-secondary btn-sm"
-                style={{ width: '100%', marginTop: 6 }}
-                onClick={() => onNavigate('missions')}
-              >
-                View Full 11-Day Campaign Roadmap <ArrowRight size={14} />
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Strengths & Weaknesses (Computed from Actual Data) */}
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff' }}>
-              Topic Mastery & Weaknesses
-            </h3>
-            <span className="badge badge-amber">Configurable Threshold</span>
+              );
+            })}
           </div>
-
-          {isZeroState ? (
-            <div style={{ padding: '36px 20px', textAlign: 'center' }}>
-              <Sparkles size={32} color="var(--cyan-primary)" style={{ margin: '0 auto 12px' }} />
-              <div style={{ fontWeight: 700, color: '#fff', marginBottom: 4 }}>No Question Attempts Yet</div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', maxWidth: 360, margin: '0 auto 16px' }}>
-                Take your first diagnostic or practice set to calculate topic-wise strengths and identify weak areas using empirical evidence.
-              </p>
-              <button className="btn btn-primary btn-sm" onClick={() => onNavigate('mocks')}>
-                Take 10-Question Diagnostic
-              </button>
-            </div>
-          ) : (
-            <div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Weakest Topics (Requiring Revision)
-              </div>
-              {cumulativeReport?.weakestTopics && cumulativeReport.weakestTopics.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
-                  {cumulativeReport.weakestTopics.map((w) => (
-                    <div key={w.topic} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: 'rgba(244, 63, 94, 0.08)', border: '1px solid rgba(244, 63, 94, 0.25)', borderRadius: 'var(--radius-md)' }}>
-                      <div>
-                        <div style={{ fontWeight: 600, color: '#fff', fontSize: '0.88rem' }}>{w.topic}</div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>{w.attempted} attempted</div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontWeight: 700, color: 'var(--coral-error)', fontSize: '1rem' }}>{w.accuracy}%</div>
-                        {w.isPreliminary && <span style={{ fontSize: '0.65rem', color: 'var(--amber-warning)' }}>Preliminary</span>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ padding: '10px 14px', background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.25)', borderRadius: 'var(--radius-md)', fontSize: '0.85rem', color: 'var(--emerald-success)', marginBottom: 16 }}>
-                  All tested topics are above 70% accuracy! Maintain consistency.
-                </div>
-              )}
-
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Strongest Topics
-              </div>
-              {cumulativeReport?.strongestTopics && cumulativeReport.strongestTopics.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {cumulativeReport.strongestTopics.map((s) => (
-                    <div key={s.topic} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', background: 'rgba(0, 229, 255, 0.06)', border: '1px solid rgba(0, 229, 255, 0.2)', borderRadius: 'var(--radius-md)' }}>
-                      <div>
-                        <div style={{ fontWeight: 600, color: '#fff', fontSize: '0.88rem' }}>{s.topic}</div>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>{s.attempted} attempted</div>
-                      </div>
-                      <div style={{ fontWeight: 700, color: 'var(--cyan-primary)', fontSize: '1rem' }}>{s.accuracy}%</div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-subtle)' }}>
-                  Need at least 3 attempts per topic to establish strength rankings.
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </div>
 
-      {/* Recent Mock Test History */}
-      <div className="card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#fff' }}>
-            Recent Practice & Mock Test Runs
-          </h3>
-          <button className="btn btn-secondary btn-sm" onClick={() => onNavigate('mocks')}>
-            Create New Test <ArrowRight size={14} />
-          </button>
+      {/* Secondary Row: Weak Topics & Recent Activity */}
+      <div className="grid-2">
+        {/* Topics Needing Revision */}
+        <div className="card">
+          <div className="card-header">
+            <div>
+              <div className="card-title">Mistake Review & Weak Areas</div>
+              <div className="card-subtitle">
+                Based on actual test question attempts
+              </div>
+            </div>
+            <button className="btn btn-outline btn-sm" onClick={() => onNavigate('mistakes')}>
+              Review All <ArrowRight size={13} />
+            </button>
+          </div>
+
+          {unresolvedMistakes.length === 0 ? (
+            <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-subtle)', fontSize: '0.9rem' }}>
+              No unresolved mistakes recorded yet. Excellent work!
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {unresolvedMistakes.map((m) => (
+                <div
+                  key={m.question_id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '10px 12px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--border-subtle)',
+                    background: 'var(--bg-surface)',
+                  }}
+                >
+                  <div style={{ minWidth: 0, paddingRight: 12 }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-main)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {m.question}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', marginTop: 2 }}>
+                      Topic: {m.topic} • Missed {m.retry_count} time(s)
+                    </div>
+                  </div>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    style={{ flexShrink: 0 }}
+                    onClick={() => onNavigate('mistakes')}
+                  >
+                    Revise
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {recentMocks.length === 0 ? (
-          <div style={{ padding: '24px', textAlign: 'center', color: 'var(--text-subtle)' }}>
-            No completed mock tests yet. Launch a sectional drill or mixed mock test to record your first baseline score!
+        {/* Recent Mocks & Performance */}
+        <div className="card">
+          <div className="card-header">
+            <div>
+              <div className="card-title">Recent Assessment Runs</div>
+              <div className="card-subtitle">Authoritative scores and accuracy logs</div>
+            </div>
+            <button className="btn btn-outline btn-sm" onClick={() => onNavigate('analytics')}>
+              Analytics <ArrowRight size={13} />
+            </button>
           </div>
-        ) : (
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Test Title</th>
-                <th>Format</th>
-                <th>Date</th>
-                <th>Attempted</th>
-                <th>Accuracy</th>
-                <th>Time Taken</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentMocks.map((m) => (
-                <tr key={m.id}>
-                  <td style={{ fontWeight: 600, color: '#fff' }}>{m.title}</td>
-                  <td><span className="badge badge-cyan">{m.test_type}</span></td>
-                  <td>{m.date}</td>
-                  <td>{m.attempted} / {m.total_questions}</td>
-                  <td>
-                    <span style={{ fontWeight: 700, color: m.accuracy >= 75 ? 'var(--emerald-success)' : m.accuracy >= 50 ? 'var(--amber-warning)' : 'var(--coral-error)' }}>
-                      {m.accuracy}%
-                    </span>
-                  </td>
-                  <td>{Math.floor(m.time_taken_seconds / 60)}m {m.time_taken_seconds % 60}s</td>
-                  <td>
-                    <button
-                      className="btn btn-secondary btn-sm"
-                      onClick={() => onNavigate('test-review', { testId: m.id })}
-                    >
-                      Review
-                    </button>
-                  </td>
-                </tr>
+
+          {recentMocks.length === 0 ? (
+            <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-subtle)', fontSize: '0.9rem' }}>
+              No test runs completed yet. Take your first sectional or full mock.
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {recentMocks.map((run) => (
+                <div
+                  key={run.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '10px 12px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--border-subtle)',
+                    background: 'var(--bg-surface)',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                      {run.title}
+                    </div>
+                    <div style={{ fontSize: '0.76rem', color: 'var(--text-subtle)', marginTop: 2 }}>
+                      {run.date} • {Math.round(run.time_taken_seconds / 60)} mins • {run.attempted}/{run.total_questions} answered
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: run.accuracy >= 75 ? 'var(--emerald-success)' : 'var(--amber-warning)' }}>
+                        {run.accuracy}%
+                      </div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>accuracy</div>
+                    </div>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
-        )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

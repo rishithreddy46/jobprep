@@ -3,15 +3,13 @@ import {
   FileCheck2,
   Play,
   RotateCcw,
-  Sliders,
-  Brain,
-  Zap,
-  Target,
-  Sparkles,
-  AlertTriangle,
-  BookX,
   Clock,
-  Shield,
+  Target,
+  BookX,
+  AlertCircle,
+  Brain,
+  Sliders,
+  History,
 } from 'lucide-react';
 import { api } from '../api/client';
 import { useApp } from '../context/AppContext';
@@ -21,8 +19,9 @@ interface MockTestCentreProps {
 }
 
 export const MockTestCentre: React.FC<MockTestCentreProps> = ({ onNavigate }) => {
-  const { activeTestConfig } = useApp();
+  const { activeTestConfig, companies, activeCompanyId } = useApp();
   const [stats, setStats] = useState<any>(null);
+  const [testRuns, setTestRuns] = useState<any[]>([]);
   const [unresolvedMistakesCount, setUnresolvedMistakesCount] = useState<number>(0);
 
   // Custom Builder State
@@ -32,16 +31,19 @@ export const MockTestCentre: React.FC<MockTestCentreProps> = ({ onNavigate }) =>
   const [customCount, setCustomCount] = useState<number>(20);
   const [customTime, setCustomTime] = useState<number>(25);
   const [shuffleOptions, setShuffleOptions] = useState<boolean>(true);
-  const [unseenOnly, setUnseenOnly] = useState<boolean>(false);
+
+  const activeCompany = companies.find((c) => c.id === activeCompanyId) || companies[0];
 
   useEffect(() => {
     const loadStats = async () => {
       try {
-        const [qStats, mistakes] = await Promise.all([
+        const [qStats, runs, mistakes] = await Promise.all([
           api.getQuestionStats(),
+          api.getTestRuns(),
           api.getMistakes(),
         ]);
         setStats(qStats);
+        setTestRuns(runs);
         setUnresolvedMistakesCount(mistakes.filter((m) => !m.is_resolved).length);
       } catch (err) {
         console.error('Error loading mock stats:', err);
@@ -57,7 +59,7 @@ export const MockTestCentre: React.FC<MockTestCentreProps> = ({ onNavigate }) =>
   const handleLaunchCustom = () => {
     onNavigate('test-runner', {
       config: {
-        title: `Custom Practice: ${customTrack === 'all' ? 'Mixed' : customTrack} (${customCount} Qs)`,
+        title: `Custom Test: ${customTrack === 'all' ? 'Mixed' : customTrack} (${customCount} Qs)`,
         test_type: 'practice',
         track: customTrack,
         topic: customTopic,
@@ -65,7 +67,6 @@ export const MockTestCentre: React.FC<MockTestCentreProps> = ({ onNavigate }) =>
         questionCount: customCount,
         timeLimitMinutes: customTime,
         shuffleOptions,
-        unseenOnly,
       },
     });
   };
@@ -90,83 +91,78 @@ export const MockTestCentre: React.FC<MockTestCentreProps> = ({ onNavigate }) =>
     <div className="page-wrapper">
       {/* Resume Banner */}
       {activeTestConfig && (
-        <div style={{
-          background: 'linear-gradient(90deg, rgba(0, 229, 255, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%)',
-          border: '1px solid var(--border-cyan)',
-          borderRadius: 'var(--radius-lg)',
-          padding: '16px 24px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 24,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <RotateCcw size={24} color="var(--cyan-primary)" />
+        <div
+          style={{
+            background: 'var(--primary-light)',
+            border: '1px solid var(--primary-border)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '16px 20px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 24,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <RotateCcw size={20} color="var(--primary)" />
             <div>
-              <div style={{ fontWeight: 800, color: '#fff' }}>Test in Progress: {activeTestConfig.title}</div>
-              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Auto-saved responses intact.</div>
+              <div style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '0.95rem' }}>
+                Test in Progress: {activeTestConfig.title}
+              </div>
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                Your responses have been autosaved.
+              </div>
             </div>
           </div>
-          <button className="btn btn-primary" onClick={() => onNavigate('test-runner')}>
+          <button className="btn btn-primary btn-sm" onClick={() => onNavigate('test-runner')}>
             Resume Active Test
           </button>
         </div>
       )}
 
       {/* Header */}
-      <div className="card card-cyan-accent" style={{ marginBottom: 24, padding: '26px 30px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-          <span className="badge badge-cyan">Assessment Simulation Engine</span>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>105 Total Bank Questions (35 Cognitive / 70 Technical)</span>
-        </div>
-        <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: 8 }}>
-          Mock Test Centre
+      <div style={{ marginBottom: 32 }}>
+        <span className="section-label">05 — Mock Test Centre & Speed Arena</span>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.02em', marginTop: 4 }}>
+          Timed Assessment Arena
         </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', maxWidth: 800, lineHeight: 1.6 }}>
-          Experience timed exam conditions with accessible single-choice questions, question palette navigation, mark for review, instant scoring, and step-by-step explanations.
+        <p className="section-desc">
+          Strictly timed assessments with automatic score calculation, negative marking (-0.25), mistake tracking, and authoritative server persistence.
         </p>
       </div>
 
-      {/* Critical Accuracy Disclaimer */}
-      <div style={{ background: 'rgba(255, 183, 3, 0.08)', border: '1px solid rgba(255, 183, 3, 0.25)', borderRadius: 'var(--radius-md)', padding: '12px 18px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
-        <AlertTriangle size={18} color="var(--amber-warning)" style={{ flexShrink: 0 }} />
-        <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-          <strong style={{ color: 'var(--amber-warning)' }}>Assessment Format Notice: </strong>
-          The 40% Cognitive / 60% Instrumentation breakdown and time limits are recommended practice configurations based on curriculum fundamentals and candidate interview themes. They are <strong style={{ color: '#fff' }}>not official RIL exam weightages</strong>.
-        </div>
-      </div>
-
-      {/* Presets Grid */}
-      <div style={{ marginBottom: 28 }}>
-        <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff', marginBottom: 16 }}>
-          Recommended Practice Formats
+      {/* Recommended Test Presets */}
+      <div style={{ marginBottom: 32 }}>
+        <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 14 }}>
+          Standard Assessment Formats
         </h2>
 
         <div className="grid-3">
-          {/* Preset 1: Standard Mixed Mock */}
+          {/* Preset 1: Full Company Assessment */}
           <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <span className="badge badge-cyan">GET-Style Practice</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-subtle)' }}>40m limit</span>
+                <span className="badge badge-primary">{activeCompany?.logo_initials || 'Company'} Track</span>
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-subtle)' }}>40m limit</span>
               </div>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fff', marginBottom: 6 }}>
-                Standard Mixed Mock
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 6 }}>
+                {activeCompany?.name ? `${activeCompany.name.split('(')[0].trim()} Full Mock` : 'Full Company Mock'}
               </h3>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: 14 }}>
-                Balanced preparation: 12 Cognitive + 18 Instrumentation questions (30 questions total).
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: 14 }}>
+                Timed mixed test: 12 Cognitive questions + 18 Technical engineering questions (30 questions total).
               </p>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', marginBottom: 8 }}>
-                • 40% Quant & Logic / 60% Sensors & Loops<br />
-                • Safe option shuffling enabled<br />
-                • Awards 15 XP + 10 bonus XP on ≥80% score
+              <div style={{ fontSize: '0.76rem', color: 'var(--text-subtle)', lineHeight: 1.6 }}>
+                • 40% Cognitive / 60% Core Engineering<br />
+                • Countdown timer with safe autosaving<br />
+                • Authoritative server-side scoring
               </div>
             </div>
+
             <button
               className="btn btn-primary"
-              style={{ width: '100%', marginTop: 14 }}
+              style={{ width: '100%', marginTop: 18 }}
               onClick={() => handleLaunchPreset({
-                title: 'Standard Mixed Mock Test (30 Qs)',
+                title: `${activeCompany?.name || 'Company'} Full Assessment Mock (30 Qs)`,
                 test_type: 'mixed_mock',
                 track: 'mixed',
                 questionCount: 30,
@@ -176,181 +172,224 @@ export const MockTestCentre: React.FC<MockTestCentreProps> = ({ onNavigate }) =>
                 shuffleOptions: true,
               })}
             >
-              <Play size={16} />
-              <span>Launch Mixed Mock</span>
+              <Play size={15} /> Launch Assessment
             </button>
           </div>
 
-          {/* Preset 2: 50-Question Comprehensive Simulation */}
+          {/* Preset 2: Cognitive Sectional */}
           <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <span className="badge badge-violet">Full Simulation</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-subtle)' }}>60m limit</span>
+                <span className="badge badge-neutral">Cognitive Ability</span>
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-subtle)' }}>20m limit</span>
               </div>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fff', marginBottom: 6 }}>
-                Full Exam Endurance Simulation
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 6 }}>
+                Cognitive Aptitude Sectional
               </h3>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: 14 }}>
-                Full-scale assessment simulation: 20 Cognitive + 30 Technical items (50 questions total).
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: 14 }}>
+                15 questions focused on quantitative aptitude, logical reasoning, and data interpretation.
               </p>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', marginBottom: 8 }}>
-                • Tests mental stamina and time management<br />
-                • Countdown timer with automatic submission<br />
-                • Comprehensive post-test error analysis
+              <div style={{ fontSize: '0.76rem', color: 'var(--text-subtle)', lineHeight: 1.6 }}>
+                • Speed and numerical calculations<br />
+                • Syllogisms, series, and logic patterns<br />
+                • Explanations provided on submission
               </div>
             </div>
+
             <button
-              className="btn btn-primary"
-              style={{ width: '100%', marginTop: 14, background: 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)', borderColor: 'rgba(168, 85, 247, 0.4)' }}
+              className="btn btn-secondary"
+              style={{ width: '100%', marginTop: 18 }}
               onClick={() => handleLaunchPreset({
-                title: 'Full Exam Endurance Simulation (50 Qs)',
-                test_type: 'mixed_mock',
-                track: 'mixed',
-                questionCount: 50,
-                cognitiveCount: 20,
-                instrumentationCount: 30,
-                timeLimitMinutes: 60,
+                title: 'Cognitive Aptitude Sectional (15 Qs)',
+                test_type: 'cognitive_sectional',
+                track: 'cognitive',
+                questionCount: 15,
+                timeLimitMinutes: 20,
                 shuffleOptions: true,
               })}
             >
-              <Play size={16} />
-              <span>Launch 50-Q Simulation</span>
+              <Play size={15} /> Launch Sectional
             </button>
           </div>
 
-          {/* Preset 3: Mistake Notebook Retry */}
+          {/* Preset 3: Mistake Re-Test */}
           <div className="card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <span className="badge badge-amber">Targeted Recovery</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-subtle)' }}>{unresolvedMistakesCount} In Backlog</span>
+                <span className="badge badge-warning">Targeted Revision</span>
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-subtle)' }}>25m limit</span>
               </div>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fff', marginBottom: 6 }}>
-                Mistake Notebook Re-Test
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: 6 }}>
+                Mistake Mastery Challenge
               </h3>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: 14 }}>
-                Re-solve questions you previously missed until you achieve 2 consecutive correct answers to master them.
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: 14 }}>
+                Test yourself on questions you previously missed until you achieve 2 consecutive correct answers.
               </p>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', marginBottom: 8 }}>
-                • Automatically pulls from your error log<br />
-                • Eliminates recurring concept & calculation errors<br />
-                • Earn +2 XP per resolved question
+              <div style={{ fontSize: '0.76rem', color: 'var(--text-subtle)', lineHeight: 1.6 }}>
+                • {unresolvedMistakesCount} question(s) awaiting mastery<br />
+                • Automatically resolves mastered items<br />
+                • Re-tests only genuine errors
               </div>
             </div>
+
             <button
               className="btn btn-secondary"
-              style={{ width: '100%', marginTop: 14, borderColor: unresolvedMistakesCount > 0 ? 'var(--amber-warning)' : 'var(--border-dim)' }}
-              onClick={handleLaunchMistakeRetry}
+              style={{ width: '100%', marginTop: 18 }}
               disabled={unresolvedMistakesCount === 0}
+              onClick={handleLaunchMistakeRetry}
             >
-              <BookX size={16} color={unresolvedMistakesCount > 0 ? 'var(--amber-warning)' : 'var(--text-subtle)'} />
-              <span>{unresolvedMistakesCount > 0 ? `Re-Test Mistakes (${unresolvedMistakesCount})` : 'No Mistakes in Log'}</span>
+              <BookX size={15} /> {unresolvedMistakesCount > 0 ? 'Start Re-Test' : 'No Mistakes Pending'}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Custom Test Builder */}
-      <div className="card">
-        <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff', marginBottom: 16 }}>
-          Custom Assessment Builder
-        </h2>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 20 }}>
-          {/* Track */}
-          <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 6 }}>
-              Subject Track
-            </label>
-            <select
-              value={customTrack}
-              onChange={(e) => setCustomTrack(e.target.value)}
-              style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '10px 12px', borderRadius: 'var(--radius-md)', outline: 'none' }}
-            >
-              <option value="all">All Tracks (Mixed)</option>
-              <option value="cognitive">Cognitive Ability Only</option>
-              <option value="instrumentation">Instrumentation Only</option>
-            </select>
+      {/* Two Column Layout: Custom Test Builder + Past Assessment Runs */}
+      <div className="grid-2">
+        {/* Custom Test Builder */}
+        <div className="card">
+          <div className="card-header">
+            <div className="card-title">Custom Test Builder</div>
+            <div className="card-subtitle">Configure topics, questions, and duration</div>
           </div>
 
-          {/* Difficulty */}
-          <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 6 }}>
-              Difficulty Level
-            </label>
-            <select
-              value={customDifficulty}
-              onChange={(e) => setCustomDifficulty(e.target.value)}
-              style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-dim)', color: '#fff', padding: '10px 12px', borderRadius: 'var(--radius-md)', outline: 'none' }}
-            >
-              <option value="all">All Difficulties</option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div className="grid-2">
+              <div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)', display: 'block', marginBottom: 4 }}>
+                  Subject Track
+                </label>
+                <select
+                  className="select"
+                  value={customTrack}
+                  onChange={(e) => setCustomTrack(e.target.value)}
+                >
+                  <option value="all">Mixed (Cognitive + Technical)</option>
+                  <option value="cognitive">Cognitive Ability</option>
+                  <option value="instrumentation">Electronics & Instrumentation</option>
+                </select>
+              </div>
 
-          {/* Question Count */}
-          <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 6 }}>
-              Question Count: {customCount}
-            </label>
-            <input
-              type="range"
-              min="5"
-              max="50"
-              step="5"
-              value={customCount}
-              onChange={(e) => setCustomCount(Number(e.target.value))}
-              style={{ width: '100%', marginTop: 10, accentColor: 'var(--cyan-primary)' }}
-            />
-          </div>
+              <div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)', display: 'block', marginBottom: 4 }}>
+                  Difficulty
+                </label>
+                <select
+                  className="select"
+                  value={customDifficulty}
+                  onChange={(e) => setCustomDifficulty(e.target.value)}
+                >
+                  <option value="all">All Difficulties</option>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </div>
+            </div>
 
-          {/* Time Limit */}
-          <div>
-            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 6 }}>
-              Time Limit: {customTime} mins
-            </label>
-            <input
-              type="range"
-              min="5"
-              max="60"
-              step="5"
-              value={customTime}
-              onChange={(e) => setCustomTime(Number(e.target.value))}
-              style={{ width: '100%', marginTop: 10, accentColor: 'var(--cyan-primary)' }}
-            />
+            <div className="grid-2">
+              <div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)', display: 'block', marginBottom: 4 }}>
+                  Question Count
+                </label>
+                <select
+                  className="select"
+                  value={customCount}
+                  onChange={(e) => setCustomCount(parseInt(e.target.value, 10))}
+                >
+                  <option value="10">10 Questions</option>
+                  <option value="15">15 Questions</option>
+                  <option value="20">20 Questions</option>
+                  <option value="30">30 Questions</option>
+                  <option value="50">50 Questions</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)', display: 'block', marginBottom: 4 }}>
+                  Time Limit (Minutes)
+                </label>
+                <select
+                  className="select"
+                  value={customTime}
+                  onChange={(e) => setCustomTime(parseInt(e.target.value, 10))}
+                >
+                  <option value="15">15 Minutes</option>
+                  <option value="25">25 Minutes</option>
+                  <option value="40">40 Minutes</option>
+                  <option value="60">60 Minutes</option>
+                </select>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+              <input
+                type="checkbox"
+                id="shuffleCheckbox"
+                checked={shuffleOptions}
+                onChange={(e) => setShuffleOptions(e.target.checked)}
+              />
+              <label htmlFor="shuffleCheckbox" style={{ fontSize: '0.84rem', color: 'var(--text-main)', cursor: 'pointer' }}>
+                Shuffle option order (preserves correct answer key)
+              </label>
+            </div>
+
+            <button className="btn btn-primary" style={{ marginTop: 8 }} onClick={handleLaunchCustom}>
+              <Play size={15} /> Launch Custom Test
+            </button>
           </div>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14 }}>
-          <div style={{ display: 'flex', gap: 18 }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: 'var(--text-muted)', cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                checked={shuffleOptions}
-                onChange={(e) => setShuffleOptions(e.target.checked)}
-                style={{ accentColor: 'var(--cyan-primary)' }}
-              />
-              <span>Shuffle Option Positions Safely</span>
-            </label>
-
-            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: 'var(--text-muted)', cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                checked={unseenOnly}
-                onChange={(e) => setUnseenOnly(e.target.checked)}
-                style={{ accentColor: 'var(--cyan-primary)' }}
-              />
-              <span>Unseen Questions Only</span>
-            </label>
+        {/* Past Assessment Runs */}
+        <div className="card">
+          <div className="card-header">
+            <div>
+              <div className="card-title">Completed Assessment Runs</div>
+              <div className="card-subtitle">{testRuns.length} recorded session(s)</div>
+            </div>
+            <button className="btn btn-outline btn-sm" onClick={() => onNavigate('analytics')}>
+              Full Analytics
+            </button>
           </div>
 
-          <button className="btn btn-primary" onClick={handleLaunchCustom}>
-            <Play size={16} />
-            <span>Generate & Start Custom Test</span>
-          </button>
+          {testRuns.length === 0 ? (
+            <div style={{ padding: '32px 0', textAlign: 'center', color: 'var(--text-subtle)', fontSize: '0.88rem' }}>
+              No completed tests yet. Launch your first assessment above.
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxHeight: '340px', overflowY: 'auto' }}>
+              {testRuns.slice(0, 5).map((run) => (
+                <div
+                  key={run.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '12px 14px',
+                    borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--border-subtle)',
+                    background: 'var(--bg-muted)',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                      {run.title}
+                    </div>
+                    <div style={{ fontSize: '0.76rem', color: 'var(--text-subtle)', marginTop: 2 }}>
+                      {run.date} • {Math.round(run.time_taken_seconds / 60)}m taken • {run.correct}/{run.attempted} correct
+                    </div>
+                  </div>
+
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: '0.95rem', fontWeight: 700, color: run.accuracy >= 75 ? 'var(--emerald-success)' : 'var(--amber-warning)' }}>
+                      {run.accuracy}%
+                    </div>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>accuracy</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
