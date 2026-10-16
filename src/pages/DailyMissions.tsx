@@ -75,6 +75,31 @@ export const DailyMissions: React.FC<MyPlanProps> = ({ onNavigate }) => {
 
   const currentDay = days.find((d) => d.date === currentDate) || days[0];
 
+  const totalCompletedLevels = days.reduce(
+    (acc, d) => acc + (d.tasks?.filter((t) => t.status === 'completed').length || 0),
+    0
+  );
+  const isCheckpointUnlocked = totalCompletedLevels >= 5;
+  const isDailyAssessmentUnlocked = Boolean(currentDay?.tasks?.length > 0 && currentDay.tasks.every(t => t.status === 'completed'));
+
+  const handleLaunchCheckpoint = async () => {
+    try {
+      const assessment = await api.generateAssessment('checkpoint', currentDate);
+      onNavigate('test-runner', { config: assessment });
+    } catch (err: any) {
+      addToast('Assessment Error', err.message, 'warning');
+    }
+  };
+
+  const handleLaunchDailyCumulative = async () => {
+    try {
+      const assessment = await api.generateAssessment('daily_cumulative', currentDate);
+      onNavigate('test-runner', { config: assessment });
+    } catch (err: any) {
+      addToast('Assessment Error', err.message, 'warning');
+    }
+  };
+
   return (
     <div className="page-wrapper">
       {/* Header */}
@@ -229,6 +254,98 @@ export const DailyMissions: React.FC<MyPlanProps> = ({ onNavigate }) => {
                   </div>
                 );
               })}
+            </div>
+
+            {/* Milestone Assessments: Checkpoint & End-of-Day Cumulative */}
+            <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {/* Daily Cumulative Assessment */}
+              <div
+                style={{
+                  padding: '18px 20px',
+                  borderRadius: 'var(--radius-md)',
+                  background: isDailyAssessmentUnlocked ? 'rgba(5, 150, 105, 0.08)' : 'var(--bg-muted)',
+                  border: isDailyAssessmentUnlocked ? '1px solid var(--emerald-border)' : '1px solid var(--border-subtle)',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: 12,
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <span className={`badge ${isDailyAssessmentUnlocked ? 'badge-emerald' : 'badge-slate'}`} style={{ fontSize: '0.68rem' }}>
+                      {isDailyAssessmentUnlocked ? 'Unlocked' : 'Locked'}
+                    </span>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-m)' }}>
+                      End-of-Day Mission Assessment
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.98rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                    Daily Cumulative Assessment ({currentDate})
+                  </div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: 2 }}>
+                    Synthesizes today's completed topics, spaced revision, and past mistakes.
+                  </div>
+                </div>
+
+                <button
+                  className="btn btn-primary btn-sm"
+                  disabled={!isDailyAssessmentUnlocked}
+                  onClick={handleLaunchDailyCumulative}
+                  style={{
+                    background: isDailyAssessmentUnlocked ? 'var(--emerald-success)' : undefined,
+                    cursor: isDailyAssessmentUnlocked ? 'pointer' : 'not-allowed',
+                    opacity: isDailyAssessmentUnlocked ? 1 : 0.6,
+                  }}
+                >
+                  <Play size={14} /> Start Daily Assessment
+                </button>
+              </div>
+
+              {/* Checkpoint Milestone (Every 5 completed levels) */}
+              <div
+                style={{
+                  padding: '18px 20px',
+                  borderRadius: 'var(--radius-md)',
+                  background: isCheckpointUnlocked ? 'rgba(46, 165, 201, 0.08)' : 'var(--bg-muted)',
+                  border: isCheckpointUnlocked ? '1px solid var(--primary-border)' : '1px solid var(--border-subtle)',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: 12,
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <span className={`badge ${isCheckpointUnlocked ? 'badge-cyan' : 'badge-slate'}`} style={{ fontSize: '0.68rem' }}>
+                      {isCheckpointUnlocked ? 'Milestone Unlocked' : `${totalCompletedLevels % 5}/5 Micro-Levels to Unlock`}
+                    </span>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-m)' }}>
+                      Multi-Subject Checkpoint
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.98rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                    Checkpoint Assignment (10-15 Multi-Discipline Drill)
+                  </div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: 2 }}>
+                    Comprehensive evaluation combining Quantitative, Logical, Visual, and Technical fundamentals.
+                  </div>
+                </div>
+
+                <button
+                  className="btn btn-primary btn-sm"
+                  disabled={!isCheckpointUnlocked}
+                  onClick={handleLaunchCheckpoint}
+                  style={{
+                    cursor: isCheckpointUnlocked ? 'pointer' : 'not-allowed',
+                    opacity: isCheckpointUnlocked ? 1 : 0.6,
+                  }}
+                >
+                  <Play size={14} /> Take Checkpoint
+                </button>
+              </div>
             </div>
           </div>
 

@@ -1,0 +1,698 @@
+{
+  "version": "2.0",
+  "category": "quantitative_aptitude",
+  "questions": [
+    {
+      "id": "C001",
+      "track": "cognitive",
+      "topic": "Percentages",
+      "difficulty": "easy",
+      "question": "If 15% of a number is 72, what is the number?",
+      "options": [
+        {
+          "id": "A",
+          "text": "360"
+        },
+        {
+          "id": "B",
+          "text": "420"
+        },
+        {
+          "id": "C",
+          "text": "480"
+        },
+        {
+          "id": "D",
+          "text": "520"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "480",
+      "explanation": "Let the number be x. 0.15x = 72, so x = 72 / 0.15 = 480.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "percentage",
+        "arithmetic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C002",
+      "track": "cognitive",
+      "topic": "Ratios",
+      "difficulty": "easy",
+      "question": "A quantity is divided in the ratio 3:5. If the total is 64, what is the smaller share?",
+      "options": [
+        {
+          "id": "A",
+          "text": "20"
+        },
+        {
+          "id": "B",
+          "text": "24"
+        },
+        {
+          "id": "C",
+          "text": "32"
+        },
+        {
+          "id": "D",
+          "text": "40"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "24",
+      "explanation": "Total parts = 3 + 5 = 8. Each part is 64 / 8 = 8. Smaller share = 3 × 8 = 24.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "ratio",
+        "arithmetic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C003",
+      "track": "cognitive",
+      "topic": "Averages",
+      "difficulty": "easy",
+      "question": "The average of 12, 15, 18 and x is 17. Find x.",
+      "options": [
+        {
+          "id": "A",
+          "text": "21"
+        },
+        {
+          "id": "B",
+          "text": "22"
+        },
+        {
+          "id": "C",
+          "text": "23"
+        },
+        {
+          "id": "D",
+          "text": "24"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "23",
+      "explanation": "Required total = 4 × 17 = 68. Known total = 12 + 15 + 18 = 45. Therefore x = 68 − 45 = 23.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "average",
+        "arithmetic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C004",
+      "track": "cognitive",
+      "topic": "Time and Work",
+      "difficulty": "medium",
+      "question": "Worker A completes a job in 12 days and worker B in 18 days. Working together at constant rates, how long will they take?",
+      "options": [
+        {
+          "id": "A",
+          "text": "6 days"
+        },
+        {
+          "id": "B",
+          "text": "7.2 days"
+        },
+        {
+          "id": "C",
+          "text": "8 days"
+        },
+        {
+          "id": "D",
+          "text": "9 days"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "7.2 days",
+      "explanation": "Combined rate = 1/12 + 1/18 = 5/36 job per day. Time = 36/5 = 7.2 days.",
+      "recommended_time_seconds": 55,
+      "tags": [
+        "time_work",
+        "arithmetic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C005",
+      "track": "cognitive",
+      "topic": "Speed Distance Time",
+      "difficulty": "easy",
+      "question": "A vehicle travels 180 km in 3.6 hours. What is its average speed?",
+      "options": [
+        {
+          "id": "A",
+          "text": "45 km/h"
+        },
+        {
+          "id": "B",
+          "text": "48 km/h"
+        },
+        {
+          "id": "C",
+          "text": "50 km/h"
+        },
+        {
+          "id": "D",
+          "text": "54 km/h"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "50 km/h",
+      "explanation": "Average speed = distance / time = 180 / 3.6 = 50 km/h.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "speed_distance_time"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C006",
+      "track": "cognitive",
+      "topic": "Profit and Loss",
+      "difficulty": "easy",
+      "question": "An item costs ₹600 and is sold for ₹720. What is the profit percentage on cost price?",
+      "options": [
+        {
+          "id": "A",
+          "text": "15%"
+        },
+        {
+          "id": "B",
+          "text": "18%"
+        },
+        {
+          "id": "C",
+          "text": "20%"
+        },
+        {
+          "id": "D",
+          "text": "25%"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "20%",
+      "explanation": "Profit = 720 − 600 = ₹120. Profit percentage = 120/600 × 100 = 20%.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "profit_loss"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C007",
+      "track": "cognitive",
+      "topic": "Simple Interest",
+      "difficulty": "easy",
+      "question": "What simple interest accrues on ₹8,000 at 7.5% per year for 2 years?",
+      "options": [
+        {
+          "id": "A",
+          "text": "₹900"
+        },
+        {
+          "id": "B",
+          "text": "₹1,000"
+        },
+        {
+          "id": "C",
+          "text": "₹1,200"
+        },
+        {
+          "id": "D",
+          "text": "₹1,500"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "₹1,200",
+      "explanation": "SI = P × R × T / 100 = 8000 × 7.5 × 2 / 100 = ₹1,200.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "simple_interest"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C008",
+      "track": "cognitive",
+      "topic": "Discounts",
+      "difficulty": "medium",
+      "question": "A product receives successive discounts of 10% and 20%. What is the equivalent single discount?",
+      "options": [
+        {
+          "id": "A",
+          "text": "26%"
+        },
+        {
+          "id": "B",
+          "text": "28%"
+        },
+        {
+          "id": "C",
+          "text": "30%"
+        },
+        {
+          "id": "D",
+          "text": "32%"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "28%",
+      "explanation": "After 10% off, 90% remains. After a further 20% discount, 0.9 × 0.8 = 0.72 remains. Total discount = 1 − 0.72 = 28%.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "discount",
+        "percentages"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C009",
+      "track": "cognitive",
+      "topic": "Probability",
+      "difficulty": "easy",
+      "question": "Two fair coins are tossed. What is the probability of getting exactly one head?",
+      "options": [
+        {
+          "id": "A",
+          "text": "1/4"
+        },
+        {
+          "id": "B",
+          "text": "1/3"
+        },
+        {
+          "id": "C",
+          "text": "1/2"
+        },
+        {
+          "id": "D",
+          "text": "3/4"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "1/2",
+      "explanation": "Outcomes are HH, HT, TH and TT. Exactly one head occurs in HT and TH: 2/4 = 1/2.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "probability"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C010",
+      "track": "cognitive",
+      "topic": "Mixtures",
+      "difficulty": "hard",
+      "question": "A 20 L solution contains 30% solute. How many litres of pure solute should be added to make the solution 50% solute?",
+      "options": [
+        {
+          "id": "A",
+          "text": "4 L"
+        },
+        {
+          "id": "B",
+          "text": "6 L"
+        },
+        {
+          "id": "C",
+          "text": "8 L"
+        },
+        {
+          "id": "D",
+          "text": "10 L"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "8 L",
+      "explanation": "Initial solute = 6 L. Let x be the pure solute added: (6 + x)/(20 + x) = 0.5. Thus 6 + x = 10 + 0.5x, so x = 8 L.",
+      "recommended_time_seconds": 60,
+      "tags": [
+        "mixtures",
+        "algebra"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C022",
+      "track": "cognitive",
+      "topic": "Probability",
+      "difficulty": "easy",
+      "question": "A fair six-sided die is rolled once. What is the probability of obtaining an even number?",
+      "options": [
+        {
+          "id": "A",
+          "text": "1/6"
+        },
+        {
+          "id": "B",
+          "text": "1/3"
+        },
+        {
+          "id": "C",
+          "text": "1/2"
+        },
+        {
+          "id": "D",
+          "text": "2/3"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "1/2",
+      "explanation": "Even outcomes are 2, 4 and 6: three favourable outcomes out of six, so 3/6 = 1/2.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "probability"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C023",
+      "track": "cognitive",
+      "topic": "Rate Problems",
+      "difficulty": "medium",
+      "question": "Five identical machines make 200 units in 4 hours. At the same rate, how many units can 3 machines make in 6 hours?",
+      "options": [
+        {
+          "id": "A",
+          "text": "120"
+        },
+        {
+          "id": "B",
+          "text": "150"
+        },
+        {
+          "id": "C",
+          "text": "180"
+        },
+        {
+          "id": "D",
+          "text": "240"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "180",
+      "explanation": "Rate per machine-hour = 200/(5×4) = 10 units. Three machines for six hours produce 3×6×10 = 180 units.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "rates",
+        "arithmetic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C024",
+      "track": "cognitive",
+      "topic": "Ratios",
+      "difficulty": "medium",
+      "question": "Two vehicles cover the same distance at 60 km/h and 45 km/h. What is the ratio of their travel times, faster vehicle : slower vehicle?",
+      "options": [
+        {
+          "id": "A",
+          "text": "3:4"
+        },
+        {
+          "id": "B",
+          "text": "4:3"
+        },
+        {
+          "id": "C",
+          "text": "2:3"
+        },
+        {
+          "id": "D",
+          "text": "1:2"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "3:4",
+      "explanation": "For the same distance, time is inversely proportional to speed. Ratio = (1/60):(1/45) = 45:60 = 3:4.",
+      "recommended_time_seconds": 50,
+      "tags": [
+        "ratio",
+        "speed_distance_time"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C026",
+      "track": "cognitive",
+      "topic": "Compound Interest",
+      "difficulty": "medium",
+      "question": "What compound interest is earned on ₹10,000 at 10% per year for 2 years, compounded annually?",
+      "options": [
+        {
+          "id": "A",
+          "text": "₹1,000"
+        },
+        {
+          "id": "B",
+          "text": "₹2,000"
+        },
+        {
+          "id": "C",
+          "text": "₹2,100"
+        },
+        {
+          "id": "D",
+          "text": "₹2,200"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "₹2,100",
+      "explanation": "Amount = 10000×(1.10)^2 = ₹12,100. Compound interest = 12,100 − 10,000 = ₹2,100.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "compound_interest",
+        "arithmetic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C027",
+      "track": "cognitive",
+      "topic": "Speed Distance Time",
+      "difficulty": "medium",
+      "question": "A 120 m train passes a stationary pole in 6 seconds. What is its speed in km/h?",
+      "options": [
+        {
+          "id": "A",
+          "text": "60 km/h"
+        },
+        {
+          "id": "B",
+          "text": "66 km/h"
+        },
+        {
+          "id": "C",
+          "text": "72 km/h"
+        },
+        {
+          "id": "D",
+          "text": "80 km/h"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "72 km/h",
+      "explanation": "Speed = 120/6 = 20 m/s. Convert to km/h: 20×3.6 = 72 km/h.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "speed_distance_time",
+        "unit_conversion"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C028",
+      "track": "cognitive",
+      "topic": "Time and Work",
+      "difficulty": "medium",
+      "question": "A and B work at a rate ratio of 2:3. Together they finish a job in 10 days. How many days would B take alone?",
+      "options": [
+        {
+          "id": "A",
+          "text": "12 days"
+        },
+        {
+          "id": "B",
+          "text": "16⅔ days"
+        },
+        {
+          "id": "C",
+          "text": "20 days"
+        },
+        {
+          "id": "D",
+          "text": "25 days"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "16⅔ days",
+      "explanation": "Combined rate = 1/10 job/day. B does 3/5 of the combined rate = 3/50 job/day, so B alone takes 50/3 = 16⅔ days.",
+      "recommended_time_seconds": 55,
+      "tags": [
+        "time_work",
+        "rates"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C031",
+      "track": "cognitive",
+      "topic": "Percentages",
+      "difficulty": "easy",
+      "question": "A workshop completes 40% of 250 planned units. How many units are completed?",
+      "options": [
+        {
+          "id": "A",
+          "text": "80"
+        },
+        {
+          "id": "B",
+          "text": "90"
+        },
+        {
+          "id": "C",
+          "text": "100"
+        },
+        {
+          "id": "D",
+          "text": "125"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "100",
+      "explanation": "40% of 250 = 0.40×250 = 100 units.",
+      "recommended_time_seconds": 25,
+      "tags": [
+        "percentages",
+        "arithmetic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    }
+  ]
+}

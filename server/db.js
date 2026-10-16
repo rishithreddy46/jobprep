@@ -132,6 +132,7 @@ CREATE TABLE IF NOT EXISTS questions (
   explanation              TEXT NOT NULL,
   recommended_time_seconds INTEGER NOT NULL DEFAULT 60,
   provenance_json          TEXT,
+  diagram_spec_json        TEXT,
   is_active                INTEGER NOT NULL DEFAULT 1,
   created_at               TIMESTAMPTZ DEFAULT NOW()
 );
@@ -293,7 +294,7 @@ const SQLITE_SCHEMA = `
     difficulty TEXT NOT NULL, question TEXT NOT NULL, options_json TEXT NOT NULL,
     correct_option_id TEXT NOT NULL, correct_answer TEXT NOT NULL,
     explanation TEXT NOT NULL, recommended_time_seconds INTEGER DEFAULT 60,
-    provenance_json TEXT, is_active INTEGER DEFAULT 1,
+    provenance_json TEXT, diagram_spec_json TEXT, is_active INTEGER DEFAULT 1,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
   CREATE TABLE IF NOT EXISTS study_tasks (
@@ -389,8 +390,15 @@ async function initSchema() {
     for (const stmt of statements) {
       await pool.query(stmt + ';');
     }
+    await pool.query('ALTER TABLE questions ADD COLUMN IF NOT EXISTS diagram_spec_json TEXT;').catch(() => {});
   } else {
     sqliteDb.exec(SQLITE_SCHEMA);
+    try {
+      const tableInfo = sqliteDb.prepare("PRAGMA table_info(questions)").all();
+      if (!tableInfo.some(c => c.name === 'diagram_spec_json')) {
+        sqliteDb.prepare("ALTER TABLE questions ADD COLUMN diagram_spec_json TEXT").run();
+      }
+    } catch (e) {}
   }
 }
 
@@ -411,8 +419,8 @@ export async function seedQuestions(force = false) {
         INSERT INTO questions
           (id, track, topic, difficulty, question, options_json,
            correct_option_id, correct_answer, explanation,
-           recommended_time_seconds, provenance_json)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+           recommended_time_seconds, provenance_json, diagram_spec_json)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
         ON CONFLICT(id) DO UPDATE SET
           track = EXCLUDED.track, topic = EXCLUDED.topic,
           difficulty = EXCLUDED.difficulty, question = EXCLUDED.question,
@@ -421,25 +429,28 @@ export async function seedQuestions(force = false) {
           correct_answer = EXCLUDED.correct_answer,
           explanation = EXCLUDED.explanation,
           recommended_time_seconds = EXCLUDED.recommended_time_seconds,
-          provenance_json = EXCLUDED.provenance_json
+          provenance_json = EXCLUDED.provenance_json,
+          diagram_spec_json = EXCLUDED.diagram_spec_json
       `, [
         q.id, q.track, q.topic, q.difficulty, q.question,
         JSON.stringify(q.options), q.correct_option_id, q.correct_answer,
         q.explanation, q.recommended_time_seconds || 60,
         JSON.stringify(q.provenance || {}),
+        q.diagram_spec ? JSON.stringify(q.diagram_spec) : null,
       ]);
     } else {
       sqliteDb.prepare(`
         INSERT OR REPLACE INTO questions
           (id, track, topic, difficulty, question, options_json,
            correct_option_id, correct_answer, explanation,
-           recommended_time_seconds, provenance_json)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?)
+           recommended_time_seconds, provenance_json, diagram_spec_json)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
       `).run(
         q.id, q.track, q.topic, q.difficulty, q.question,
         JSON.stringify(q.options), q.correct_option_id, q.correct_answer,
         q.explanation, q.recommended_time_seconds || 60,
         JSON.stringify(q.provenance || {}),
+        q.diagram_spec ? JSON.stringify(q.diagram_spec) : null,
       );
     }
   }
@@ -485,18 +496,20 @@ async function ensureProfile() {
     await pool.query(`
       INSERT INTO learner_profile
         (id, name, branch, target_date, daily_goal_mins, daily_goal_questions)
-      VALUES (1, 'RIL GET Aspirant', 'Electronics & Instrumentation Engineering',
+      VALUES (1, 'Rishith', 'Electronics & Instrumentation Engineering',
               '2026-10-26T00:00:00', 60, 20)
-      ON CONFLICT(id) DO NOTHING
+      ON CONFLICT(id) DO UPDATE SET name = EXCLUDED.name
     `);
   } else {
     const existing = sqliteDb.prepare('SELECT id FROM learner_profile WHERE id = 1').get();
     if (!existing) {
       sqliteDb.prepare(`
         INSERT INTO learner_profile (id, name, branch, target_date, daily_goal_mins, daily_goal_questions)
-        VALUES (1, 'RIL GET Aspirant', 'Electronics & Instrumentation Engineering',
+        VALUES (1, 'Rishith', 'Electronics & Instrumentation Engineering',
                 '2026-10-26T00:00:00', 60, 20)
       `).run();
+    } else {
+      sqliteDb.prepare("UPDATE learner_profile SET name = 'Rishith' WHERE id = 1").run();
     }
   }
 }

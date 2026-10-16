@@ -18,6 +18,7 @@ import {
 import { api } from '../api/client';
 import { useApp } from '../context/AppContext';
 import { Question, QuestionOption, TestResponse } from '../types';
+import { VisualQuestionRenderer } from '../components/VisualQuestionRenderer';
 
 interface TestRunnerProps {
   config: any;
@@ -477,6 +478,10 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
                   {q.question}
                 </div>
 
+                {q.diagram_spec && (
+                  <VisualQuestionRenderer spec={q.diagram_spec} />
+                )}
+
                 {/* Options Review */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
                   {q.options.map((opt) => {
@@ -655,11 +660,16 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
             fontWeight: 600,
             color: 'var(--text-main)',
             lineHeight: 1.6,
-            marginBottom: 28,
-            minHeight: 80,
+            marginBottom: 20,
+            minHeight: 50,
           }}>
             {currentQuestion?.question}
           </div>
+
+          {/* Visual Non-Verbal Diagram */}
+          {currentQuestion?.diagram_spec && (
+            <VisualQuestionRenderer spec={currentQuestion.diagram_spec} />
+          )}
 
           {/* Options */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 30 }}>

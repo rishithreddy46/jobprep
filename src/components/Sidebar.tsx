@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  LayoutDashboard,
+  Compass,
   CalendarDays,
   Target,
   FileCheck2,
@@ -11,33 +11,38 @@ import {
   Settings,
   Clock,
   Briefcase,
+  LogOut,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 interface SidebarProps {
   currentTab: string;
   onSelectTab: (tab: string) => void;
+  onLogout?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, onLogout }) => {
   const { openFocusTimer, focusTimer, companies } = useApp();
 
-  const workspaceNav = [
-    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+  // Primary 7 navigation routes requested in Phase 4
+  const primaryNav = [
+    { id: 'today', label: 'Today', icon: Compass },
     { id: 'plan', label: 'My Plan', icon: CalendarDays },
-    { id: 'practice', label: 'Practice Arena', icon: Target },
-    { id: 'mocks', label: 'Mock Test Centre', icon: FileCheck2 },
-  ];
-
-  const intelligenceNav = [
+    { id: 'practice', label: 'Practice', icon: Target },
+    { id: 'assessments', label: 'Assessments', icon: FileCheck2 },
     { id: 'companies', label: 'Companies', icon: Building2, badge: companies.length > 0 ? String(companies.length) : undefined },
     { id: 'resources', label: 'Resources', icon: BookOpen },
-    { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'progress', label: 'Progress', icon: BarChart3 },
+  ];
+
+  const secondaryNav = [
     { id: 'mistakes', label: 'Mistake Notebook', icon: BookX },
+    { id: 'settings', label: 'Settings & Backup', icon: Settings },
   ];
 
   return (
     <aside className="sidebar">
+      {/* Brand Header */}
       <div className="sidebar-header">
         <div
           style={{
@@ -56,8 +61,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab }) => 
           <Briefcase size={18} />
         </div>
         <div>
-          <div className="brand-title">
-            JobPrep <span className="card-badge badge-cyan" style={{ margin: 0, padding: '2px 7px', fontSize: '0.6rem' }}>LIVE</span>
+          <div className="brand-title" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span>JobPrep</span>
+            <span className="card-badge badge-cyan" style={{ margin: 0, padding: '2px 6px', fontSize: '0.62rem' }}>
+              LIVE
+            </span>
           </div>
           <div style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-m)' }}>
             jobprep.live
@@ -65,31 +73,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab }) => 
         </div>
       </div>
 
+      {/* Navigation Links */}
       <nav className="sidebar-nav">
         <div className="nav-section-label" style={{ fontFamily: 'var(--font-m)', fontSize: '0.65rem', letterSpacing: '0.08em' }}>
-          01 · CORE WORKSPACE
+          PRIMARY
         </div>
-        {workspaceNav.map((item) => {
+        {primaryNav.map((item) => {
           const Icon = item.icon;
-          const isActive = currentTab === item.id;
-          return (
-            <button
-              key={item.id}
-              className={`nav-item ${isActive ? 'active' : ''}`}
-              onClick={() => onSelectTab(item.id)}
-            >
-              <Icon className="nav-icon" style={{ color: isActive ? 'var(--blue)' : 'inherit' }} />
-              <span className="nav-text" style={{ flex: 1 }}>{item.label}</span>
-            </button>
-          );
-        })}
+          const isActive =
+            currentTab === item.id ||
+            (item.id === 'today' && (currentTab === 'overview' || currentTab === 'dashboard')) ||
+            (item.id === 'assessments' && (currentTab === 'mocks' || currentTab === 'test-runner')) ||
+            (item.id === 'progress' && (currentTab === 'analytics' || currentTab === 'daily-report' || currentTab === 'achievements'));
 
-        <div className="nav-section-label" style={{ marginTop: '16px', fontFamily: 'var(--font-m)', fontSize: '0.65rem', letterSpacing: '0.08em' }}>
-          02 · TRACKING & INTEL
-        </div>
-        {intelligenceNav.map((item) => {
-          const Icon = item.icon;
-          const isActive = currentTab === item.id;
           return (
             <button
               key={item.id}
@@ -113,18 +109,37 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab }) => 
           );
         })}
 
-        <div className="nav-section-label" style={{ marginTop: '16px', fontFamily: 'var(--font-m)', fontSize: '0.65rem', letterSpacing: '0.08em' }}>
-          03 · SETTINGS
+        <div className="nav-section-label" style={{ marginTop: '20px', fontFamily: 'var(--font-m)', fontSize: '0.65rem', letterSpacing: '0.08em' }}>
+          WORKSPACE & TOOLS
         </div>
-        <button
-          className={`nav-item ${currentTab === 'settings' ? 'active' : ''}`}
-          onClick={() => onSelectTab('settings')}
-        >
-          <Settings className="nav-icon" style={{ color: currentTab === 'settings' ? 'var(--blue)' : 'inherit' }} />
-          <span className="nav-text">Settings & Backup</span>
-        </button>
+        {secondaryNav.map((item) => {
+          const Icon = item.icon;
+          const isActive = currentTab === item.id;
+          return (
+            <button
+              key={item.id}
+              className={`nav-item ${isActive ? 'active' : ''}`}
+              onClick={() => onSelectTab(item.id)}
+            >
+              <Icon className="nav-icon" style={{ color: isActive ? 'var(--blue)' : 'inherit' }} />
+              <span className="nav-text" style={{ flex: 1 }}>{item.label}</span>
+            </button>
+          );
+        })}
+
+        {onLogout && (
+          <button
+            className="nav-item"
+            style={{ marginTop: '8px', color: 'var(--coral-error)' }}
+            onClick={onLogout}
+          >
+            <LogOut className="nav-icon" style={{ color: 'var(--coral-error)' }} />
+            <span className="nav-text">Sign Out</span>
+          </button>
+        )}
       </nav>
 
+      {/* Focus Timer Footer */}
       <div className="sidebar-footer">
         <button
           className="btn btn-secondary btn-sm"

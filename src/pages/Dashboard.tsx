@@ -9,41 +9,41 @@ import {
   ArrowRight,
   Building2,
   Calendar,
-  AlertCircle,
-  FileCheck2,
-  BookX,
-  ExternalLink,
+  Lock,
+  Compass,
+  Zap,
+  Sparkles,
+  BookOpen,
+  Award,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../api/client';
-import { DailyReportData, CumulativeReportData } from '../types';
+import { DailyReportData } from '../types';
 
 interface DashboardProps {
   onNavigate: (tab: string, extra?: any) => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
-  const { profile, xpStreak, currentDate, studyPlan, activeTestConfig, companies, activeCompanyId } = useApp();
+  const { profile, xpStreak, currentDate, studyPlan, activeTestConfig, companies, activeCompanyId, updateTaskStatus } = useApp();
   const [dailyReport, setDailyReport] = useState<DailyReportData | null>(null);
-  const [cumulativeReport, setCumulativeReport] = useState<CumulativeReportData | null>(null);
-  const [recentMocks, setRecentMocks] = useState<any[]>([]);
-  const [unresolvedMistakes, setUnresolvedMistakes] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  // Format today's date in Indian Standard Time
+  const istDateFormatted = new Date(currentDate + 'T00:00:00+05:30').toLocaleDateString('en-IN', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'Asia/Kolkata',
+  });
+
   useEffect(() => {
-    const fetchDashboardData = async () => {
+    const fetchDashboardMetrics = async () => {
       try {
         setLoading(true);
-        const [daily, cum, mocks, mistakes] = await Promise.all([
-          api.getDailyReport(currentDate),
-          api.getCumulativeReport(currentDate),
-          api.getTestRuns(),
-          api.getMistakes(),
-        ]);
+        const daily = await api.getDailyReport(currentDate);
         setDailyReport(daily);
-        setCumulativeReport(cum);
-        setRecentMocks(mocks.slice(0, 4));
-        setUnresolvedMistakes(mistakes.filter((m) => !m.is_resolved).slice(0, 5));
       } catch (err) {
         console.error('Error fetching dashboard metrics:', err);
       } finally {
@@ -51,7 +51,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
       }
     };
 
-    fetchDashboardData();
+    fetchDashboardMetrics();
   }, [currentDate]);
 
   // Current day's mission from studyPlan
@@ -60,19 +60,33 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const completedCount = todayTasks.filter((t) => t.status === 'completed').length;
   const todayCompletionPct = todayTasks.length > 0 ? Math.round((completedCount / todayTasks.length) * 100) : 0;
 
-  // Total plan completion
-  const totalTasksCount = studyPlan?.days.reduce((acc, d) => acc + (d.tasks?.length || 0), 0) || 1;
-  const totalCompletedTasks = studyPlan?.days.reduce(
-    (acc, d) => acc + (d.tasks?.filter((t) => t.status === 'completed').length || 0),
-    0
-  ) || 0;
-  const overallCompletionPct = Math.round((totalCompletedTasks / totalTasksCount) * 100);
+  // Identify next actionable task in chain
+  const nextPendingTask = todayTasks.find((t) => t.status !== 'completed');
+  const allTasksDone = todayTasks.length > 0 && completedCount === todayTasks.length;
 
-  const activeCompany = companies.find(c => c.id === activeCompanyId) || companies[0];
+  const activeCompany = companies.find((c) => c.id === activeCompanyId) || companies[0];
+
+  const handleStartTask = async (task: any) => {
+    if (task.status === 'not_started') {
+      await updateTaskStatus(task.id, 'in_progress');
+    }
+
+    // Route to appropriate activity depending on task nature
+    const text = task.task_text.toLowerCase();
+    if (text.includes('practice') || text.includes('solve') || text.includes('questions')) {
+      onNavigate('practice');
+    } else if (text.includes('mock') || text.includes('test') || text.includes('assessment')) {
+      onNavigate('assessments');
+    } else if (text.includes('watch') || text.includes('review') || text.includes('read') || text.includes('theory')) {
+      onNavigate('resources');
+    } else {
+      onNavigate('plan');
+    }
+  };
 
   return (
     <div className="page-wrapper">
-      {/* Active Test Resume Banner */}
+      {/* Active Test Resume Banner (if any) */}
       {activeTestConfig && (
         <div
           style={{
@@ -90,386 +104,395 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
             <RotateCcw size={20} color="var(--primary)" />
             <div>
               <div style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '0.95rem' }}>
-                Unfinished Test in Progress: {activeTestConfig.title}
+                Unfinished Assessment in Progress: {activeTestConfig.title}
               </div>
               <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                Your responses are autosaved. Resume immediately to continue.
+                Your selected responses are saved. Resume to complete evaluation.
               </div>
             </div>
           </div>
           <button className="btn btn-primary btn-sm" onClick={() => onNavigate('test-runner')}>
-            <Play size={14} /> Resume Test
+            <Play size={14} /> Resume Now
           </button>
         </div>
       )}
 
-      {/* Greeting & Main Objective */}
-      <div style={{ marginBottom: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
-        <div>
-          <span className="section-label">01 — Overview & Workspace</span>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.02em', marginTop: 4 }}>
-            Welcome back, <span className="gradient-text">{profile?.name ? profile.name.split(' ')[0] : 'Candidate'}</span>
-          </h1>
-          <p className="section-desc">
-            Continuous job readiness loop. Currently active track: <strong style={{ color: 'var(--blue)' }}>{activeCompany?.name || 'General Preparation'}</strong>.
-          </p>
-        </div>
-
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button className="btn btn-primary" onClick={() => onNavigate('mocks')}>
-            <Play size={15} /> Take a Mock Test
-          </button>
-          <button className="btn btn-secondary" onClick={() => onNavigate('plan')}>
-            <Calendar size={15} /> View Schedule
-          </button>
-        </div>
-      </div>
-
-      {/* Key Metrics Row with Polymath Tinted Icon Boxes */}
-      <div className="grid-4" style={{ marginBottom: 28 }}>
-        <div className="metric-card">
-          <div className="metric-label">
-            <span>Today's Plan</span>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(27, 94, 181, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Target size={16} color="var(--blue)" />
+      {/* TODAY HERO CARD — Answers the 3 Essential Questions */}
+      <div
+        className="card"
+        style={{
+          background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius-lg)',
+          padding: '32px 36px',
+          marginBottom: 32,
+          boxShadow: 'var(--shadow-sm)',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 20 }}>
+          {/* Left: What do I need to do today? */}
+          <div style={{ flex: '1 1 500px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <Compass size={16} color="var(--cyan)" />
+              <span className="section-label" style={{ margin: 0 }}>
+                TODAY’S MISSION · {istDateFormatted}
+              </span>
             </div>
-          </div>
-          <div className="metric-value" style={{ fontFamily: 'var(--font-m)' }}>{todayCompletionPct}%</div>
-          <div className="progress-bar-bg">
-            <div className="progress-bar-fill" style={{ width: `${todayCompletionPct}%`, background: 'var(--blue)' }}></div>
-          </div>
-          <div className="metric-subtitle" style={{ fontFamily: 'var(--font-m)', fontSize: '0.74rem' }}>
-            {completedCount}/{todayTasks.length} tasks completed today
-          </div>
-        </div>
 
-        <div className="metric-card">
-          <div className="metric-label">
-            <span>Overall Roadmap</span>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(46, 165, 201, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Clock size={16} color="var(--cyan)" />
-            </div>
-          </div>
-          <div className="metric-value" style={{ fontFamily: 'var(--font-m)' }}>{overallCompletionPct}%</div>
-          <div className="progress-bar-bg">
-            <div className="progress-bar-fill" style={{ width: `${overallCompletionPct}%`, background: 'var(--cyan)' }}></div>
-          </div>
-          <div className="metric-subtitle" style={{ fontFamily: 'var(--font-m)', fontSize: '0.74rem' }}>
-            {totalCompletedTasks}/{totalTasksCount} roadmap tasks finished
-          </div>
-        </div>
+            <h1
+              style={{
+                fontSize: '1.75rem',
+                fontWeight: 700,
+                color: 'var(--text-primary)',
+                letterSpacing: '-0.02em',
+                marginBottom: 8,
+                fontFamily: 'var(--font-display)',
+              }}
+            >
+              {todayMission?.mission || 'Baseline Cognitive & Technical Foundations'}
+            </h1>
 
-        <div className="metric-card">
-          <div className="metric-label">
-            <span>Question Accuracy</span>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(5, 150, 105, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CheckCircle2 size={16} color="var(--emerald-success)" />
-            </div>
-          </div>
-          <div className="metric-value" style={{ fontFamily: 'var(--font-m)' }}>
-            {cumulativeReport ? cumulativeReport.cumulativeAccuracy : 0}%
-          </div>
-          <div className="progress-bar-bg">
-            <div className="progress-bar-fill" style={{ width: `${cumulativeReport ? cumulativeReport.cumulativeAccuracy : 0}%`, background: 'var(--emerald-success)' }}></div>
-          </div>
-          <div className="metric-subtitle" style={{ fontFamily: 'var(--font-m)', fontSize: '0.74rem' }}>
-            {cumulativeReport ? cumulativeReport.totalQuestionsCorrect : 0} correct / {cumulativeReport ? cumulativeReport.totalQuestionsAttempted : 0} attempted
-          </div>
-        </div>
+            <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', maxWidth: 640, lineHeight: 1.6, marginBottom: 20 }}>
+              {todayMission?.theme || 'Establish starting diagnostic benchmarks across Quantitative, Logical, Visual Reasoning, and Core Engineering.'}
+            </p>
 
-        <div className="metric-card">
-          <div className="metric-label">
-            <span>Active Streak</span>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(217, 119, 6, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Flame size={16} color="var(--amber-warning)" />
-            </div>
-          </div>
-          <div className="metric-value" style={{ fontFamily: 'var(--font-m)' }}>{xpStreak ? xpStreak.currentStreak : 0}d</div>
-          <div className="progress-bar-bg">
-            <div className="progress-bar-fill" style={{ width: `${Math.min(100, (xpStreak ? xpStreak.currentStreak : 0) * 10)}%`, background: 'var(--amber-warning)' }}></div>
-          </div>
-          <div className="metric-subtitle" style={{ fontFamily: 'var(--font-m)', fontSize: '0.74rem' }}>
-            {xpStreak ? xpStreak.totalXP : 0} XP earned across runs
-          </div>
-        </div>
-      </div>
-
-      {/* Main Grid: Today's Tasks + Upcoming Assessments */}
-      <div className="grid-2" style={{ marginBottom: 28 }}>
-        {/* Today's Tasks */}
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <div className="card-title">Today's Scheduled Tasks</div>
-              <div className="card-subtitle">
-                {todayTasks.length} study block(s) scheduled for {currentDate}
-              </div>
-            </div>
-            <button className="btn btn-outline btn-sm" onClick={() => onNavigate('plan')}>
-              View All <ArrowRight size={13} />
-            </button>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {todayTasks.length === 0 ? (
-              <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-subtle)', fontSize: '0.9rem' }}>
-                No tasks planned for today. Click "View Schedule" to add or reschedule.
-              </div>
-            ) : (
-              todayTasks.slice(0, 4).map((task) => (
+            {/* Answer 2: How do I start the next task? */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
+              {allTasksDone ? (
                 <div
-                  key={task.id}
                   style={{
-                    display: 'flex',
+                    display: 'inline-flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 14px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-subtle)',
-                    background: task.status === 'completed' ? 'var(--bg-muted)' : 'var(--bg-surface)',
+                    gap: 8,
+                    padding: '10px 18px',
+                    borderRadius: 'var(--radius-full)',
+                    background: 'var(--emerald-bg)',
+                    border: '1px solid var(--emerald-border)',
+                    color: 'var(--emerald-success)',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-                    <div
-                      style={{
-                        width: 22,
-                        height: 22,
-                        borderRadius: '50%',
-                        border: task.status === 'completed' ? 'none' : '2px solid var(--border-hover)',
-                        background: task.status === 'completed' ? 'var(--emerald-success)' : 'transparent',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: '#fff',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {task.status === 'completed' && <CheckCircle2 size={16} />}
-                    </div>
-                    <div style={{ minWidth: 0 }}>
-                      <div
-                        style={{
-                          fontSize: '0.88rem',
-                          fontWeight: 500,
-                          color: task.status === 'completed' ? 'var(--text-muted)' : 'var(--text-main)',
-                          textDecoration: task.status === 'completed' ? 'line-through' : 'none',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {task.task_text}
-                      </div>
-                      <div style={{ fontSize: '0.76rem', color: 'var(--text-subtle)', display: 'flex', gap: 8, marginTop: 2 }}>
-                        {task.block_time && <span>{task.block_time}</span>}
-                        <span>•</span>
-                        <span className="badge badge-neutral" style={{ padding: '1px 5px', fontSize: '0.68rem' }}>
-                          {activeCompany?.logo_initials || 'General'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {task.status !== 'completed' && (
-                    <button
-                      className="btn btn-secondary btn-sm"
-                      style={{ flexShrink: 0 }}
-                      onClick={() => onNavigate('practice')}
-                    >
-                      Start
-                    </button>
-                  )}
+                  <CheckCircle2 size={18} />
+                  <span>All Today’s Learning Levels Completed!</span>
                 </div>
-              ))
-            )}
+              ) : nextPendingTask ? (
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleStartTask(nextPendingTask)}
+                  style={{
+                    padding: '12px 24px',
+                    fontSize: '0.95rem',
+                    fontWeight: 600,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    boxShadow: '0 4px 14px rgba(27, 94, 181, 0.25)',
+                  }}
+                >
+                  <Play size={16} />
+                  <span>
+                    Continue: {nextPendingTask.task_text.slice(0, 32)}
+                    {nextPendingTask.task_text.length > 32 ? '...' : ''}
+                  </span>
+                  <ArrowRight size={16} />
+                </button>
+              ) : null}
+
+              <button className="btn btn-secondary" onClick={() => onNavigate('plan')}>
+                <span>View Full 11-Day Plan</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right: How much preparation have I completed? */}
+          <div
+            style={{
+              display: 'flex',
+              gap: 16,
+              alignItems: 'center',
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border)',
+              borderRadius: 'var(--radius-md)',
+              padding: '18px 24px',
+              minWidth: 260,
+            }}
+          >
+            {/* Progress Percentage Ring / Number */}
+            <div style={{ textAlign: 'center' }}>
+              <div
+                style={{
+                  fontSize: '2rem',
+                  fontWeight: 800,
+                  fontFamily: 'var(--font-m)',
+                  color: todayCompletionPct === 100 ? 'var(--emerald-success)' : 'var(--blue)',
+                }}
+              >
+                {todayCompletionPct}%
+              </div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-m)' }}>
+                Today's Progress
+              </div>
+              <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: 2 }}>
+                {completedCount} of {todayTasks.length} levels
+              </div>
+            </div>
+
+            <div style={{ width: 1, height: 48, background: 'var(--border)' }} />
+
+            {/* Streak & Active Track */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                <Flame size={18} color="var(--amber-warning)" />
+                <span style={{ fontSize: '1.05rem', fontWeight: 700, fontFamily: 'var(--font-m)', color: 'var(--text-primary)' }}>
+                  {xpStreak?.currentStreak || 0} Days
+                </span>
+              </div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-m)' }}>
+                Active Streak
+              </div>
+              <div style={{ fontSize: '0.76rem', color: 'var(--blue)', fontWeight: 500, marginTop: 4 }}>
+                {activeCompany?.name.slice(0, 16)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* TODAY'S ORDERED TASK CHAIN */}
+      <div style={{ marginBottom: 36 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <div>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              Ordered Micro-Level Learning Chain
+            </h2>
+            <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
+              Complete each stage sequentially to unlock cumulative mastery and checkpoint assignments.
+            </p>
           </div>
         </div>
 
-        {/* Tracked Companies & Upcoming Assessments */}
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <div className="card-title">Target Companies & Drives</div>
-              <div className="card-subtitle">
-                {companies.length} recruitment track(s) currently being monitored
-              </div>
-            </div>
-            <button className="btn btn-outline btn-sm" onClick={() => onNavigate('companies')}>
-              Manage <ArrowRight size={13} />
-            </button>
+        {todayTasks.length === 0 ? (
+          <div className="card" style={{ padding: '32px', textAlign: 'center', color: 'var(--text-muted)' }}>
+            No tasks scheduled for today. Select a study plan date or run a self-paced practice drill.
           </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {todayTasks.map((task, idx) => {
+              const isCompleted = task.status === 'completed';
+              const isInProgress = task.status === 'in_progress';
+              const isLocked = idx > 0 && todayTasks[idx - 1].status !== 'completed';
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {companies.map((comp) => {
-              const assessmentDate = comp.assessment_date
-                ? new Date(comp.assessment_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-                : 'TBD';
               return (
                 <div
-                  key={comp.id}
+                  key={task.id}
+                  className="card"
                   style={{
+                    padding: '18px 24px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '12px 14px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-subtle)',
-                    background: comp.id === activeCompanyId ? 'var(--primary-light)' : 'var(--bg-surface)',
+                    borderLeft: isCompleted
+                      ? '4px solid var(--emerald-success)'
+                      : isInProgress
+                      ? '4px solid var(--blue)'
+                      : isLocked
+                      ? '4px solid var(--border)'
+                      : '4px solid var(--cyan)',
+                    background: isLocked ? 'var(--bg-light)' : 'var(--bg-surface)',
+                    opacity: isLocked ? 0.75 : 1,
+                    transition: 'all 0.2s ease',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+                    {/* Level index badge */}
                     <div
                       style={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: 'var(--radius-md)',
-                        background: comp.id === activeCompanyId ? 'var(--primary)' : 'var(--bg-elevated)',
-                        color: comp.id === activeCompanyId ? '#fff' : 'var(--text-main)',
+                        width: 38,
+                        height: 38,
+                        borderRadius: 10,
+                        background: isCompleted
+                          ? 'var(--emerald-bg)'
+                          : isInProgress
+                          ? 'var(--blue-bg)'
+                          : 'var(--bg-alt)',
+                        color: isCompleted
+                          ? 'var(--emerald-success)'
+                          : isInProgress
+                          ? 'var(--blue)'
+                          : 'var(--text-tertiary)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontWeight: 700,
-                        fontSize: '0.85rem',
+                        fontFamily: 'var(--font-m)',
+                        fontSize: '0.9rem',
+                        flexShrink: 0,
                       }}
                     >
-                      {comp.logo_initials}
+                      {isCompleted ? <CheckCircle2 size={20} /> : isLocked ? <Lock size={16} /> : `0${idx + 1}`}
                     </div>
+
                     <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-main)' }}>
-                        {comp.name}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                        <span
+                          className={`badge ${
+                            isCompleted ? 'badge-emerald' : isInProgress ? 'badge-blue' : 'badge-slate'
+                          }`}
+                          style={{ fontSize: '0.68rem', padding: '2px 8px' }}
+                        >
+                          {isCompleted ? 'Completed' : isInProgress ? 'In Progress' : isLocked ? 'Locked' : 'Available'}
+                        </span>
+                        {task.block_time && (
+                          <span style={{ fontSize: '0.74rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-m)' }}>
+                            {task.block_time}
+                          </span>
+                        )}
                       </div>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
-                        Assessment: <strong style={{ color: 'var(--text-main)' }}>{assessmentDate}</strong>
+
+                      <div style={{ fontSize: '0.98rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                        {task.task_text}
+                      </div>
+
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: 2 }}>
+                        Estimated Duration: <strong>45 mins</strong> · Core Track:{' '}
+                        <strong>{activeCompany?.name || 'General Preparation'}</strong>
                       </div>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span className={`badge ${comp.stage_status === 'assessment_upcoming' ? 'badge-warning' : comp.stage_status === 'eligible' ? 'badge-success' : 'badge-neutral'}`}>
-                      {comp.stage_status.replace(/_/g, ' ')}
-                    </span>
-                    <button
-                      className="btn btn-secondary btn-sm"
-                      onClick={() => onNavigate('companies', { companyId: comp.id })}
-                    >
-                      View
-                    </button>
+                  {/* Action Button */}
+                  <div>
+                    {isCompleted ? (
+                      <span
+                        style={{
+                          fontSize: '0.82rem',
+                          color: 'var(--emerald-success)',
+                          fontWeight: 600,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 6,
+                        }}
+                      >
+                        <CheckCircle2 size={16} /> Verified
+                      </span>
+                    ) : isLocked ? (
+                      <button
+                        className="btn btn-secondary btn-sm"
+                        disabled
+                        style={{ cursor: 'not-allowed', opacity: 0.6 }}
+                      >
+                        <Lock size={14} /> Locked
+                      </button>
+                    ) : (
+                      <button
+                        className={`btn ${isInProgress ? 'btn-primary' : 'btn-secondary'} btn-sm`}
+                        onClick={() => handleStartTask(task)}
+                      >
+                        <Play size={13} /> {isInProgress ? 'Resume' : 'Start Level'}
+                      </button>
+                    )}
                   </div>
                 </div>
               );
             })}
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Secondary Row: Weak Topics & Recent Activity */}
-      <div className="grid-2">
-        {/* Topics Needing Revision */}
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <div className="card-title">Mistake Review & Weak Areas</div>
-              <div className="card-subtitle">
-                Based on actual test question attempts
-              </div>
+      {/* QUICK WORKSPACE TILES */}
+      <div className="grid-3" style={{ marginBottom: 32 }}>
+        {/* Practice Tile */}
+        <div
+          className="card card-hover"
+          onClick={() => onNavigate('practice')}
+          style={{ cursor: 'pointer', padding: '22px' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                background: 'rgba(27, 94, 181, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--blue)',
+              }}
+            >
+              <Target size={20} />
             </div>
-            <button className="btn btn-outline btn-sm" onClick={() => onNavigate('mistakes')}>
-              Review All <ArrowRight size={13} />
-            </button>
+            <ArrowRight size={16} color="var(--text-tertiary)" />
           </div>
-
-          {unresolvedMistakes.length === 0 ? (
-            <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-subtle)', fontSize: '0.9rem' }}>
-              No unresolved mistakes recorded yet. Excellent work!
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {unresolvedMistakes.map((m) => (
-                <div
-                  key={m.question_id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '10px 12px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-subtle)',
-                    background: 'var(--bg-surface)',
-                  }}
-                >
-                  <div style={{ minWidth: 0, paddingRight: 12 }}>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-main)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {m.question}
-                    </div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', marginTop: 2 }}>
-                      Topic: {m.topic} • Missed {m.retry_count} time(s)
-                    </div>
-                  </div>
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    style={{ flexShrink: 0 }}
-                    onClick={() => onNavigate('mistakes')}
-                  >
-                    Revise
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+            Practice Arena
+          </h3>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+            Drill Quantitative Aptitude, Logical Reasoning, and 20 types of Non-Verbal Visual Puzzles.
+          </p>
         </div>
 
-        {/* Recent Mocks & Performance */}
-        <div className="card">
-          <div className="card-header">
-            <div>
-              <div className="card-title">Recent Assessment Runs</div>
-              <div className="card-subtitle">Authoritative scores and accuracy logs</div>
+        {/* Checkpoint & Assessments Tile */}
+        <div
+          className="card card-hover"
+          onClick={() => onNavigate('assessments')}
+          style={{ cursor: 'pointer', padding: '22px' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                background: 'rgba(46, 165, 201, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--cyan)',
+              }}
+            >
+              <Award size={20} />
             </div>
-            <button className="btn btn-outline btn-sm" onClick={() => onNavigate('analytics')}>
-              Analytics <ArrowRight size={13} />
-            </button>
+            <ArrowRight size={16} color="var(--text-tertiary)" />
           </div>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+            Assessments
+          </h3>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+            Take Checkpoint Assignments every 5 levels and the Daily Cumulative Assessment with instant scoring.
+          </p>
+        </div>
 
-          {recentMocks.length === 0 ? (
-            <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--text-subtle)', fontSize: '0.9rem' }}>
-              No test runs completed yet. Take your first sectional or full mock.
+        {/* Progress & Reports Tile */}
+        <div
+          className="card card-hover"
+          onClick={() => onNavigate('progress')}
+          style={{ cursor: 'pointer', padding: '22px' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                background: 'rgba(5, 150, 105, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--emerald-success)',
+              }}
+            >
+              <Zap size={20} />
             </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {recentMocks.map((run) => (
-                <div
-                  key={run.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '10px 12px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '1px solid var(--border-subtle)',
-                    background: 'var(--bg-surface)',
-                  }}
-                >
-                  <div>
-                    <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text-main)' }}>
-                      {run.title}
-                    </div>
-                    <div style={{ fontSize: '0.76rem', color: 'var(--text-subtle)', marginTop: 2 }}>
-                      {run.date} • {Math.round(run.time_taken_seconds / 60)} mins • {run.attempted}/{run.total_questions} answered
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 700, color: run.accuracy >= 75 ? 'var(--emerald-success)' : 'var(--amber-warning)' }}>
-                        {run.accuracy}%
-                      </div>
-                      <div style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>accuracy</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+            <ArrowRight size={16} color="var(--text-tertiary)" />
+          </div>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+            Progress & Analytics
+          </h3>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+            Cumulative reports, topic mastery profiles, accurate aggregated accuracy, and JSON data export.
+          </p>
         </div>
       </div>
     </div>

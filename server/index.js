@@ -10,6 +10,7 @@
 
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -18,6 +19,7 @@ dotenv.config();
 
 import { initDB, query, queryOne, seedQuestions, seedStudyPlan } from './db.js';
 import { getAiStatus, generatePracticeQuestions, approveQuestion, rejectQuestion } from './aiService.js';
+import { bootstrapAuth, handleLogin, handleLogout, handleGetMe, handleChangePassword, requireAuth } from './auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,7 +30,8 @@ const PORT = process.env.PORT || 3001;
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 // ─── Middleware ────────────────────────────────────────────────────────────────
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
+app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 
 // In production: serve Vite build
@@ -41,6 +44,16 @@ if (IS_PROD) {
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
+
+// Authoritative Indian Standard Time (Asia/Kolkata) date string YYYY-MM-DD
+export function getISTDateString(d = new Date()) {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(d);
+}
 
 // Award XP idempotently (one unique_key = one award, ever)
 async function awardXP(date, action_type, xp_amount, unique_key, metadata = {}) {
@@ -192,9 +205,15 @@ async function evaluateAchievements() {
 
 // ─── Routes ────────────────────────────────────────────────────────────────────
 
+// 0. Single-User Authentication (Username: Rishith)
+app.post('/api/auth/login', handleLogin);
+app.post('/api/auth/logout', handleLogout);
+app.get('/api/auth/me', handleGetMe);
+app.post('/api/auth/change-password', handleChangePassword);
+
 // 1. Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', time: new Date().toISOString() });
+  res.json({ status: 'ok', timezone: 'Asia/Kolkata', istDate: getISTDateString(), time: new Date().toISOString() });
 });
 
 // 2. Profile
@@ -266,6 +285,7 @@ app.get('/api/questions', async (req, res) => {
       ...r,
       options: JSON.parse(r.options_json),
       provenance: r.provenance_json ? JSON.parse(r.provenance_json) : {},
+      diagram_spec: r.diagram_spec_json ? JSON.parse(r.diagram_spec_json) : null,
     }));
     res.json(formatted);
   } catch (err) {
@@ -477,6 +497,56 @@ app.get('/api/test-runs/:id', async (req, res) => {
       config: JSON.parse(run.config_json || '{}'),
       questions: JSON.parse(run.questions_json || '[]'),
       responses: JSON.parse(run.responses_json || '{}'),
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Dynamic Assessment Generator: Checkpoint & Daily Cumulative
+app.post('/api/assessments/generate', async (req, res) => {
+  try {
+    const { type = 'daily_cumulative', date = getISTDateString(), topics = [] } = req.body;
+    const { rows: allQuestions } = await query('SELECT * FROM questions WHERE is_active = 1');
+    const parsedAll = allQuestions.map(q => ({
+      ...q,
+      options: JSON.parse(q.options_json),
+      provenance: q.provenance_json ? JSON.parse(q.provenance_json) : {},
+      diagram_spec: q.diagram_spec_json ? JSON.parse(q.diagram_spec_json) : null,
+    }));
+
+    let selectedQuestions = [];
+    let title = '';
+    let durationSeconds = 900;
+
+    if (type === 'checkpoint') {
+      title = `Checkpoint Assessment — Micro-Level Milestone (${date})`;
+      durationSeconds = 1200;
+      const quant = parsedAll.filter(q => q.track === 'cognitive' && !q.id.startsWith('vis_')).sort(() => Math.random() - 0.5).slice(0, 3);
+      const visual = parsedAll.filter(q => q.id.startsWith('vis_')).sort(() => Math.random() - 0.5).slice(0, 3);
+      const tech = parsedAll.filter(q => q.track === 'instrumentation').sort(() => Math.random() - 0.5).slice(0, 4);
+      selectedQuestions = [...quant, ...visual, ...tech];
+    } else {
+      title = `Daily Cumulative Assessment — Mission Recap (${date})`;
+      durationSeconds = 900;
+      const { rows: mistakeRows } = await query('SELECT question_id FROM mistake_notebook WHERE is_resolved = 0 LIMIT 3');
+      const mistakeIds = new Set(mistakeRows.map(m => m.question_id));
+      const mistakeQuestions = parsedAll.filter(q => mistakeIds.has(q.id));
+      const visual = parsedAll.filter(q => q.id.startsWith('vis_') && !mistakeIds.has(q.id)).sort(() => Math.random() - 0.5).slice(0, 3);
+      const cog = parsedAll.filter(q => q.track === 'cognitive' && !q.id.startsWith('vis_') && !mistakeIds.has(q.id)).sort(() => Math.random() - 0.5).slice(0, 3);
+      const tech = parsedAll.filter(q => q.track === 'instrumentation' && !mistakeIds.has(q.id)).sort(() => Math.random() - 0.5).slice(0, 4);
+      selectedQuestions = [...mistakeQuestions, ...visual, ...cog, ...tech].slice(0, 10);
+    }
+
+    const testId = `assess_${type}_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+    res.json({
+      testId,
+      title,
+      test_type: type,
+      date,
+      durationSeconds,
+      totalQuestions: selectedQuestions.length,
+      questions: selectedQuestions,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -799,20 +869,26 @@ app.get('/api/practice/categories', async (req, res) => {
     }
 
     const categories = [
-      { id: 'quantitative_aptitude', title: 'Quantitative Aptitude', track: 'cognitive', matchTopics: ['Quantitative Aptitude', 'Arithmetic', 'Speed', 'Profit', 'Ratio', 'Algebra', 'Number'] },
-      { id: 'logical_reasoning', title: 'Logical Reasoning', track: 'cognitive', matchTopics: ['Logical Reasoning', 'Deductive', 'Series', 'Pattern', 'Arrangement', 'Syllogism', 'Blood'] },
+      { id: 'quantitative_aptitude', title: 'Quantitative Aptitude', track: 'cognitive', matchTopics: ['Quantitative Aptitude', 'Arithmetic', 'Speed', 'Profit', 'Ratio', 'Algebra', 'Number', 'Percentages', 'Time and Work'] },
+      { id: 'logical_reasoning', title: 'Logical Reasoning', track: 'cognitive', matchTopics: ['Logical Reasoning', 'Deductive', 'Series', 'Pattern', 'Arrangement', 'Syllogism', 'Blood', 'Direction', 'Coding'] },
+      { id: 'visual_reasoning', title: 'Visual & Non-Verbal Aptitude', track: 'cognitive', matchTopics: ['Visual', 'Figure', 'Rotation', 'Matrix', 'Folding', 'Cutting', 'Dice', 'Mirror', 'Water', 'Embedded', 'Classification', 'Spatial', 'Sequences'] },
       { id: 'verbal_ability', title: 'Verbal Ability', track: 'cognitive', matchTopics: ['Verbal Ability', 'Sentence', 'Reading', 'Vocabulary', 'Grammar', 'Comprehension'] },
       { id: 'data_interpretation', title: 'Data Interpretation', track: 'cognitive', matchTopics: ['Data Interpretation', 'Chart', 'Graph', 'Table'] },
-      { id: 'instrumentation', title: 'Sensors & Transducers', track: 'instrumentation', matchTopics: ['Sensors', 'Transducers', 'Measurement', 'Flow', 'Level', 'Pressure', 'Temperature'] },
-      { id: 'process_control', title: 'Process Control & Industrial Automation', track: 'instrumentation', matchTopics: ['Process Control', 'PID', 'Signal Conditioning', 'PLC', 'DCS', 'Analytical'] },
+      { id: 'instrumentation', title: 'Sensors & Transducers', track: 'instrumentation', matchTopics: ['Sensors', 'Transducers', 'Measurement', 'Flow', 'Level', 'Pressure', 'Temperature', 'Signals'] },
+      { id: 'process_control', title: 'Process Control & Industrial Automation', track: 'instrumentation', matchTopics: ['Process Control', 'PID', 'Signal Conditioning', 'PLC', 'DCS', 'Analytical', 'Control Valves'] },
       { id: 'tech_fundamentals', title: 'Technical Fundamentals & Electronics', track: 'instrumentation', matchTopics: ['Basic Electronics', 'Control Systems', 'Digital Logic', 'Circuits', 'Industrial'] },
     ];
 
     const result = categories.map(cat => {
-      const catQuestions = qRows.filter(q =>
-        cat.matchTopics.some(mt => q.topic.toLowerCase().includes(mt.toLowerCase())) ||
-        (cat.track && q.track.toLowerCase() === cat.track.toLowerCase() && cat.id === 'instrumentation')
-      );
+      const catQuestions = qRows.filter(q => {
+        if (cat.id === 'visual_reasoning') {
+          return q.id.startsWith('vis_') || cat.matchTopics.some(mt => q.topic.toLowerCase().includes(mt.toLowerCase()));
+        }
+        if (cat.track && q.track.toLowerCase() === cat.track.toLowerCase() && !q.id.startsWith('vis_')) {
+          return cat.matchTopics.some(mt => q.topic.toLowerCase().includes(mt.toLowerCase()));
+        }
+        return false;
+      });
 
       let totalAttempted = 0;
       let totalCorrect = 0;
@@ -1321,8 +1397,9 @@ if (IS_PROD) {
 // ─── Boot ──────────────────────────────────────────────────────────────────────
 async function startServer() {
   await initDB();
+  await bootstrapAuth();
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`GET Quest API Server listening on port ${PORT} (${IS_PROD ? 'production' : 'development'})`);
+    console.log(`JobPrep API Server listening on port ${PORT} (${IS_PROD ? 'production' : 'development'})`);
   });
 }
 

@@ -1,0 +1,2881 @@
+{
+  "version": "2.0",
+  "category": "technical_instrumentation",
+  "questions": [
+    {
+      "id": "T001",
+      "track": "instrumentation",
+      "topic": "Measurement Fundamentals",
+      "difficulty": "easy",
+      "question": "Measurement accuracy describes how closely a measured value is to the ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Average of repeated readings"
+        },
+        {
+          "id": "B",
+          "text": "True or accepted reference value"
+        },
+        {
+          "id": "C",
+          "text": "Smallest scale division"
+        },
+        {
+          "id": "D",
+          "text": "Instrument full-scale range"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "True or accepted reference value",
+      "explanation": "Accuracy concerns closeness to the true or accepted reference value.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "accuracy",
+        "metrology"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T002",
+      "track": "instrumentation",
+      "topic": "Measurement Fundamentals",
+      "difficulty": "easy",
+      "question": "Precision primarily describes the ___ of repeated measurements.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Closeness to the accepted true value"
+        },
+        {
+          "id": "B",
+          "text": "Repeatability or closeness to one another"
+        },
+        {
+          "id": "C",
+          "text": "Absence of systematic error"
+        },
+        {
+          "id": "D",
+          "text": "Maximum measurable value"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Repeatability or closeness to one another",
+      "explanation": "Precision concerns repeatability; a set can be precise yet biased away from the true value.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "precision",
+        "metrology"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T003",
+      "track": "instrumentation",
+      "topic": "Measurement Fundamentals",
+      "difficulty": "easy",
+      "question": "For a linear instrument, sensitivity is commonly defined as ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Input range divided by output range"
+        },
+        {
+          "id": "B",
+          "text": "Change in output divided by change in input"
+        },
+        {
+          "id": "C",
+          "text": "Maximum error divided by span"
+        },
+        {
+          "id": "D",
+          "text": "Output divided by time"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Change in output divided by change in input",
+      "explanation": "Sensitivity is the slope of the calibration characteristic: Δoutput/Δinput.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "sensitivity",
+        "static_characteristics"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T004",
+      "track": "instrumentation",
+      "topic": "Measurement Fundamentals",
+      "difficulty": "medium",
+      "question": "An instrument shows different outputs at the same input depending on whether the input is approached from above or below. This is ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Resolution"
+        },
+        {
+          "id": "B",
+          "text": "Hysteresis"
+        },
+        {
+          "id": "C",
+          "text": "Linearity"
+        },
+        {
+          "id": "D",
+          "text": "Dead time"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Hysteresis",
+      "explanation": "Hysteresis is the dependence of output on the direction/history of input change.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "hysteresis",
+        "static_characteristics"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T005",
+      "track": "instrumentation",
+      "topic": "Temperature Measurement",
+      "difficulty": "easy",
+      "question": "A common platinum RTD measures temperature mainly through the change in its ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Capacitance"
+        },
+        {
+          "id": "B",
+          "text": "Electrical resistance"
+        },
+        {
+          "id": "C",
+          "text": "Magnetic field"
+        },
+        {
+          "id": "D",
+          "text": "Sound velocity"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Electrical resistance",
+      "explanation": "An RTD uses the predictable variation of electrical resistance with temperature; platinum is widely used.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "RTD",
+        "temperature"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T006",
+      "track": "instrumentation",
+      "topic": "Temperature Measurement",
+      "difficulty": "medium",
+      "question": "Why is a three-wire RTD connection often used in industrial measurement?",
+      "options": [
+        {
+          "id": "A",
+          "text": "To increase thermocouple voltage"
+        },
+        {
+          "id": "B",
+          "text": "To compensate for lead-wire resistance"
+        },
+        {
+          "id": "C",
+          "text": "To make the sensor wireless"
+        },
+        {
+          "id": "D",
+          "text": "To measure pressure simultaneously"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "To compensate for lead-wire resistance",
+      "explanation": "A three-wire arrangement can compensate for lead resistance when the leads and wiring are suitably matched.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "RTD",
+        "lead_resistance"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T007",
+      "track": "instrumentation",
+      "topic": "Temperature Measurement",
+      "difficulty": "easy",
+      "question": "A thermocouple generates a voltage mainly due to the ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Hall effect"
+        },
+        {
+          "id": "B",
+          "text": "Seebeck effect"
+        },
+        {
+          "id": "C",
+          "text": "Piezoelectric effect"
+        },
+        {
+          "id": "D",
+          "text": "Photoelectric effect"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Seebeck effect",
+      "explanation": "A temperature difference between dissimilar conductors produces a thermoelectric EMF known as the Seebeck effect.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "thermocouple",
+        "temperature"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T008",
+      "track": "instrumentation",
+      "topic": "Temperature Measurement",
+      "difficulty": "easy",
+      "question": "For a typical NTC thermistor, what happens to resistance as temperature rises?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Resistance rises sharply"
+        },
+        {
+          "id": "B",
+          "text": "Resistance decreases"
+        },
+        {
+          "id": "C",
+          "text": "Resistance stays exactly constant"
+        },
+        {
+          "id": "D",
+          "text": "Resistance becomes infinite"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Resistance decreases",
+      "explanation": "NTC means negative temperature coefficient: resistance decreases as temperature increases.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "thermistor",
+        "temperature"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T009",
+      "track": "instrumentation",
+      "topic": "Force and Strain",
+      "difficulty": "easy",
+      "question": "A bonded metallic strain gauge detects strain through a change in ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Resistance"
+        },
+        {
+          "id": "B",
+          "text": "Frequency only"
+        },
+        {
+          "id": "C",
+          "text": "Colour"
+        },
+        {
+          "id": "D",
+          "text": "Capacitance only"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Resistance",
+      "explanation": "Mechanical strain changes the length and cross-sectional geometry of the gauge conductor, changing its resistance.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "strain_gauge",
+        "transducers"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T010",
+      "track": "instrumentation",
+      "topic": "Displacement Measurement",
+      "difficulty": "medium",
+      "question": "An LVDT is commonly used to measure linear displacement using ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "A differential transformer arrangement"
+        },
+        {
+          "id": "B",
+          "text": "A rotating turbine"
+        },
+        {
+          "id": "C",
+          "text": "A chemical reaction"
+        },
+        {
+          "id": "D",
+          "text": "A moving float only"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "A differential transformer arrangement",
+      "explanation": "An LVDT uses a movable core and transformer coupling to produce an output related to linear displacement.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "LVDT",
+        "displacement"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T011",
+      "track": "instrumentation",
+      "topic": "Piezoelectric Sensors",
+      "difficulty": "medium",
+      "question": "Piezoelectric sensors are especially suitable for dynamic force or vibration measurements because they ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Generate charge when mechanically stressed"
+        },
+        {
+          "id": "B",
+          "text": "Require no physical coupling to the measured object"
+        },
+        {
+          "id": "C",
+          "text": "Measure DC resistance directly"
+        },
+        {
+          "id": "D",
+          "text": "Always have zero drift"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Generate charge when mechanically stressed",
+      "explanation": "Piezoelectric materials generate charge under mechanical stress and are well suited to changing forces and vibration; charge leakage limits long-term static measurements.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "piezoelectric",
+        "dynamic_measurement"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T012",
+      "track": "instrumentation",
+      "topic": "Pressure Measurement",
+      "difficulty": "easy",
+      "question": "A Bourdon tube pressure gauge operates because the curved tube tends to ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Expand and straighten as internal pressure rises"
+        },
+        {
+          "id": "B",
+          "text": "Change its colour with pressure"
+        },
+        {
+          "id": "C",
+          "text": "Boil the working fluid"
+        },
+        {
+          "id": "D",
+          "text": "Rotate at a speed proportional to pressure"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Expand and straighten as internal pressure rises",
+      "explanation": "Internal pressure changes the curvature of the elastic Bourdon tube; the motion is linked to a pointer.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "bourdon_tube",
+        "pressure"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T013",
+      "track": "instrumentation",
+      "topic": "Pressure Measurement",
+      "difficulty": "easy",
+      "question": "Pressure is defined as ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Force × area"
+        },
+        {
+          "id": "B",
+          "text": "Force / area"
+        },
+        {
+          "id": "C",
+          "text": "Mass / volume"
+        },
+        {
+          "id": "D",
+          "text": "Energy / time"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Force / area",
+      "explanation": "Pressure = normal force divided by area; SI unit is pascal (N/m²).",
+      "recommended_time_seconds": 25,
+      "tags": [
+        "pressure",
+        "units"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T014",
+      "track": "instrumentation",
+      "topic": "Flow Measurement",
+      "difficulty": "easy",
+      "question": "An orifice plate estimates flow rate primarily from the differential pressure created across a restriction. For turbulent flow under standard assumptions, flow is proportional to ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Differential pressure"
+        },
+        {
+          "id": "B",
+          "text": "Square root of differential pressure"
+        },
+        {
+          "id": "C",
+          "text": "Differential pressure squared"
+        },
+        {
+          "id": "D",
+          "text": "Inverse of differential pressure"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Square root of differential pressure",
+      "explanation": "For a differential-pressure primary element such as an orifice, volumetric flow is approximately proportional to √ΔP under the applicable calibrated conditions.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "orifice",
+        "flow",
+        "differential_pressure"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T015",
+      "track": "instrumentation",
+      "topic": "Flow Measurement",
+      "difficulty": "medium",
+      "question": "Compared with a sharp-edged orifice plate, a properly designed Venturi meter generally has ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Higher permanent pressure loss"
+        },
+        {
+          "id": "B",
+          "text": "Lower permanent pressure loss"
+        },
+        {
+          "id": "C",
+          "text": "No pressure difference at all"
+        },
+        {
+          "id": "D",
+          "text": "No need for calibration"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Lower permanent pressure loss",
+      "explanation": "The gradual converging-throat-diverging geometry recovers more pressure and usually causes lower permanent pressure loss than an orifice plate.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "venturi",
+        "flow"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T016",
+      "track": "instrumentation",
+      "topic": "Flow Measurement",
+      "difficulty": "medium",
+      "question": "A magnetic flowmeter is generally suitable for measuring the flow of ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Dry wood chips only"
+        },
+        {
+          "id": "B",
+          "text": "Electrically conductive liquids"
+        },
+        {
+          "id": "C",
+          "text": "Any nonconductive gas"
+        },
+        {
+          "id": "D",
+          "text": "Vacuum without a process fluid"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Electrically conductive liquids",
+      "explanation": "Electromagnetic flowmeters use Faraday’s law and require a fluid with sufficient electrical conductivity.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "magnetic_flowmeter",
+        "flow"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T017",
+      "track": "instrumentation",
+      "topic": "Flow Measurement",
+      "difficulty": "medium",
+      "question": "Which meter directly measures mass flow by sensing Coriolis-induced tube effects?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Rotameter"
+        },
+        {
+          "id": "B",
+          "text": "Coriolis flowmeter"
+        },
+        {
+          "id": "C",
+          "text": "Orifice plate alone"
+        },
+        {
+          "id": "D",
+          "text": "Sight glass"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Coriolis flowmeter",
+      "explanation": "A Coriolis meter senses the effect of mass flow on vibrating tubes and can measure mass flow directly.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "coriolis",
+        "mass_flow"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T018",
+      "track": "instrumentation",
+      "topic": "Flow Measurement",
+      "difficulty": "medium",
+      "question": "A vortex flowmeter infers flow from the frequency of vortices shed behind a bluff body. Under its operating range, the shedding frequency is related to fluid ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Velocity"
+        },
+        {
+          "id": "B",
+          "text": "Colour"
+        },
+        {
+          "id": "C",
+          "text": "pH only"
+        },
+        {
+          "id": "D",
+          "text": "Static pressure only"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Velocity",
+      "explanation": "The vortex shedding frequency is proportional to flow velocity for a given geometry within the calibrated operating range.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "vortex_meter",
+        "flow"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T019",
+      "track": "instrumentation",
+      "topic": "Flow Measurement",
+      "difficulty": "medium",
+      "question": "A Doppler ultrasonic flowmeter typically needs acoustic reflectors such as suspended particles or bubbles in the fluid.",
+      "options": [
+        {
+          "id": "A",
+          "text": "True"
+        },
+        {
+          "id": "B",
+          "text": "False"
+        },
+        {
+          "id": "C",
+          "text": "Only for liquids below 0°C"
+        },
+        {
+          "id": "D",
+          "text": "Only for vacuum"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "True",
+      "explanation": "Doppler devices infer flow from a frequency shift in sound reflected by particles or bubbles moving with the fluid.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "ultrasonic",
+        "flow"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T020",
+      "track": "instrumentation",
+      "topic": "Flow Measurement",
+      "difficulty": "medium",
+      "question": "For a differential-pressure flow element operating in its normal turbulent-flow range, doubling ΔP changes idealized flow by approximately what factor?",
+      "options": [
+        {
+          "id": "A",
+          "text": "√2"
+        },
+        {
+          "id": "B",
+          "text": "2"
+        },
+        {
+          "id": "C",
+          "text": "4"
+        },
+        {
+          "id": "D",
+          "text": "1/2"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "√2",
+      "explanation": "Flow is proportional to √ΔP, so the factor is √2 ≈ 1.414.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "differential_pressure",
+        "flow_numerical"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T021",
+      "track": "instrumentation",
+      "topic": "Pressure Measurement",
+      "difficulty": "medium",
+      "question": "Gauge pressure is 200 kPa and local atmospheric pressure is 100 kPa. What is the absolute pressure?",
+      "options": [
+        {
+          "id": "A",
+          "text": "100 kPa"
+        },
+        {
+          "id": "B",
+          "text": "200 kPa"
+        },
+        {
+          "id": "C",
+          "text": "300 kPa"
+        },
+        {
+          "id": "D",
+          "text": "20,000 kPa"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "300 kPa",
+      "explanation": "Absolute pressure = gauge pressure + atmospheric pressure = 200 + 100 = 300 kPa.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "absolute_pressure",
+        "gauge_pressure"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T022",
+      "track": "instrumentation",
+      "topic": "Level Measurement",
+      "difficulty": "medium",
+      "question": "For a liquid of constant density, hydrostatic pressure at a point below the surface increases with ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Liquid depth"
+        },
+        {
+          "id": "B",
+          "text": "Vessel colour"
+        },
+        {
+          "id": "C",
+          "text": "Pipe insulation thickness only"
+        },
+        {
+          "id": "D",
+          "text": "Ambient light"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Liquid depth",
+      "explanation": "Hydrostatic pressure is p = ρgh; for fixed density and gravity, it increases linearly with depth.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "hydrostatic_level",
+        "pressure"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T023",
+      "track": "instrumentation",
+      "topic": "Level Measurement",
+      "difficulty": "easy",
+      "question": "A non-contact radar level transmitter generally estimates level by transmitting ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Microwave energy and analysing its reflection"
+        },
+        {
+          "id": "B",
+          "text": "A direct current through the liquid only"
+        },
+        {
+          "id": "C",
+          "text": "A mechanical float cable"
+        },
+        {
+          "id": "D",
+          "text": "Visible light only in all cases"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Microwave energy and analysing its reflection",
+      "explanation": "Radar level measurement sends microwave energy toward the surface and evaluates the reflected signal.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "radar_level",
+        "level"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T024",
+      "track": "instrumentation",
+      "topic": "Level Measurement",
+      "difficulty": "medium",
+      "question": "In a capacitance level probe, the measured capacitance can change as the level changes because the effective ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Dielectric configuration changes"
+        },
+        {
+          "id": "B",
+          "text": "Gravitational constant changes"
+        },
+        {
+          "id": "C",
+          "text": "Pipe length always doubles"
+        },
+        {
+          "id": "D",
+          "text": "Supply frequency becomes zero"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Dielectric configuration changes",
+      "explanation": "The level alters the amount and geometry of material affecting the sensor’s effective dielectric constant and capacitance.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "capacitance_level",
+        "level"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T025",
+      "track": "instrumentation",
+      "topic": "4-20 mA Signals",
+      "difficulty": "easy",
+      "question": "In a conventional 4–20 mA process loop, what does 4 mA normally represent?",
+      "options": [
+        {
+          "id": "A",
+          "text": "100% of span"
+        },
+        {
+          "id": "B",
+          "text": "The lower-range value (live zero)"
+        },
+        {
+          "id": "C",
+          "text": "An open-circuit fault by definition"
+        },
+        {
+          "id": "D",
+          "text": "The upper-range value"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "The lower-range value (live zero)",
+      "explanation": "The 4 mA live zero represents 0% of the configured measurement span, unlike a 0 mA zero that can be confused with a loop failure.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "4_20mA",
+        "transmitters"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T026",
+      "track": "instrumentation",
+      "topic": "4-20 mA Signals",
+      "difficulty": "easy",
+      "question": "A transmitter maps 0–100°C linearly to 4–20 mA. What current corresponds to 50°C?",
+      "options": [
+        {
+          "id": "A",
+          "text": "8 mA"
+        },
+        {
+          "id": "B",
+          "text": "10 mA"
+        },
+        {
+          "id": "C",
+          "text": "12 mA"
+        },
+        {
+          "id": "D",
+          "text": "16 mA"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "12 mA",
+      "explanation": "50°C is 50% of span. Current = 4 mA + 0.5×(20−4) mA = 12 mA.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "4_20mA",
+        "scaling"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T027",
+      "track": "instrumentation",
+      "topic": "4-20 mA Signals",
+      "difficulty": "medium",
+      "question": "A 250 Ω precision resistor converts a 4–20 mA signal to what voltage range?",
+      "options": [
+        {
+          "id": "A",
+          "text": "0–5 V"
+        },
+        {
+          "id": "B",
+          "text": "1–5 V"
+        },
+        {
+          "id": "C",
+          "text": "2–10 V"
+        },
+        {
+          "id": "D",
+          "text": "4–20 V"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "1–5 V",
+      "explanation": "V = I×R. At 4 mA, V = 0.004×250 = 1 V; at 20 mA, V = 5 V.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "4_20mA",
+        "resistors",
+        "signal_conversion"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T028",
+      "track": "instrumentation",
+      "topic": "4-20 mA Signals",
+      "difficulty": "medium",
+      "question": "Which is a key practical advantage of a current loop in industrial installations?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Current is less affected by series wire resistance within loop compliance limits"
+        },
+        {
+          "id": "B",
+          "text": "It requires no power under any condition"
+        },
+        {
+          "id": "C",
+          "text": "It guarantees that every sensor is accurate"
+        },
+        {
+          "id": "D",
+          "text": "It cannot be interrupted"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Current is less affected by series wire resistance within loop compliance limits",
+      "explanation": "A current loop maintains the same series current despite wire resistance, provided the power supply and transmitter have enough compliance voltage; faults still need to be considered.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "current_loop",
+        "noise_immunity"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T029",
+      "track": "instrumentation",
+      "topic": "Calibration",
+      "difficulty": "easy",
+      "question": "A zero adjustment primarily corrects the instrument output at the ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Lower reference point"
+        },
+        {
+          "id": "B",
+          "text": "Upper reference point only"
+        },
+        {
+          "id": "C",
+          "text": "Middle point only"
+        },
+        {
+          "id": "D",
+          "text": "Maximum frequency"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Lower reference point",
+      "explanation": "Zero adjustment establishes the desired output at the lower-range reference value.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "zero_adjustment",
+        "calibration"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T030",
+      "track": "instrumentation",
+      "topic": "Calibration",
+      "difficulty": "medium",
+      "question": "A span adjustment primarily changes the instrument’s ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Difference between upper and lower calibrated output values"
+        },
+        {
+          "id": "B",
+          "text": "Physical mounting location"
+        },
+        {
+          "id": "C",
+          "text": "Tag number"
+        },
+        {
+          "id": "D",
+          "text": "Process fluid density"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Difference between upper and lower calibrated output values",
+      "explanation": "Span is the difference between the upper and lower range values; a span adjustment changes the scale/slope.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "span",
+        "calibration"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T031",
+      "track": "instrumentation",
+      "topic": "Control Systems",
+      "difficulty": "easy",
+      "question": "In an ideal proportional controller, the control output change is proportional to the ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Current error"
+        },
+        {
+          "id": "B",
+          "text": "Accumulated error only"
+        },
+        {
+          "id": "C",
+          "text": "Rate of error change only"
+        },
+        {
+          "id": "D",
+          "text": "Measured value regardless of setpoint"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Current error",
+      "explanation": "A proportional controller produces an output change proportional to current error, multiplied by proportional gain.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "P_control",
+        "PID"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T032",
+      "track": "instrumentation",
+      "topic": "Control Systems",
+      "difficulty": "medium",
+      "question": "Which PID term acts on the time integral of error and can remove steady-state offset for suitable processes?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Proportional"
+        },
+        {
+          "id": "B",
+          "text": "Integral"
+        },
+        {
+          "id": "C",
+          "text": "Derivative"
+        },
+        {
+          "id": "D",
+          "text": "Feedforward"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Integral",
+      "explanation": "Integral action accumulates error over time; when properly tuned it can drive steady-state error to zero, though poor tuning can cause overshoot or instability.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "I_control",
+        "PID"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T033",
+      "track": "instrumentation",
+      "topic": "Control Systems",
+      "difficulty": "medium",
+      "question": "The derivative term responds mainly to the ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Rate of change of error"
+        },
+        {
+          "id": "B",
+          "text": "Time integral of error"
+        },
+        {
+          "id": "C",
+          "text": "Setpoint magnitude only"
+        },
+        {
+          "id": "D",
+          "text": "Supply voltage"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Rate of change of error",
+      "explanation": "Derivative action responds to how rapidly error changes and can add anticipatory damping, but it is sensitive to noise.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "D_control",
+        "PID"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T034",
+      "track": "instrumentation",
+      "topic": "Control Systems",
+      "difficulty": "easy",
+      "question": "A closed-loop control system differs from an open-loop system because it ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Uses feedback of the measured output"
+        },
+        {
+          "id": "B",
+          "text": "Never has a sensor"
+        },
+        {
+          "id": "C",
+          "text": "Cannot be disturbed"
+        },
+        {
+          "id": "D",
+          "text": "Always has zero error"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Uses feedback of the measured output",
+      "explanation": "Closed-loop control compares feedback with the setpoint and adjusts control action based on the error.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "feedback",
+        "control_systems"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T035",
+      "track": "instrumentation",
+      "topic": "Control Systems",
+      "difficulty": "medium",
+      "question": "In cascade control, the inner/secondary loop is usually designed to be ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Faster than the outer/primary loop"
+        },
+        {
+          "id": "B",
+          "text": "Slower than every outer loop"
+        },
+        {
+          "id": "C",
+          "text": "Open-loop only"
+        },
+        {
+          "id": "D",
+          "text": "Unrelated to the primary loop"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Faster than the outer/primary loop",
+      "explanation": "The secondary loop should respond faster so it can correct inner-loop disturbances before they strongly affect the primary controlled variable.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "cascade_control",
+        "control_architecture"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T036",
+      "track": "instrumentation",
+      "topic": "Control Systems",
+      "difficulty": "medium",
+      "question": "Feedforward control is useful because it can act when ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "A measured disturbance changes, before a resulting output error develops"
+        },
+        {
+          "id": "B",
+          "text": "The sensor is removed"
+        },
+        {
+          "id": "C",
+          "text": "The process has no disturbances"
+        },
+        {
+          "id": "D",
+          "text": "The controller is switched off"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "A measured disturbance changes, before a resulting output error develops",
+      "explanation": "Feedforward uses a measured disturbance or model to adjust the manipulated variable proactively; it may be combined with feedback.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "feedforward",
+        "control_architecture"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T037",
+      "track": "instrumentation",
+      "topic": "Industrial Automation",
+      "difficulty": "easy",
+      "question": "A PLC is particularly suited to ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Executing programmed machine and process logic with input/output signals"
+        },
+        {
+          "id": "B",
+          "text": "Replacing all field sensors without wiring"
+        },
+        {
+          "id": "C",
+          "text": "Serving only as a pressure gauge"
+        },
+        {
+          "id": "D",
+          "text": "Measuring temperature without an input module"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Executing programmed machine and process logic with input/output signals",
+      "explanation": "A programmable logic controller executes a stored control program and interfaces with field inputs and outputs.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "PLC",
+        "automation"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T038",
+      "track": "instrumentation",
+      "topic": "Industrial Automation",
+      "difficulty": "medium",
+      "question": "A DCS is commonly associated with ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Distributed control of continuous or large process operations"
+        },
+        {
+          "id": "B",
+          "text": "A single mechanical pointer gauge"
+        },
+        {
+          "id": "C",
+          "text": "Only office spreadsheets"
+        },
+        {
+          "id": "D",
+          "text": "A single stand-alone thermometer"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Distributed control of continuous or large process operations",
+      "explanation": "A Distributed Control System spreads process control across controllers and operator/supervisory stations and is common in process plants.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "DCS",
+        "automation"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T039",
+      "track": "instrumentation",
+      "topic": "Industrial Automation",
+      "difficulty": "medium",
+      "question": "SCADA is primarily used for ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Supervisory monitoring and control of geographically distributed assets"
+        },
+        {
+          "id": "B",
+          "text": "Measuring only strain-gauge resistance"
+        },
+        {
+          "id": "C",
+          "text": "Replacing all local safety functions in every design"
+        },
+        {
+          "id": "D",
+          "text": "Providing power without a supply"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Supervisory monitoring and control of geographically distributed assets",
+      "explanation": "SCADA systems supervise remote equipment using telemetry, operator interfaces, alarms and historical data.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "SCADA",
+        "automation"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T040",
+      "track": "instrumentation",
+      "topic": "Pneumatic Instrumentation",
+      "difficulty": "medium",
+      "question": "A traditional 3–15 psi pneumatic signal commonly represents what process range?",
+      "options": [
+        {
+          "id": "A",
+          "text": "0–10%"
+        },
+        {
+          "id": "B",
+          "text": "0–50%"
+        },
+        {
+          "id": "C",
+          "text": "0–100%"
+        },
+        {
+          "id": "D",
+          "text": "50–100%"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "0–100%",
+      "explanation": "In the traditional standard, 3 psi represents 0% and 15 psi represents 100% of configured span.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "pneumatic_signal",
+        "standard_ranges"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T041",
+      "track": "instrumentation",
+      "topic": "P&ID and Tagging",
+      "difficulty": "medium",
+      "question": "In a common ISA-style instrument tag, FIC usually means ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Flow Indicating Controller"
+        },
+        {
+          "id": "B",
+          "text": "Frequency Input Converter"
+        },
+        {
+          "id": "C",
+          "text": "Final Interlock Contact"
+        },
+        {
+          "id": "D",
+          "text": "Fluid Isolation Chamber"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Flow Indicating Controller",
+      "explanation": "F identifies flow as the measured variable, I indicates indication and C indicates control.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "instrument_tags",
+        "P&ID"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T042",
+      "track": "instrumentation",
+      "topic": "Control Valves and Safety",
+      "difficulty": "medium",
+      "question": "The required fail-open or fail-closed position of a control valve should be selected mainly from ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Process hazard and safety design requirements"
+        },
+        {
+          "id": "B",
+          "text": "The valve body colour"
+        },
+        {
+          "id": "C",
+          "text": "The operator’s favourite position"
+        },
+        {
+          "id": "D",
+          "text": "The 4–20 mA signal by itself"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Process hazard and safety design requirements",
+      "explanation": "Fail position is an application-specific safety decision based on hazard analysis, process requirements, actuator/valve design and loss-of-power/air scenarios.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "fail_safe",
+        "control_valve",
+        "process_safety"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T043",
+      "track": "instrumentation",
+      "topic": "Control Valves",
+      "difficulty": "medium",
+      "question": "A valve positioner primarily helps ensure that ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "The valve stem/shaft reaches the position demanded by the control signal"
+        },
+        {
+          "id": "B",
+          "text": "The process fluid becomes non-corrosive"
+        },
+        {
+          "id": "C",
+          "text": "The controller’s setpoint never changes"
+        },
+        {
+          "id": "D",
+          "text": "The valve has no pressure drop"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "The valve stem/shaft reaches the position demanded by the control signal",
+      "explanation": "A positioner compares requested and actual valve position and adjusts actuator pressure or drive to reduce positioning error.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "positioner",
+        "control_valve"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T044",
+      "track": "instrumentation",
+      "topic": "Temperature Measurement",
+      "difficulty": "easy",
+      "question": "A thermowell is commonly installed to ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Protect the temperature sensor and permit removal without opening the process boundary"
+        },
+        {
+          "id": "B",
+          "text": "Increase process pressure deliberately"
+        },
+        {
+          "id": "C",
+          "text": "Generate thermocouple voltage without a sensor"
+        },
+        {
+          "id": "D",
+          "text": "Measure flow instead of temperature"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Protect the temperature sensor and permit removal without opening the process boundary",
+      "explanation": "A thermowell provides a pressure-retaining protective pocket for the sensor, allowing maintenance without direct exposure to the process fluid.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "thermowell",
+        "temperature"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T045",
+      "track": "instrumentation",
+      "topic": "Digital Electronics",
+      "difficulty": "easy",
+      "question": "An ideal 10-bit ADC has how many distinct output code levels?",
+      "options": [
+        {
+          "id": "A",
+          "text": "10"
+        },
+        {
+          "id": "B",
+          "text": "100"
+        },
+        {
+          "id": "C",
+          "text": "512"
+        },
+        {
+          "id": "D",
+          "text": "1024"
+        }
+      ],
+      "correct_option_id": "D",
+      "correct_answer": "1024",
+      "explanation": "An n-bit ADC has 2^n possible codes. For n=10, 2^10 = 1024 code levels (usually numbered 0 through 1023).",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "ADC",
+        "digital_electronics"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T046",
+      "track": "instrumentation",
+      "topic": "Analog Electronics",
+      "difficulty": "medium",
+      "question": "Which pair of characteristics describes an ideal operational amplifier?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Zero input impedance and infinite output impedance"
+        },
+        {
+          "id": "B",
+          "text": "Infinite input impedance and zero output impedance"
+        },
+        {
+          "id": "C",
+          "text": "Zero gain and infinite bandwidth only"
+        },
+        {
+          "id": "D",
+          "text": "Infinite input current and zero gain"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Infinite input impedance and zero output impedance",
+      "explanation": "The ideal op-amp draws no input current (infinite input impedance) and has zero output impedance.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "op_amp",
+        "analog_electronics"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T047",
+      "track": "instrumentation",
+      "topic": "Signal Conditioning",
+      "difficulty": "easy",
+      "question": "A low-pass filter ideally passes ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Low frequencies and attenuates frequencies above its cutoff"
+        },
+        {
+          "id": "B",
+          "text": "Only frequencies above its cutoff"
+        },
+        {
+          "id": "C",
+          "text": "No input signal at any frequency"
+        },
+        {
+          "id": "D",
+          "text": "Only digital codes"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Low frequencies and attenuates frequencies above its cutoff",
+      "explanation": "A low-pass filter passes the lower-frequency portion of a signal and attenuates higher-frequency components beyond its cutoff region.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "filters",
+        "signal_conditioning"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T048",
+      "track": "instrumentation",
+      "topic": "Signals and Sampling",
+      "difficulty": "medium",
+      "question": "For a band-limited signal with maximum frequency fmax, the ideal Nyquist criterion requires a sampling rate of at least ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "fmax/2"
+        },
+        {
+          "id": "B",
+          "text": "fmax"
+        },
+        {
+          "id": "C",
+          "text": "2 fmax"
+        },
+        {
+          "id": "D",
+          "text": "10 fmax always"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "2 fmax",
+      "explanation": "The theoretical Nyquist rate is at least twice the highest signal frequency; practical systems generally sample faster and use anti-aliasing filters.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "sampling",
+        "aliasing"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T049",
+      "track": "instrumentation",
+      "topic": "Digital Electronics",
+      "difficulty": "easy",
+      "question": "For a two-input XOR gate, the output is HIGH when ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Both inputs are LOW"
+        },
+        {
+          "id": "B",
+          "text": "Both inputs are HIGH"
+        },
+        {
+          "id": "C",
+          "text": "The two inputs differ"
+        },
+        {
+          "id": "D",
+          "text": "At least one input is always HIGH"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "The two inputs differ",
+      "explanation": "XOR outputs 1 when exactly one input is 1, so it is HIGH when the inputs differ.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "logic_gates",
+        "digital_electronics"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T050",
+      "track": "instrumentation",
+      "topic": "Industrial Communication",
+      "difficulty": "medium",
+      "question": "HART communication traditionally combines digital communication with ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "A 4–20 mA analog current signal on the same pair of wires"
+        },
+        {
+          "id": "B",
+          "text": "A pneumatic 3–15 psi line only"
+        },
+        {
+          "id": "C",
+          "text": "A thermocouple’s bare EMF only"
+        },
+        {
+          "id": "D",
+          "text": "A fibre-optic link with no electrical pair"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "A 4–20 mA analog current signal on the same pair of wires",
+      "explanation": "HART uses frequency-shift-keyed digital communication superimposed on the 4–20 mA analog signal in compatible systems.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "HART",
+        "industrial_communication"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T051",
+      "track": "instrumentation",
+      "topic": "Analytical Instrumentation",
+      "difficulty": "easy",
+      "question": "A standard glass pH electrode develops a potential related to the activity of ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Hydrogen ions"
+        },
+        {
+          "id": "B",
+          "text": "Nitrogen molecules only"
+        },
+        {
+          "id": "C",
+          "text": "Sodium chloride mass only"
+        },
+        {
+          "id": "D",
+          "text": "Dissolved oxygen only"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Hydrogen ions",
+      "explanation": "The glass electrode potential responds to hydrogen-ion activity; the complete pH measurement also requires a suitable reference electrode and compensation/handling.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "pH",
+        "analytical_instrumentation"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T052",
+      "track": "instrumentation",
+      "topic": "Control Systems",
+      "difficulty": "medium",
+      "question": "A stable feedback loop has a persistent steady-state offset. Which controller action can often eliminate the offset for suitable processes?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Integral action"
+        },
+        {
+          "id": "B",
+          "text": "Derivative action alone"
+        },
+        {
+          "id": "C",
+          "text": "Removing the sensor"
+        },
+        {
+          "id": "D",
+          "text": "Increasing dead time"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Integral action",
+      "explanation": "Integral action accumulates persistent error and can remove steady-state offset when the loop is properly designed and tuned.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "steady_state_error",
+        "PID"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T053",
+      "track": "instrumentation",
+      "topic": "Dynamic Characteristics",
+      "difficulty": "medium",
+      "question": "For a first-order system responding to a step input, after one time constant the output has completed approximately what fraction of its total change?",
+      "options": [
+        {
+          "id": "A",
+          "text": "36.8%"
+        },
+        {
+          "id": "B",
+          "text": "50.0%"
+        },
+        {
+          "id": "C",
+          "text": "63.2%"
+        },
+        {
+          "id": "D",
+          "text": "95.0%"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "63.2%",
+      "explanation": "For a first-order response, y(t)=1−e^(−t/τ). At t=τ, 1−e^(−1) ≈ 0.632, or 63.2%.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "time_constant",
+        "dynamic_response"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T054",
+      "track": "instrumentation",
+      "topic": "Control Systems",
+      "difficulty": "medium",
+      "question": "The transfer function of a linear time-invariant system is normally defined as the Laplace transform of output divided by input under ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Zero initial conditions"
+        },
+        {
+          "id": "B",
+          "text": "Infinite initial conditions"
+        },
+        {
+          "id": "C",
+          "text": "No input signal ever"
+        },
+        {
+          "id": "D",
+          "text": "Only sinusoidal steady state"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Zero initial conditions",
+      "explanation": "The standard transfer function G(s)=Y(s)/U(s) is defined with zero initial conditions.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "transfer_function",
+        "control_theory"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T055",
+      "track": "instrumentation",
+      "topic": "P&ID and Plant Documentation",
+      "difficulty": "easy",
+      "question": "A P&ID is mainly used to show ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Process equipment, piping and instrumentation/control relationships"
+        },
+        {
+          "id": "B",
+          "text": "Only building elevations"
+        },
+        {
+          "id": "C",
+          "text": "Only company organisation charts"
+        },
+        {
+          "id": "D",
+          "text": "Only electrical household wiring"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Process equipment, piping and instrumentation/control relationships",
+      "explanation": "A Piping and Instrumentation Diagram represents equipment, major piping, instrument tags, control loops and related process connections.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "P&ID",
+        "documentation"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T056",
+      "track": "instrumentation",
+      "topic": "Sensor Classification",
+      "difficulty": "medium",
+      "question": "An RTD is often classified as a passive sensor because it ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Requires an excitation/measuring current to infer resistance"
+        },
+        {
+          "id": "B",
+          "text": "Generates a large voltage by itself at every temperature"
+        },
+        {
+          "id": "C",
+          "text": "Uses radioactive decay"
+        },
+        {
+          "id": "D",
+          "text": "Does not change any electrical property"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Requires an excitation/measuring current to infer resistance",
+      "explanation": "An RTD changes resistance with temperature and normally needs an external excitation/measuring circuit; a thermocouple is self-generating in this sense.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "passive_sensor",
+        "RTD"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T057",
+      "track": "instrumentation",
+      "topic": "Temperature Measurement",
+      "difficulty": "hard",
+      "question": "Using the linear approximation R(T)=R0[1+α(T−0°C)], estimate the resistance of a Pt100 with α=0.00385/°C at 50°C.",
+      "options": [
+        {
+          "id": "A",
+          "text": "101.93 Ω"
+        },
+        {
+          "id": "B",
+          "text": "109.63 Ω"
+        },
+        {
+          "id": "C",
+          "text": "119.25 Ω"
+        },
+        {
+          "id": "D",
+          "text": "138.50 Ω"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "119.25 Ω",
+      "explanation": "R = 100[1 + 0.00385×50] = 100×1.1925 = 119.25 Ω. This is an approximate linear model.",
+      "recommended_time_seconds": 50,
+      "tags": [
+        "RTD",
+        "numerical",
+        "temperature"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T058",
+      "track": "instrumentation",
+      "topic": "4-20 mA Signals",
+      "difficulty": "easy",
+      "question": "A linear transmitter maps 0–100°C to 4–20 mA. What current corresponds to 75°C?",
+      "options": [
+        {
+          "id": "A",
+          "text": "8 mA"
+        },
+        {
+          "id": "B",
+          "text": "12 mA"
+        },
+        {
+          "id": "C",
+          "text": "16 mA"
+        },
+        {
+          "id": "D",
+          "text": "18 mA"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "16 mA",
+      "explanation": "75% of span gives I = 4 + 0.75×16 = 16 mA.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "4_20mA",
+        "scaling"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T059",
+      "track": "instrumentation",
+      "topic": "4-20 mA Signals",
+      "difficulty": "medium",
+      "question": "A pressure transmitter is ranged 0–200 kPa to 4–20 mA. What pressure does 10 mA represent?",
+      "options": [
+        {
+          "id": "A",
+          "text": "50 kPa"
+        },
+        {
+          "id": "B",
+          "text": "75 kPa"
+        },
+        {
+          "id": "C",
+          "text": "100 kPa"
+        },
+        {
+          "id": "D",
+          "text": "125 kPa"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "75 kPa",
+      "explanation": "Fraction of span = (10−4)/(20−4) = 6/16 = 0.375. Pressure = 0.375×200 = 75 kPa.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "4_20mA",
+        "scaling",
+        "pressure"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T060",
+      "track": "instrumentation",
+      "topic": "Measurement Fundamentals",
+      "difficulty": "medium",
+      "question": "Linearity error compares an instrument’s actual calibration curve with ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "A specified or best-fit straight-line reference"
+        },
+        {
+          "id": "B",
+          "text": "The colour of the instrument housing"
+        },
+        {
+          "id": "C",
+          "text": "The time of day only"
+        },
+        {
+          "id": "D",
+          "text": "The nominal supply frequency only"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "A specified or best-fit straight-line reference",
+      "explanation": "Linearity error describes deviation from a defined ideal/reference straight-line characteristic.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "linearity",
+        "calibration"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T061",
+      "track": "instrumentation",
+      "topic": "Measurement Fundamentals",
+      "difficulty": "medium",
+      "question": "A measuring instrument with high input impedance is preferred when measuring a high-impedance sensor because it ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Minimizes loading of the sensor"
+        },
+        {
+          "id": "B",
+          "text": "Always eliminates random noise entirely"
+        },
+        {
+          "id": "C",
+          "text": "Increases sensor resistance to infinity"
+        },
+        {
+          "id": "D",
+          "text": "Removes the need for calibration"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Minimizes loading of the sensor",
+      "explanation": "A high input impedance draws less current and reduces disturbance of the source being measured.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "loading_effect",
+        "measurement_systems"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T062",
+      "track": "instrumentation",
+      "topic": "Bridge Circuits",
+      "difficulty": "medium",
+      "question": "At balance in a Wheatstone bridge, the ideal detector current is ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Maximum"
+        },
+        {
+          "id": "B",
+          "text": "Zero"
+        },
+        {
+          "id": "C",
+          "text": "Equal to the excitation current"
+        },
+        {
+          "id": "D",
+          "text": "Always negative"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Zero",
+      "explanation": "At bridge balance, the potentials at the detector nodes are equal, so the ideal detector has zero current.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "Wheatstone_bridge",
+        "resistance_measurement"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T063",
+      "track": "instrumentation",
+      "topic": "Analog Electronics",
+      "difficulty": "medium",
+      "question": "Why is a precision instrumentation amplifier useful for small sensor signals in industrial environments?",
+      "options": [
+        {
+          "id": "A",
+          "text": "High input impedance and high common-mode rejection"
+        },
+        {
+          "id": "B",
+          "text": "It intentionally adds common-mode noise"
+        },
+        {
+          "id": "C",
+          "text": "It can only amplify large AC power"
+        },
+        {
+          "id": "D",
+          "text": "It never needs a power supply"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "High input impedance and high common-mode rejection",
+      "explanation": "Instrumentation amplifiers are designed to amplify small differential signals while presenting high input impedance and rejecting common-mode voltage.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "instrumentation_amplifier",
+        "CMRR"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T064",
+      "track": "instrumentation",
+      "topic": "Analog Electronics",
+      "difficulty": "medium",
+      "question": "Common-mode rejection ratio (CMRR) indicates an amplifier’s ability to reject ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Voltage common to both inputs"
+        },
+        {
+          "id": "B",
+          "text": "All differential signals"
+        },
+        {
+          "id": "C",
+          "text": "Power supply current"
+        },
+        {
+          "id": "D",
+          "text": "The desired sensor signal only"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Voltage common to both inputs",
+      "explanation": "High CMRR means common-mode input components are attenuated relative to differential signals.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "CMRR",
+        "noise"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T065",
+      "track": "instrumentation",
+      "topic": "Digital Electronics",
+      "difficulty": "easy",
+      "question": "What decimal number is represented by the unsigned 4-bit binary number 1011?",
+      "options": [
+        {
+          "id": "A",
+          "text": "9"
+        },
+        {
+          "id": "B",
+          "text": "10"
+        },
+        {
+          "id": "C",
+          "text": "11"
+        },
+        {
+          "id": "D",
+          "text": "13"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "11",
+      "explanation": "Binary 1011₂ = 1×8 + 0×4 + 1×2 + 1×1 = 11.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "binary",
+        "digital_electronics"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T066",
+      "track": "instrumentation",
+      "topic": "Calibration",
+      "difficulty": "medium",
+      "question": "Why is traceability to a measurement standard important in calibration?",
+      "options": [
+        {
+          "id": "A",
+          "text": "It links results through a documented chain of calibrations to a recognized reference"
+        },
+        {
+          "id": "B",
+          "text": "It guarantees no uncertainty exists"
+        },
+        {
+          "id": "C",
+          "text": "It makes every instrument identical"
+        },
+        {
+          "id": "D",
+          "text": "It eliminates the need to record conditions"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "It links results through a documented chain of calibrations to a recognized reference",
+      "explanation": "Metrological traceability links a result to a reference through a documented, unbroken calibration chain, with uncertainty considered at each step.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "traceability",
+        "calibration"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T067",
+      "track": "instrumentation",
+      "topic": "Industrial Communication",
+      "difficulty": "medium",
+      "question": "Which statement about a field instrument and its tag number is safest?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Use the tag and loop documentation to identify function and location; never infer a live process value from the tag alone"
+        },
+        {
+          "id": "B",
+          "text": "The tag number always states the current process reading"
+        },
+        {
+          "id": "C",
+          "text": "Every plant uses identical tag conventions without exceptions"
+        },
+        {
+          "id": "D",
+          "text": "Tag numbers can replace wiring diagrams"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Use the tag and loop documentation to identify function and location; never infer a live process value from the tag alone",
+      "explanation": "Tags are identifiers interpreted using the site’s standards and documentation; they are not live data or universal proof of wiring.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "tags",
+        "documentation"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T068",
+      "track": "instrumentation",
+      "topic": "Process Control",
+      "difficulty": "medium",
+      "question": "A process variable is the quantity that a controller is trying to keep near its ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Setpoint"
+        },
+        {
+          "id": "B",
+          "text": "Cable resistance"
+        },
+        {
+          "id": "C",
+          "text": "Enclosure rating"
+        },
+        {
+          "id": "D",
+          "text": "Tag prefix"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Setpoint",
+      "explanation": "The controlled/process variable (PV) is compared with the setpoint (SP) to produce controller error.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "process_variable",
+        "control_terms"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T069",
+      "track": "instrumentation",
+      "topic": "Process Control",
+      "difficulty": "medium",
+      "question": "In a typical feedback loop controlling tank level, the manipulated variable could be ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Control-valve opening affecting inlet flow"
+        },
+        {
+          "id": "B",
+          "text": "The historical trend colour"
+        },
+        {
+          "id": "C",
+          "text": "The operator’s ID"
+        },
+        {
+          "id": "D",
+          "text": "The tank nameplate serial number"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Control-valve opening affecting inlet flow",
+      "explanation": "The manipulated variable is the input the controller changes, such as inlet-valve position, to influence the controlled level.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "manipulated_variable",
+        "control_loop"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    },
+    {
+      "id": "T070",
+      "track": "instrumentation",
+      "topic": "Control Valves and Safety",
+      "difficulty": "medium",
+      "question": "Why should an emergency shutdown or safety instrumented function not be treated as interchangeable with ordinary basic process control?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Safety functions require specific risk-based design, independence and lifecycle controls as applicable"
+        },
+        {
+          "id": "B",
+          "text": "A normal PID loop is always certified as a safety system"
+        },
+        {
+          "id": "C",
+          "text": "Safety functions never use sensors"
+        },
+        {
+          "id": "D",
+          "text": "Only the display colour determines safety integrity"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Safety functions require specific risk-based design, independence and lifecycle controls as applicable",
+      "explanation": "Safety instrumented functions are engineered under specific risk reduction, independence, validation and lifecycle requirements; details depend on the applicable standards and design.",
+      "recommended_time_seconds": 50,
+      "tags": [
+        "SIS",
+        "process_safety"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "NPTEL-IND-INST"
+        ]
+      }
+    }
+  ]
+}

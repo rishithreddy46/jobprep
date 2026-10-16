@@ -1,0 +1,146 @@
+{
+  "version": "2.0",
+  "category": "verbal_ability",
+  "questions": [
+    {
+      "id": "C020",
+      "track": "cognitive",
+      "topic": "Grammar",
+      "difficulty": "easy",
+      "question": "Choose the grammatically correct sentence: “Each of the sensors ___ calibrated before use.”",
+      "options": [
+        {
+          "id": "A",
+          "text": "are"
+        },
+        {
+          "id": "B",
+          "text": "were"
+        },
+        {
+          "id": "C",
+          "text": "is"
+        },
+        {
+          "id": "D",
+          "text": "have been"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "is",
+      "explanation": "“Each” takes a singular verb in this construction: “Each of the sensors is calibrated before use.”",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "verbal_ability",
+        "grammar"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "verb_01",
+      "track": "cognitive",
+      "topic": "Sentence Correction",
+      "difficulty": "easy",
+      "question": "Identify the grammatically correct sentence among the given options:",
+      "options": [
+        {
+          "id": "A",
+          "text": "Neither the plant operator nor the field technicians was present during calibration."
+        },
+        {
+          "id": "B",
+          "text": "Neither the plant operator nor the field technicians were present during calibration."
+        },
+        {
+          "id": "C",
+          "text": "Neither the plant operator nor the field technicians are present yesterday."
+        },
+        {
+          "id": "D",
+          "text": "Neither the plant operator or the field technicians were present during calibration."
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Neither the plant operator nor the field technicians were present during calibration.",
+      "explanation": "Rule of Proximity for correlative conjunctions 'neither... nor': When two subjects are connected by 'neither... nor', the verb must agree in number with the closer subject. 'Technicians' is plural, requiring the plural past-tense verb 'were'.",
+      "recommended_time_seconds": 45,
+      "provenance": {
+        "category": "verbal_ability",
+        "standard": "Subject-Verb Agreement"
+      }
+    },
+    {
+      "id": "verb_02",
+      "track": "cognitive",
+      "topic": "Vocabulary & Analogies",
+      "difficulty": "medium",
+      "question": "Select the pair that best expresses a relationship similar to that expressed in the pair: TRANSIENT : PERMANENCE",
+      "options": [
+        {
+          "id": "A",
+          "text": "EPHEMERAL : LONGEVITY"
+        },
+        {
+          "id": "B",
+          "text": "VOLATILE : EVAPORATION"
+        },
+        {
+          "id": "C",
+          "text": "RIGID : FLEXIBILITY"
+        },
+        {
+          "id": "D",
+          "text": "TENACIOUS : ENDURANCE"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "EPHEMERAL : LONGEVITY",
+      "explanation": "'Transient' describes something lacking 'permanence' (antonymic quality). Similarly, 'ephemeral' (short-lived) inherently lacks 'longevity' (long life). Both pairs demonstrate an adjective defining the absence of the corresponding noun quality.",
+      "recommended_time_seconds": 45,
+      "provenance": {
+        "category": "verbal_ability",
+        "standard": "Semantic Antonyms"
+      }
+    },
+    {
+      "id": "verb_03",
+      "track": "cognitive",
+      "topic": "Reading Comprehension",
+      "difficulty": "medium",
+      "question": "Read the premise: 'Closed-loop feedback systems dynamically adjust actuator outputs based on measured process deviation from setpoint. While they attenuate external disturbances, improper gain scheduling can induce self-sustaining oscillations.' What is the primary operational risk identified?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Complete actuator power failure"
+        },
+        {
+          "id": "B",
+          "text": "Instability through self-sustaining oscillations caused by poorly tuned controller gain"
+        },
+        {
+          "id": "C",
+          "text": "Inability to respond to process setpoint modifications"
+        },
+        {
+          "id": "D",
+          "text": "Excessive attenuation of desired signals"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Instability through self-sustaining oscillations caused by poorly tuned controller gain",
+      "explanation": "The passage directly links the risk to 'improper gain scheduling' which 'can induce self-sustaining oscillations', representing closed-loop instability.",
+      "recommended_time_seconds": 50,
+      "provenance": {
+        "category": "verbal_ability",
+        "standard": "Technical Comprehension"
+      }
+    }
+  ]
+}

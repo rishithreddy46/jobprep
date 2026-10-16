@@ -123,9 +123,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setStudyPlan(planData);
       setCompanies(compData || []);
 
-      if (profData?.passcode_hash && !sessionStorage.getItem('get_quest_unlocked')) {
-        setIsLocked(true);
-      }
+      // Server-side authentication is handled at the app gate (LoginPage)
+      setIsLocked(false);
     } catch (err) {
       console.error('Error loading initial app data:', err);
     }

@@ -1,10 +1,14 @@
 const API_BASE = '/api';
 
 export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const headers = {
+  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('jobprep_token') : null;
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...(options.headers || {}),
+    ...(options.headers as any || {}),
   };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
 
   const response = await fetch(`${API_BASE}${endpoint}`, {
     ...options,
@@ -40,11 +44,13 @@ export const api = {
   saveStudySession: (data: any) =>
     apiFetch<any>('/study-sessions', { method: 'POST', body: JSON.stringify(data) }),
 
-  // Test Runs
+  // Test Runs & Assessments
   submitTestRun: (data: any) =>
     apiFetch<any>('/test-runs', { method: 'POST', body: JSON.stringify(data) }),
   getTestRuns: () => apiFetch<any[]>('/test-runs'),
   getTestRun: (id: string) => apiFetch<any>(`/test-runs/${id}`),
+  generateAssessment: (type: 'checkpoint' | 'daily_cumulative' = 'daily_cumulative', date?: string, topics?: string[]) =>
+    apiFetch<any>('/assessments/generate', { method: 'POST', body: JSON.stringify({ type, date, topics }) }),
 
   // Mistake Notebook
   getMistakes: () => apiFetch<any[]>('/mistakes'),

@@ -1,0 +1,113 @@
+{
+  "version": "2.0",
+  "category": "data_interpretation",
+  "questions": [
+    {
+      "id": "C021",
+      "track": "cognitive",
+      "topic": "Data Interpretation",
+      "difficulty": "easy",
+      "question": "A plant produces 120 units in one shift and 150 in the next. What is the percentage increase?",
+      "options": [
+        {
+          "id": "A",
+          "text": "20%"
+        },
+        {
+          "id": "B",
+          "text": "25%"
+        },
+        {
+          "id": "C",
+          "text": "30%"
+        },
+        {
+          "id": "D",
+          "text": "35%"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "25%",
+      "explanation": "Increase = 150 − 120 = 30. Percentage increase = 30/120 × 100 = 25%.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "data_interpretation",
+        "percentages"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "di_01",
+      "track": "cognitive",
+      "topic": "Data Interpretation",
+      "difficulty": "medium",
+      "question": "A process refinery unit records feedstock throughput over 4 consecutive quarters: Q1 = 120,000 bpd, Q2 = 150,000 bpd, Q3 = 135,000 bpd, Q4 = 180,000 bpd. What is the percentage increase in throughput from Q1 to Q4?",
+      "options": [
+        {
+          "id": "A",
+          "text": "33.3%"
+        },
+        {
+          "id": "B",
+          "text": "50.0%"
+        },
+        {
+          "id": "C",
+          "text": "60.0%"
+        },
+        {
+          "id": "D",
+          "text": "45.0%"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "50.0%",
+      "explanation": "Percentage increase = ((Q4 - Q1) / Q1) * 100 = ((180,000 - 120,000) / 120,000) * 100 = (60,000 / 120,000) * 100 = 50.0%.",
+      "recommended_time_seconds": 60,
+      "provenance": {
+        "category": "data_interpretation",
+        "standard": "Percentage Change Analysis"
+      }
+    },
+    {
+      "id": "di_02",
+      "track": "cognitive",
+      "topic": "Data Interpretation",
+      "difficulty": "medium",
+      "question": "In an industrial plant, sensor alarm distributions across three shifts are: Morning (45 alarms), Afternoon (35 alarms), Night (70 alarms). What fraction of total daily alarms occurred during the Night shift?",
+      "options": [
+        {
+          "id": "A",
+          "text": "7/15 (approx 46.7%)"
+        },
+        {
+          "id": "B",
+          "text": "1/2 (50.0%)"
+        },
+        {
+          "id": "C",
+          "text": "3/8 (37.5%)"
+        },
+        {
+          "id": "D",
+          "text": "2/5 (40.0%)"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "7/15 (approx 46.7%)",
+      "explanation": "Total alarms = 45 + 35 + 70 = 150. Night shift share = 70 / 150 = 7/15 = 46.67%.",
+      "recommended_time_seconds": 50,
+      "provenance": {
+        "category": "data_interpretation",
+        "standard": "Ratio & Distribution Analysis"
+      }
+    }
+  ]
+}

@@ -5,6 +5,10 @@
    ========================================================================== */
 
 :root {
+  /* Layout Dimensions */
+  --sidebar-width: 260px;
+  --header-height: 64px;
+
   /* ==========================================================================
      Polymath AI Official Color Tokens & Theme Architecture
      ========================================================================== */
@@ -144,6 +148,7 @@ html, body {
 .main-content {
   flex: 1;
   margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
   padding-top: var(--header-height);
   padding-bottom: 48px;
   min-width: 0;

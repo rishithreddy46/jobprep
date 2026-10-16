@@ -17,6 +17,7 @@ import {
 import { useApp } from '../context/AppContext';
 import { api } from '../api/client';
 import { Question, PracticeCategory } from '../types';
+import { VisualQuestionRenderer } from '../components/VisualQuestionRenderer';
 
 interface PracticeCentreProps {
   onNavigate: (tab: string, extra?: any) => void;
@@ -223,10 +224,15 @@ export const PracticeCentre: React.FC<PracticeCentreProps> = ({ onNavigate }) =>
               </div>
 
               {/* Question Text */}
-              <div style={{ fontSize: '1.05rem', fontWeight: 600, lineHeight: 1.6, color: 'var(--text-main)', marginBottom: 24 }}>
+              <div style={{ fontSize: '1.05rem', fontWeight: 600, lineHeight: 1.6, color: 'var(--text-main)', marginBottom: 16 }}>
                 <span style={{ color: 'var(--primary)', marginRight: 6 }}>Q{activeQuestionIndex + 1}.</span>
                 {currentQ.question}
               </div>
+
+              {/* Visual Non-Verbal Diagram */}
+              {currentQ.diagram_spec && (
+                <VisualQuestionRenderer spec={currentQ.diagram_spec} />
+              )}
 
               {/* Options */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>

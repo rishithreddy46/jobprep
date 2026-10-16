@@ -91,7 +91,7 @@ export interface QuestionOption {
 
 export interface Question {
   id: string;
-  track: 'cognitive' | 'instrumentation';
+  track: 'cognitive' | 'instrumentation' | 'company_track' | 'verbal' | 'quantitative' | string;
   topic: string;
   difficulty: 'easy' | 'medium' | 'hard';
   question: string;
@@ -100,10 +100,13 @@ export interface Question {
   correct_answer: string;
   explanation: string;
   recommended_time_seconds: number;
+  diagram_spec?: any;
+  company_id?: string;
   provenance?: {
     kind?: string;
     source_refs?: string[];
     notes?: string;
+    [key: string]: any;
   };
 }
 

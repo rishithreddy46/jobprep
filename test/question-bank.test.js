@@ -12,12 +12,15 @@ test('Question Bank conforms strictly to schema and integrity constraints', () =
   const raw = fs.readFileSync(path.join(rootDir, 'question_bank.json'), 'utf8');
   const data = JSON.parse(raw);
 
-  assert.equal(data.questions.length, 105, 'Total questions must be exactly 105');
+  // Must have at least 105 base questions, now expanded with visual and multi-track questions
+  assert.ok(data.questions.length >= 105, `Total questions must be at least 105, found: ${data.questions.length}`);
 
   const ids = new Set();
   const prompts = new Set();
   let cognitiveCount = 0;
   let instrumentationCount = 0;
+  let visualCount = 0;
+  let companyTrackCount = 0;
 
   for (const q of data.questions) {
     // Unique ID
@@ -26,9 +29,14 @@ test('Question Bank conforms strictly to schema and integrity constraints', () =
     ids.add(q.id);
 
     // Track
-    assert.ok(q.track === 'cognitive' || q.track === 'instrumentation', `Invalid track: ${q.track}`);
+    assert.ok(
+      ['cognitive', 'instrumentation', 'company_track', 'verbal', 'quantitative'].includes(q.track),
+      `Invalid track: ${q.track} in ${q.id}`
+    );
     if (q.track === 'cognitive') cognitiveCount++;
     if (q.track === 'instrumentation') instrumentationCount++;
+    if (q.track === 'company_track') companyTrackCount++;
+    if (q.id.startsWith('vis_')) visualCount++;
 
     // Topic & Difficulty
     assert.ok(q.topic && q.topic.trim().length > 0, `Topic required for ${q.id}`);
@@ -54,8 +62,37 @@ test('Question Bank conforms strictly to schema and integrity constraints', () =
 
     // Explanation
     assert.ok(q.explanation && q.explanation.trim().length > 0, `Missing explanation in ${q.id}`);
+
+    // Visual questions validation
+    if (q.id.startsWith('vis_')) {
+      assert.ok(q.diagram_spec, `Visual question ${q.id} must have diagram_spec`);
+      assert.ok(q.diagram_spec.type, `Visual question ${q.id} must have diagram_spec.type`);
+    }
   }
 
-  assert.equal(cognitiveCount, 35, 'Must have exactly 35 cognitive questions');
-  assert.equal(instrumentationCount, 70, 'Must have exactly 70 instrumentation questions');
+  // Verify counts
+  assert.ok(cognitiveCount >= 35, `Must have at least 35 cognitive questions (found ${cognitiveCount})`);
+  assert.ok(instrumentationCount >= 70, `Must have at least 70 instrumentation questions (found ${instrumentationCount})`);
+  assert.equal(visualCount, 20, 'Must have exactly 20 visual aptitude questions');
+  assert.ok(companyTrackCount >= 3, 'Must have company track assessment questions');
+});
+
+test('Modular question bank files exist and are valid JSON', () => {
+  const files = [
+    'questions_visual.json',
+    'questions_quantitative.json',
+    'questions_logical.json',
+    'questions_verbal.json',
+    'questions_data_interpretation.json',
+    'questions_technical.json',
+    'questions_company_tracks.json',
+  ];
+
+  for (const f of files) {
+    const filePath = path.join(rootDir, f);
+    assert.ok(fs.existsSync(filePath), `Modular file must exist: ${f}`);
+    const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    assert.ok(Array.isArray(content.questions), `${f} must contain questions array`);
+    assert.ok(content.questions.length > 0, `${f} must not be empty`);
+  }
 });

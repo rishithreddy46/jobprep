@@ -1,0 +1,111 @@
+{
+  "version": "2.0",
+  "category": "company_specific",
+  "questions": [
+    {
+      "id": "comp_ril_01",
+      "track": "company_track",
+      "company_id": "ril_get_2027",
+      "topic": "RIL Assessment Structure",
+      "difficulty": "medium",
+      "question": "In an industrial petrochemical steam cracker, what type of temperature sensor is standardly specified for radiant coil tube-skin monitoring up to 1100°C?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Type K or Type N specialized sheath Thermocouple"
+        },
+        {
+          "id": "B",
+          "text": "Class A Pt100 RTD"
+        },
+        {
+          "id": "C",
+          "text": "Standard bimetallic dial gauge"
+        },
+        {
+          "id": "D",
+          "text": "NTC 10k thermistor"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "Type K or Type N specialized sheath Thermocouple",
+      "explanation": "Petrochemical furnace tubes operate between 900°C and 1150°C. RTDs degrade above 600°C-850°C. Heavy-wall Inconel-sheathed Type K (Chromel-Alumel) or Type N (Nicrosil-Nisil) thermocouples with knife-edge weld pads are the industrial standard.",
+      "recommended_time_seconds": 60,
+      "provenance": {
+        "company": "RIL GET 2027",
+        "role": "E&I Trainee",
+        "type": "industrial_standard"
+      }
+    },
+    {
+      "id": "comp_lnt_01",
+      "track": "company_track",
+      "company_id": "lnt_get_2027",
+      "topic": "L&T Automation Systems",
+      "difficulty": "medium",
+      "question": "In an EPC automation project, what safety integrity level architecture standard requires dual redundant 1oo2D or 2oo3 voting for critical emergency shutdown (ESD) valves?",
+      "options": [
+        {
+          "id": "A",
+          "text": "IEC 61508 / IEC 61511 (SIL-3)"
+        },
+        {
+          "id": "B",
+          "text": "ISO 9001 (Quality Assurance)"
+        },
+        {
+          "id": "C",
+          "text": "IEEE 802.3 Ethernet standard"
+        },
+        {
+          "id": "D",
+          "text": "NEMA 4X weatherproofing"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "IEC 61508 / IEC 61511 (SIL-3)",
+      "explanation": "IEC 61508 and sector standard IEC 61511 govern functional safety of safety instrumented systems (SIS) in process industries. SIL-3 requirements commonly dictate 1oo2D or 2oo3 redundant voting architectures.",
+      "recommended_time_seconds": 60,
+      "provenance": {
+        "company": "L&T GET 2027",
+        "role": "Automation & Control",
+        "type": "functional_safety"
+      }
+    },
+    {
+      "id": "comp_tcs_01",
+      "track": "company_track",
+      "company_id": "tcs_prime_2027",
+      "topic": "TCS Prime Advanced Reasoning",
+      "difficulty": "medium",
+      "question": "In a computational sorting workflow of n sensor log packets, what is the worst-case asymptotic time complexity of standard Merge Sort?",
+      "options": [
+        {
+          "id": "A",
+          "text": "O(n log n)"
+        },
+        {
+          "id": "B",
+          "text": "O(n^2)"
+        },
+        {
+          "id": "C",
+          "text": "O(n)"
+        },
+        {
+          "id": "D",
+          "text": "O(log n)"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "O(n log n)",
+      "explanation": "Merge Sort uses a divide-and-conquer strategy: log2(n) division levels with linear O(n) merging work per level. Its best, average, and worst-case time complexities are all strictly O(n log n).",
+      "recommended_time_seconds": 60,
+      "provenance": {
+        "company": "TCS Prime / Digital 2027",
+        "role": "Systems Engineer",
+        "type": "algorithms"
+      }
+    }
+  ]
+}

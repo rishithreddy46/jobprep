@@ -1,0 +1,660 @@
+{
+  "version": "2.0",
+  "category": "logical_reasoning",
+  "questions": [
+    {
+      "id": "C011",
+      "track": "cognitive",
+      "topic": "Number Series",
+      "difficulty": "easy",
+      "question": "Find the next number: 3, 7, 15, 31, 63, __.",
+      "options": [
+        {
+          "id": "A",
+          "text": "95"
+        },
+        {
+          "id": "B",
+          "text": "111"
+        },
+        {
+          "id": "C",
+          "text": "127"
+        },
+        {
+          "id": "D",
+          "text": "129"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "127",
+      "explanation": "Each term is the previous term × 2 + 1. Therefore 63 × 2 + 1 = 127.",
+      "recommended_time_seconds": 30,
+      "tags": [
+        "number_series",
+        "reasoning"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C012",
+      "track": "cognitive",
+      "topic": "Number Series",
+      "difficulty": "easy",
+      "question": "Find the next number: 2, 6, 12, 20, 30, __.",
+      "options": [
+        {
+          "id": "A",
+          "text": "36"
+        },
+        {
+          "id": "B",
+          "text": "40"
+        },
+        {
+          "id": "C",
+          "text": "42"
+        },
+        {
+          "id": "D",
+          "text": "44"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "42",
+      "explanation": "Differences are 4, 6, 8 and 10; the next difference is 12. So 30 + 12 = 42.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "number_series",
+        "reasoning"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C013",
+      "track": "cognitive",
+      "topic": "Letter Series",
+      "difficulty": "medium",
+      "question": "Complete the series: B, E, I, N, T, __.",
+      "options": [
+        {
+          "id": "A",
+          "text": "A"
+        },
+        {
+          "id": "B",
+          "text": "Y"
+        },
+        {
+          "id": "C",
+          "text": "Z"
+        },
+        {
+          "id": "D",
+          "text": "B"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "A",
+      "explanation": "Alphabet positions are 2, 5, 9, 14, 20, with increments +3, +4, +5, +6. The next increment is +7: 20 + 7 = 27, which wraps to A.",
+      "recommended_time_seconds": 55,
+      "tags": [
+        "letter_series",
+        "reasoning"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C014",
+      "track": "cognitive",
+      "topic": "Coding Decoding",
+      "difficulty": "easy",
+      "question": "A code shifts every letter one place forward in the alphabet (A→B, B→C, …). How is PLANT encoded?",
+      "options": [
+        {
+          "id": "A",
+          "text": "QMBOU"
+        },
+        {
+          "id": "B",
+          "text": "OKZMS"
+        },
+        {
+          "id": "C",
+          "text": "QMBMU"
+        },
+        {
+          "id": "D",
+          "text": "PMBNT"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "QMBOU",
+      "explanation": "P→Q, L→M, A→B, N→O and T→U, producing QMBOU.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "coding_decoding"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C015",
+      "track": "cognitive",
+      "topic": "Logical Deduction",
+      "difficulty": "easy",
+      "question": "All sensors are devices. All devices are components. Which conclusion must be true?",
+      "options": [
+        {
+          "id": "A",
+          "text": "All components are sensors."
+        },
+        {
+          "id": "B",
+          "text": "All sensors are components."
+        },
+        {
+          "id": "C",
+          "text": "Some components are not devices."
+        },
+        {
+          "id": "D",
+          "text": "No sensor is a component."
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "All sensors are components.",
+      "explanation": "If every sensor belongs to the set of devices, and every device belongs to the set of components, every sensor is a component.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "deduction",
+        "logic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C016",
+      "track": "cognitive",
+      "topic": "Odd One Out",
+      "difficulty": "easy",
+      "question": "Which item does not belong with the others?",
+      "options": [
+        {
+          "id": "A",
+          "text": "RTD"
+        },
+        {
+          "id": "B",
+          "text": "Thermocouple"
+        },
+        {
+          "id": "C",
+          "text": "Thermistor"
+        },
+        {
+          "id": "D",
+          "text": "Manometer"
+        }
+      ],
+      "correct_option_id": "D",
+      "correct_answer": "Manometer",
+      "explanation": "RTD, thermocouple and thermistor are temperature-sensing devices. A manometer measures pressure.",
+      "recommended_time_seconds": 25,
+      "tags": [
+        "classification",
+        "instrumentation_vocabulary"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C017",
+      "track": "cognitive",
+      "topic": "Direction Sense",
+      "difficulty": "easy",
+      "question": "A person walks 4 km north, 3 km east and then 4 km south. Where are they relative to the starting point?",
+      "options": [
+        {
+          "id": "A",
+          "text": "3 km east"
+        },
+        {
+          "id": "B",
+          "text": "3 km west"
+        },
+        {
+          "id": "C",
+          "text": "4 km north"
+        },
+        {
+          "id": "D",
+          "text": "5 km east"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "3 km east",
+      "explanation": "The 4 km north and 4 km south movements cancel. The remaining displacement is 3 km east.",
+      "recommended_time_seconds": 35,
+      "tags": [
+        "directions"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C018",
+      "track": "cognitive",
+      "topic": "Ordering",
+      "difficulty": "easy",
+      "question": "A must be completed before B, B before C, and C before D. Which task must come first?",
+      "options": [
+        {
+          "id": "A",
+          "text": "A"
+        },
+        {
+          "id": "B",
+          "text": "B"
+        },
+        {
+          "id": "C",
+          "text": "C"
+        },
+        {
+          "id": "D",
+          "text": "D"
+        }
+      ],
+      "correct_option_id": "A",
+      "correct_answer": "A",
+      "explanation": "The stated precedence chain is A → B → C → D, so A must be first.",
+      "recommended_time_seconds": 25,
+      "tags": [
+        "ordering",
+        "logic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C019",
+      "track": "cognitive",
+      "topic": "Analogies",
+      "difficulty": "easy",
+      "question": "A thermometer measures temperature. By the same relationship, a pressure gauge measures ___.",
+      "options": [
+        {
+          "id": "A",
+          "text": "Voltage"
+        },
+        {
+          "id": "B",
+          "text": "Pressure"
+        },
+        {
+          "id": "C",
+          "text": "Flow rate"
+        },
+        {
+          "id": "D",
+          "text": "Humidity"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Pressure",
+      "explanation": "A thermometer measures temperature; a pressure gauge measures pressure.",
+      "recommended_time_seconds": 25,
+      "tags": [
+        "analogy",
+        "verbal"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C025",
+      "track": "cognitive",
+      "topic": "Inference",
+      "difficulty": "medium",
+      "question": "A sensor is checked against a traceable standard and its output is found within the specified tolerance. What is the strongest conclusion?",
+      "options": [
+        {
+          "id": "A",
+          "text": "It will never drift."
+        },
+        {
+          "id": "B",
+          "text": "It passed this calibration check under the conditions tested."
+        },
+        {
+          "id": "C",
+          "text": "It has zero measurement uncertainty."
+        },
+        {
+          "id": "D",
+          "text": "It needs no future maintenance."
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "It passed this calibration check under the conditions tested.",
+      "explanation": "A successful check supports compliance with tolerance at the time and conditions of calibration; it does not prove zero uncertainty or eliminate future drift.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "verbal_reasoning",
+        "inference"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C029",
+      "track": "cognitive",
+      "topic": "Combinations",
+      "difficulty": "medium",
+      "question": "How many different pairs can be selected from 5 distinct people?",
+      "options": [
+        {
+          "id": "A",
+          "text": "5"
+        },
+        {
+          "id": "B",
+          "text": "8"
+        },
+        {
+          "id": "C",
+          "text": "10"
+        },
+        {
+          "id": "D",
+          "text": "20"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "10",
+      "explanation": "Number of pairs = 5C2 = 5×4/(2×1) = 10.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "combinations",
+        "counting"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C030",
+      "track": "cognitive",
+      "topic": "Clock Angles",
+      "difficulty": "medium",
+      "question": "What is the smaller angle between the hands of a clock at 3:30?",
+      "options": [
+        {
+          "id": "A",
+          "text": "60°"
+        },
+        {
+          "id": "B",
+          "text": "75°"
+        },
+        {
+          "id": "C",
+          "text": "90°"
+        },
+        {
+          "id": "D",
+          "text": "105°"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "75°",
+      "explanation": "At 3:30 the minute hand is at 180°. The hour hand is at 3.5×30° = 105°. Difference = 75°.",
+      "recommended_time_seconds": 50,
+      "tags": [
+        "clock_angles",
+        "reasoning"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C032",
+      "track": "cognitive",
+      "topic": "Number Series",
+      "difficulty": "easy",
+      "question": "Find the next number: 1, 4, 9, 16, __.",
+      "options": [
+        {
+          "id": "A",
+          "text": "20"
+        },
+        {
+          "id": "B",
+          "text": "24"
+        },
+        {
+          "id": "C",
+          "text": "25"
+        },
+        {
+          "id": "D",
+          "text": "36"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "25",
+      "explanation": "The terms are squares: 1², 2², 3², 4²; next is 5² = 25.",
+      "recommended_time_seconds": 25,
+      "tags": [
+        "number_series",
+        "squares"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C033",
+      "track": "cognitive",
+      "topic": "Logical Deduction",
+      "difficulty": "medium",
+      "question": "No instrument is perfect. Some devices are instruments. Which conclusion must follow?",
+      "options": [
+        {
+          "id": "A",
+          "text": "All devices are perfect."
+        },
+        {
+          "id": "B",
+          "text": "Some devices are not perfect."
+        },
+        {
+          "id": "C",
+          "text": "No device is an instrument."
+        },
+        {
+          "id": "D",
+          "text": "All instruments are devices, so all devices are instruments."
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Some devices are not perfect.",
+      "explanation": "The devices that are instruments belong to the set of non-perfect items; therefore some devices are not perfect.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "deduction",
+        "logic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C034",
+      "track": "cognitive",
+      "topic": "Number Series",
+      "difficulty": "medium",
+      "question": "Find the next number: 8, 11, 17, 26, 38, __.",
+      "options": [
+        {
+          "id": "A",
+          "text": "47"
+        },
+        {
+          "id": "B",
+          "text": "50"
+        },
+        {
+          "id": "C",
+          "text": "53"
+        },
+        {
+          "id": "D",
+          "text": "56"
+        }
+      ],
+      "correct_option_id": "C",
+      "correct_answer": "53",
+      "explanation": "The increments are +3, +6, +9 and +12. The next increment is +15, so 38 + 15 = 53.",
+      "recommended_time_seconds": 40,
+      "tags": [
+        "number_series",
+        "differences"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    },
+    {
+      "id": "C035",
+      "track": "cognitive",
+      "topic": "Logical Deduction",
+      "difficulty": "medium",
+      "question": "Every approved question has an explanation. Question Q has no explanation. Assuming the rule is always true, what follows?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Q must be approved."
+        },
+        {
+          "id": "B",
+          "text": "Q is not approved."
+        },
+        {
+          "id": "C",
+          "text": "Q has two explanations."
+        },
+        {
+          "id": "D",
+          "text": "Nothing can be concluded."
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Q is not approved.",
+      "explanation": "Contrapositive: if approved implies explanation, then no explanation implies not approved, assuming the rule is universally true.",
+      "recommended_time_seconds": 45,
+      "tags": [
+        "deduction",
+        "logic"
+      ],
+      "provenance": {
+        "kind": "original_synthetic_practice_question",
+        "note": "Written for this practice bank; not represented as an official or recalled RIL examination question.",
+        "topic_basis_source_ids": [
+          "RIL-2027",
+          "INDIABIX-PRACTICE"
+        ]
+      }
+    }
+  ]
+}
