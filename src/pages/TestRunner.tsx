@@ -18,7 +18,7 @@ import {
 import { api } from '../api/client';
 import { useApp } from '../context/AppContext';
 import { Question, QuestionOption, TestResponse } from '../types';
-import { VisualQuestionRenderer } from '../components/VisualQuestionRenderer';
+import { VisualQuestionRenderer, VisualOptionCards, hasVisualOptions } from '../components/VisualQuestionRenderer';
 
 interface TestRunnerProps {
   config: any;
@@ -483,57 +483,68 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
                 )}
 
                 {/* Options Review */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
-                  {q.options.map((opt) => {
-                    const isCandidateChoice = isAttempted && resp.chosen_option_id === opt.id;
-                    const isTrueCorrect = opt.id === q.correct_option_id;
+                {hasVisualOptions(q) ? (
+                  <VisualOptionCards
+                    options={q.options}
+                    selectedOptionId={isAttempted ? resp.chosen_option_id : null}
+                    correctOptionId={q.correct_option_id}
+                    showResults={true}
+                    disabled={true}
+                    onSelectOption={() => {}}
+                  />
+                ) : (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+                    {q.options.map((opt) => {
+                      const isCandidateChoice = isAttempted && resp.chosen_option_id === opt.id;
+                      const isTrueCorrect = opt.id === q.correct_option_id;
 
-                    let bg = 'var(--bg-card)';
-                    let border = 'var(--border-dim)';
-                    if (isTrueCorrect) {
-                      bg = 'rgba(16, 185, 129, 0.15)';
-                      border = 'var(--emerald-success)';
-                    } else if (isCandidateChoice) {
-                      bg = 'rgba(244, 63, 94, 0.15)';
-                      border = 'var(--coral-error)';
-                    }
+                      let bg = 'var(--bg-card)';
+                      let border = 'var(--border-dim)';
+                      if (isTrueCorrect) {
+                        bg = 'rgba(16, 185, 129, 0.15)';
+                        border = 'var(--emerald-success)';
+                      } else if (isCandidateChoice) {
+                        bg = 'rgba(244, 63, 94, 0.15)';
+                        border = 'var(--coral-error)';
+                      }
 
-                    return (
-                      <div
-                        key={opt.id}
-                        style={{
-                          padding: '12px 16px',
-                          borderRadius: 'var(--radius-md)',
-                          background: bg,
-                          border: `1px solid ${border}`,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 12,
-                          fontSize: '0.88rem',
-                        }}
-                      >
-                        <div style={{
-                          width: 24,
-                          height: 24,
-                          borderRadius: '50%',
-                          background: isTrueCorrect ? 'var(--emerald-success)' : isCandidateChoice ? 'var(--coral-error)' : 'rgba(255, 255, 255, 0.08)',
-                          color: (isTrueCorrect || isCandidateChoice) ? '#060a12' : 'var(--text-muted)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontWeight: 700,
-                          fontSize: '0.75rem',
-                          flexShrink: 0,
-                        }}>
-                          {opt.id}
+                      return (
+                        <div
+                          key={opt.id}
+                          style={{
+                            padding: '12px 16px',
+                            borderRadius: 'var(--radius-md)',
+                            background: bg,
+                            border: `1px solid ${border}`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 12,
+                            fontSize: '0.88rem',
+                          }}
+                        >
+                          <div style={{
+                            width: 24,
+                            height: 24,
+                            borderRadius: '50%',
+                            background: isTrueCorrect ? 'var(--emerald-success)' : isCandidateChoice ? 'var(--coral-error)' : 'rgba(255, 255, 255, 0.08)',
+                            color: (isTrueCorrect || isCandidateChoice) ? '#060a12' : 'var(--text-muted)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontWeight: 700,
+                            fontSize: '0.75rem',
+                            flexShrink: 0,
+                          }}>
+                            {opt.id}
+                          </div>
+                          <span style={{ color: isTrueCorrect ? 'var(--emerald-success)' : isCandidateChoice ? 'var(--coral-error)' : 'var(--text-main)', fontWeight: (isTrueCorrect || isCandidateChoice) ? 600 : 400 }}>
+                            {opt.text}
+                          </span>
                         </div>
-                        <span style={{ color: isTrueCorrect ? '#fff' : isCandidateChoice ? 'var(--coral-error)' : 'var(--text-muted)' }}>
-                          {opt.text}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
+                      );
+                    })}
+                  </div>
+                )}
 
                 {/* In-Depth Explanation */}
                 <div style={{ background: 'rgba(0, 229, 255, 0.05)', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 'var(--radius-md)', padding: '14px 18px' }}>
@@ -672,23 +683,31 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ config, onExit, onNaviga
           )}
 
           {/* Options */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 30 }}>
-            {currentQuestion?.options.map((opt) => {
-              const isSelected = currentResp.chosen_option_id === opt.id;
-              return (
-                <div
-                  key={opt.id}
-                  className={`option-card ${isSelected ? 'selected' : ''}`}
-                  onClick={() => handleSelectOption(opt.id)}
-                >
-                  <div className="option-badge">{opt.id}</div>
-                  <div style={{ color: isSelected ? '#fff' : 'var(--text-main)', fontWeight: isSelected ? 600 : 400 }}>
-                    {opt.text}
+          {hasVisualOptions(currentQuestion) ? (
+            <VisualOptionCards
+              options={currentQuestion.options}
+              selectedOptionId={currentResp.chosen_option_id}
+              onSelectOption={(optId) => handleSelectOption(optId)}
+            />
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 30 }}>
+              {currentQuestion?.options.map((opt) => {
+                const isSelected = currentResp.chosen_option_id === opt.id;
+                return (
+                  <div
+                    key={opt.id}
+                    className={`option-card ${isSelected ? 'selected' : ''}`}
+                    onClick={() => handleSelectOption(opt.id)}
+                  >
+                    <div className="option-badge">{opt.id}</div>
+                    <div style={{ color: isSelected ? 'var(--blue)' : 'var(--text-main)', fontWeight: isSelected ? 600 : 400 }}>
+                      {opt.text}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
 
           {/* Bottom Question Controls */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-dim)', paddingTop: 20 }}>

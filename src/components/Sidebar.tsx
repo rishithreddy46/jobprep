@@ -12,6 +12,9 @@ import {
   Clock,
   Briefcase,
   LogOut,
+  Sun,
+  Moon,
+  Monitor,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -22,7 +25,7 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, onLogout }) => {
-  const { openFocusTimer, focusTimer, companies } = useApp();
+  const { openFocusTimer, focusTimer, companies, themePreference, setThemePreference, resolvedTheme } = useApp();
 
   // Primary 7 navigation routes requested in Phase 4
   const primaryNav = [
@@ -139,8 +142,32 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentTab, onSelectTab, onLog
         )}
       </nav>
 
-      {/* Focus Timer Footer */}
-      <div className="sidebar-footer">
+      {/* Theme and Focus Timer Footer */}
+      <div className="sidebar-footer" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <button
+          className="btn btn-secondary btn-sm"
+          style={{ width: '100%', justifyContent: 'flex-start', padding: '6px 10px', fontSize: '0.78rem' }}
+          onClick={() => {
+            const next = themePreference === 'light' ? 'dark' : themePreference === 'dark' ? 'system' : 'light';
+            setThemePreference(next);
+          }}
+          title={`Active theme: ${resolvedTheme}. Click to cycle Light / Dark / System.`}
+        >
+          {themePreference === 'dark' ? (
+            <Moon size={14} color="var(--blue)" />
+          ) : themePreference === 'light' ? (
+            <Sun size={14} color="var(--amber-warning)" />
+          ) : (
+            <Monitor size={14} color="var(--cyan)" />
+          )}
+          <span style={{ flex: 1, textAlign: 'left', fontFamily: 'var(--font-m)' }}>
+            Theme: <strong style={{ textTransform: 'capitalize' }}>{themePreference}</strong>
+          </span>
+          <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)', textTransform: 'uppercase' }}>
+            {resolvedTheme}
+          </span>
+        </button>
+
         <button
           className="btn btn-secondary btn-sm"
           style={{

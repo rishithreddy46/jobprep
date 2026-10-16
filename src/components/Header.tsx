@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Zap, Shield, Clock, Calendar, Lock, Building2 } from 'lucide-react';
+import { Flame, Zap, Shield, Clock, Calendar, Lock, Building2, Sun, Moon, Monitor } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 interface HeaderProps {
@@ -7,7 +7,19 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenSettings }) => {
-  const { profile, xpStreak, currentDate, setCurrentDate, companies, activeCompanyId, setActiveCompanyId, lockApp } = useApp();
+  const {
+    profile,
+    xpStreak,
+    currentDate,
+    setCurrentDate,
+    companies,
+    activeCompanyId,
+    setActiveCompanyId,
+    lockApp,
+    themePreference,
+    setThemePreference,
+    resolvedTheme,
+  } = useApp();
 
   const activeCompany = companies.find(c => c.id === activeCompanyId) || companies[0];
 
@@ -156,6 +168,81 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSettings }) => {
         >
           <Zap size={14} />
           <span>{xpStreak ? xpStreak.totalXP : 0} XP</span>
+        </div>
+
+        {/* 3-Way Theme Switcher (Light / Dark / System) */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            background: 'var(--bg-muted)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-full)',
+            padding: '2px',
+            gap: '2px',
+          }}
+          title={`Theme: ${themePreference.toUpperCase()} (Active: ${resolvedTheme})`}
+        >
+          <button
+            onClick={() => setThemePreference('light')}
+            aria-label="Light mode"
+            style={{
+              border: 'none',
+              background: themePreference === 'light' ? 'var(--bg-surface)' : 'transparent',
+              color: themePreference === 'light' ? 'var(--blue)' : 'var(--text-tertiary)',
+              boxShadow: themePreference === 'light' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+              borderRadius: 'var(--radius-full)',
+              width: 26,
+              height: 26,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <Sun size={13} />
+          </button>
+          <button
+            onClick={() => setThemePreference('dark')}
+            aria-label="Dark mode"
+            style={{
+              border: 'none',
+              background: themePreference === 'dark' ? 'var(--bg-surface)' : 'transparent',
+              color: themePreference === 'dark' ? 'var(--blue)' : 'var(--text-tertiary)',
+              boxShadow: themePreference === 'dark' ? '0 1px 3px rgba(0,0,0,0.2)' : 'none',
+              borderRadius: 'var(--radius-full)',
+              width: 26,
+              height: 26,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <Moon size={13} />
+          </button>
+          <button
+            onClick={() => setThemePreference('system')}
+            aria-label="System preference theme"
+            style={{
+              border: 'none',
+              background: themePreference === 'system' ? 'var(--bg-surface)' : 'transparent',
+              color: themePreference === 'system' ? 'var(--blue)' : 'var(--text-tertiary)',
+              boxShadow: themePreference === 'system' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+              borderRadius: 'var(--radius-full)',
+              width: 26,
+              height: 26,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <Monitor size={13} />
+          </button>
         </div>
 
         {/* Settings button */}

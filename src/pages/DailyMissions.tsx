@@ -11,11 +11,13 @@ import {
   RotateCcw,
   Plus,
   Building2,
-  Filter,
+  Compass,
+  MapPin,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { api } from '../api/client';
 import { StudyDay, StudyTask } from '../types';
+import { WindingLearningMap } from '../components/WindingLearningMap';
 
 interface MyPlanProps {
   onNavigate: (tab: string, extra?: any) => void;
@@ -25,7 +27,7 @@ export const DailyMissions: React.FC<MyPlanProps> = ({ onNavigate }) => {
   const { studyPlan, refreshStudyPlan, currentDate, setCurrentDate, companies, activeCompanyId, addToast, triggerConfetti } = useApp();
   const [expandedDate, setExpandedDate] = useState<string>(currentDate);
   const [updatingTaskId, setUpdatingTaskId] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'daily' | 'timeline'>('daily');
+  const [viewMode, setViewMode] = useState<'journey' | 'daily' | 'timeline'>('journey');
   const [isRescheduleModalOpen, setIsRescheduleModalOpen] = useState<boolean>(false);
   const [rescheduleDate, setRescheduleDate] = useState<string>('2026-10-26');
 
@@ -117,18 +119,25 @@ export const DailyMissions: React.FC<MyPlanProps> = ({ onNavigate }) => {
         <div style={{ display: 'flex', gap: 10 }}>
           <div style={{ display: 'flex', background: 'var(--bg-muted)', padding: '3px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
             <button
+              className={`btn btn-sm ${viewMode === 'journey' ? 'btn-primary' : 'btn-outline'}`}
+              style={{ border: 'none', boxShadow: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
+              onClick={() => setViewMode('journey')}
+            >
+              <Compass size={14} /> Journey Map
+            </button>
+            <button
               className={`btn btn-sm ${viewMode === 'daily' ? 'btn-primary' : 'btn-outline'}`}
-              style={{ border: 'none', boxShadow: 'none' }}
+              style={{ border: 'none', boxShadow: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
               onClick={() => setViewMode('daily')}
             >
-              Day View
+              <Target size={14} /> Day Tasks
             </button>
             <button
               className={`btn btn-sm ${viewMode === 'timeline' ? 'btn-primary' : 'btn-outline'}`}
-              style={{ border: 'none', boxShadow: 'none' }}
+              style={{ border: 'none', boxShadow: 'none', display: 'flex', alignItems: 'center', gap: 6 }}
               onClick={() => setViewMode('timeline')}
             >
-              Full Roadmap
+              <CalendarDays size={14} /> Full Roadmap
             </button>
           </div>
 
@@ -138,7 +147,9 @@ export const DailyMissions: React.FC<MyPlanProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {viewMode === 'daily' ? (
+      {viewMode === 'journey' ? (
+        <WindingLearningMap onNavigate={onNavigate} />
+      ) : viewMode === 'daily' ? (
         /* Daily View */
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24, alignItems: 'flex-start' }}>
           {/* Main Tasks List */}

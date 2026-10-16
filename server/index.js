@@ -882,9 +882,9 @@ app.get('/api/practice/categories', async (req, res) => {
     const result = categories.map(cat => {
       const catQuestions = qRows.filter(q => {
         if (cat.id === 'visual_reasoning') {
-          return q.id.startsWith('vis_') || cat.matchTopics.some(mt => q.topic.toLowerCase().includes(mt.toLowerCase()));
+          return q.id.startsWith('vis_') || q.id.startsWith('adv_') || cat.matchTopics.some(mt => q.topic.toLowerCase().includes(mt.toLowerCase()));
         }
-        if (cat.track && q.track.toLowerCase() === cat.track.toLowerCase() && !q.id.startsWith('vis_')) {
+        if (cat.track && q.track.toLowerCase() === cat.track.toLowerCase() && !q.id.startsWith('vis_') && !q.id.startsWith('adv_')) {
           return cat.matchTopics.some(mt => q.topic.toLowerCase().includes(mt.toLowerCase()));
         }
         return false;

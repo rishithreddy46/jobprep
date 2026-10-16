@@ -46,6 +46,9 @@ interface AppContextType {
   isLocked: boolean;
   unlockApp: () => void;
   lockApp: () => void;
+  themePreference: 'light' | 'dark' | 'system';
+  setThemePreference: (theme: 'light' | 'dark' | 'system') => void;
+  resolvedTheme: 'light' | 'dark';
   refreshAll: () => Promise<void>;
 }
 
@@ -57,6 +60,47 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [studyPlan, setStudyPlan] = useState<StudyPlanData | null>(null);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [activeCompanyId, setActiveCompanyId] = useState<string>('ril_get_2027');
+
+  // Theme Management (Light / Dark / System)
+  const [themePreference, setThemePreferenceState] = useState<'light' | 'dark' | 'system'>(() => {
+    return (localStorage.getItem('jobprep_theme') as any) || 'system';
+  });
+
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>(() => {
+    const saved = localStorage.getItem('jobprep_theme') || 'system';
+    if (saved === 'dark') return 'dark';
+    if (saved === 'light') return 'light';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
+  const setThemePreference = (theme: 'light' | 'dark' | 'system') => {
+    setThemePreferenceState(theme);
+    localStorage.setItem('jobprep_theme', theme);
+  };
+
+  useEffect(() => {
+    const computeResolved = () => {
+      if (themePreference === 'dark') return 'dark';
+      if (themePreference === 'light') return 'light';
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+
+    const resolved = computeResolved();
+    setResolvedTheme(resolved);
+    document.documentElement.setAttribute('data-theme', resolved);
+
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = () => {
+      if (themePreference === 'system') {
+        const nextResolved = mql.matches ? 'dark' : 'light';
+        setResolvedTheme(nextResolved);
+        document.documentElement.setAttribute('data-theme', nextResolved);
+      }
+    };
+
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, [themePreference]);
   
   // Current local preparation date - default to today's local date (e.g. 2026-10-15)
   const [currentDate, setCurrentDate] = useState<string>(() => {
@@ -264,6 +308,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isLocked,
         unlockApp,
         lockApp,
+        themePreference,
+        setThemePreference,
+        resolvedTheme,
         refreshAll: loadData,
       }}
     >

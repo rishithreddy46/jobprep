@@ -4,7 +4,21 @@ import React from 'react';
  * Shape types supported by the vector engine
  */
 export interface VisualShape {
-  kind: 'circle' | 'rect' | 'line' | 'polygon' | 'arrow' | 'dot' | 'text' | 'star' | 'dice_face' | 'fold_line' | 'cross';
+  kind:
+    | 'circle'
+    | 'rect'
+    | 'line'
+    | 'polygon'
+    | 'arrow'
+    | 'dot'
+    | 'text'
+    | 'star'
+    | 'dice_face'
+    | 'fold_line'
+    | 'cross'
+    | 'sector'
+    | 'cube_3d'
+    | 'path';
   x?: number;
   y?: number;
   width?: number;
@@ -20,9 +34,17 @@ export interface VisualShape {
   strokeWidth?: number;
   strokeDasharray?: string;
   rotation?: number;
+  sweepAngle?: number; // for sectors (e.g. 90deg quadrant)
   text?: string;
   fontSize?: number;
   dots?: number[]; // For dice faces: array of dot positions [1..9]
+  topFill?: string; // For 3D cube
+  leftFill?: string;
+  rightFill?: string;
+  topText?: string;
+  leftText?: string;
+  rightText?: string;
+  d?: string; // For custom SVG paths
 }
 
 export interface FigureFrame {
@@ -304,6 +326,110 @@ export const SingleFrameSVG: React.FC<FrameRendererProps> = ({
               );
             }
 
+            case 'sector': {
+              const cx = s.x ?? 50;
+              const cy = s.y ?? 50;
+              const r = s.r ?? 38;
+              const sweep = s.sweepAngle ?? 90;
+              const startAngle = ((s.rotation ?? 0) - 90) * (Math.PI / 180);
+              const endAngle = (((s.rotation ?? 0) - 90) + sweep) * (Math.PI / 180);
+              const x1 = cx + r * Math.cos(startAngle);
+              const y1 = cy + r * Math.sin(startAngle);
+              const x2 = cx + r * Math.cos(endAngle);
+              const y2 = cy + r * Math.sin(endAngle);
+              const largeArc = sweep > 180 ? 1 : 0;
+              const d = `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`;
+              return (
+                <path
+                  key={idx}
+                  d={d}
+                  fill={fill !== 'none' ? fill : 'var(--blue)'}
+                  stroke={stroke}
+                  strokeWidth={strokeWidth}
+                />
+              );
+            }
+
+            case 'cube_3d': {
+              const cx = s.x ?? 50;
+              const cy = s.y ?? 50;
+              const sz = s.width ? s.width / 2 : 28;
+              const hsz = sz * 0.866;
+              const qsz = sz * 0.5;
+              const topP = `${cx},${cy - sz} ${cx + hsz},${cy - qsz} ${cx},${cy} ${cx - hsz},${cy - qsz}`;
+              const leftP = `${cx - hsz},${cy - qsz} ${cx},${cy} ${cx},${cy + sz} ${cx - hsz},${cy + qsz}`;
+              const rightP = `${cx},${cy} ${cx + hsz},${cy - qsz} ${cx + hsz},${cy + qsz} ${cx},${cy + sz}`;
+              return (
+                <g key={idx} transform={transform}>
+                  <polygon points={topP} fill={s.topFill || 'var(--bg-light)'} stroke={stroke} strokeWidth={strokeWidth} />
+                  <polygon points={leftP} fill={s.leftFill || 'var(--bg-muted)'} stroke={stroke} strokeWidth={strokeWidth} />
+                  <polygon points={rightP} fill={s.rightFill || 'var(--bg-alt)'} stroke={stroke} strokeWidth={strokeWidth} />
+                  {s.topText && (
+                    <text x={cx} y={cy - qsz + 4} textAnchor="middle" fontSize={11} fill={stroke} fontWeight={700} fontFamily="var(--font-m)">
+                      {s.topText}
+                    </text>
+                  )}
+                  {s.leftText && (
+                    <text x={cx - hsz * 0.45} y={cy + qsz * 0.45} textAnchor="middle" fontSize={11} fill={stroke} fontWeight={700} fontFamily="var(--font-m)">
+                      {s.leftText}
+                    </text>
+                  )}
+                  {s.rightText && (
+                    <text x={cx + hsz * 0.45} y={cy + qsz * 0.45} textAnchor="middle" fontSize={11} fill={stroke} fontWeight={700} fontFamily="var(--font-m)">
+                      {s.rightText}
+                    </text>
+                  )}
+                </g>
+              );
+            }
+
+            case 'star': {
+              const cx = s.x ?? 50;
+              const cy = s.y ?? 50;
+              const spikes = 5;
+              const outerRadius = s.r ?? 25;
+              const innerRadius = (s.r ?? 25) * 0.45;
+              let rot = (Math.PI / 2) * 3;
+              let x = cx;
+              let y = cy;
+              const step = Math.PI / spikes;
+              let pts = '';
+              for (let i = 0; i < spikes; i++) {
+                x = cx + Math.cos(rot) * outerRadius;
+                y = cy + Math.sin(rot) * outerRadius;
+                pts += `${x},${y} `;
+                rot += step;
+                x = cx + Math.cos(rot) * innerRadius;
+                y = cy + Math.sin(rot) * innerRadius;
+                pts += `${x},${y} `;
+                rot += step;
+              }
+              return (
+                <polygon
+                  key={idx}
+                  points={pts.trim()}
+                  fill={fill}
+                  stroke={stroke}
+                  strokeWidth={strokeWidth}
+                  transform={transform}
+                />
+              );
+            }
+
+            case 'path':
+              return (
+                <path
+                  key={idx}
+                  d={s.d || 'M 20 20 L 80 80'}
+                  fill={fill}
+                  stroke={stroke}
+                  strokeWidth={strokeWidth}
+                  strokeDasharray={s.strokeDasharray}
+                  strokeLinecap="round"
+                  transform={transform}
+                />
+              );
+
             default:
               return null;
           }
@@ -455,3 +581,171 @@ export const VisualQuestionRenderer: React.FC<VisualQuestionRendererProps> = ({ 
     </div>
   );
 };
+
+export interface VisualOptionCardsProps {
+  options: {
+    id: 'A' | 'B' | 'C' | 'D';
+    text?: string;
+    frame?: FigureFrame;
+  }[];
+  selectedOptionId?: string | null;
+  onSelectOption: (id: 'A' | 'B' | 'C' | 'D') => void;
+  correctOptionId?: string;
+  showResults?: boolean;
+  disabled?: boolean;
+}
+
+/**
+ * Renders all 4 MCQ options as interactive visual figure cards (Images as Options)
+ */
+export const VisualOptionCards: React.FC<VisualOptionCardsProps> = ({
+  options,
+  selectedOptionId,
+  onSelectOption,
+  correctOptionId,
+  showResults = false,
+  disabled = false,
+}) => {
+  return (
+    <div
+      className="visual-options-grid"
+      role="radiogroup"
+      aria-label="Visual answer options"
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+        gap: 16,
+        margin: '16px 0 28px',
+      }}
+    >
+      {options.map((opt) => {
+        const isSelected = selectedOptionId === opt.id;
+        const isCorrect = showResults && opt.id === correctOptionId;
+        const isIncorrectSelection = showResults && isSelected && opt.id !== correctOptionId;
+
+        let borderColor = 'var(--border)';
+        let bgColor = 'var(--bg-surface)';
+        let boxShadow = 'none';
+
+        if (showResults) {
+          if (isCorrect) {
+            borderColor = 'var(--emerald-success)';
+            bgColor = 'var(--emerald-bg)';
+            boxShadow = '0 0 0 3px rgba(5, 150, 105, 0.25)';
+          } else if (isIncorrectSelection) {
+            borderColor = 'var(--coral-error)';
+            bgColor = 'var(--coral-bg)';
+            boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.25)';
+          }
+        } else if (isSelected) {
+          borderColor = 'var(--blue)';
+          bgColor = 'var(--primary-light)';
+          boxShadow = '0 0 0 3px rgba(27, 94, 181, 0.25)';
+        }
+
+        return (
+          <div
+            key={opt.id}
+            role="radio"
+            aria-checked={isSelected}
+            tabIndex={disabled ? -1 : 0}
+            onClick={() => !disabled && onSelectOption(opt.id)}
+            onKeyDown={(e) => {
+              if (!disabled && (e.key === ' ' || e.key === 'Enter')) {
+                e.preventDefault();
+                onSelectOption(opt.id);
+              }
+            }}
+            className={`visual-option-card ${isSelected ? 'selected' : ''}`}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '12px 10px 10px',
+              borderRadius: 'var(--radius-md)',
+              border: `2px solid ${borderColor}`,
+              background: bgColor,
+              boxShadow,
+              cursor: disabled ? 'default' : 'pointer',
+              transition: 'all 0.15s ease',
+              outline: 'none',
+              position: 'relative',
+              userSelect: 'none',
+            }}
+          >
+            {/* Option Badge A, B, C, D */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 8,
+                left: 8,
+                width: 24,
+                height: 24,
+                borderRadius: '50%',
+                background: isSelected ? 'var(--blue)' : 'var(--bg-muted)',
+                color: isSelected ? '#ffffff' : 'var(--text-muted)',
+                fontWeight: 700,
+                fontSize: '0.78rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid',
+                borderColor: isSelected ? 'var(--blue)' : 'var(--border)',
+                fontFamily: 'var(--font-m)',
+              }}
+            >
+              {opt.id}
+            </div>
+
+            {/* Visual Figure Canvas */}
+            <div style={{ marginTop: 8, display: 'flex', justifyContent: 'center' }}>
+              {opt.frame ? (
+                <SingleFrameSVG frame={opt.frame} size={105} highlight={isSelected} />
+              ) : (
+                <div
+                  style={{
+                    minHeight: 80,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    padding: 8,
+                    fontSize: '0.85rem',
+                    color: 'var(--text-main)',
+                  }}
+                >
+                  {opt.text}
+                </div>
+              )}
+            </div>
+
+            {/* Subtle option text or label if provided */}
+            {opt.text && opt.frame && (
+              <span
+                style={{
+                  fontSize: '0.72rem',
+                  color: isSelected ? 'var(--blue)' : 'var(--text-tertiary)',
+                  marginTop: 6,
+                  fontWeight: 600,
+                  textAlign: 'center',
+                  lineHeight: 1.2,
+                }}
+              >
+                {opt.text}
+              </span>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/**
+ * Checks whether a question has image-based option frames
+ */
+export function hasVisualOptions(question: any): boolean {
+  if (!question || !Array.isArray(question.options)) return false;
+  return question.options.some((opt: any) => opt && opt.frame && Array.isArray(opt.frame.shapes) && opt.frame.shapes.length > 0);
+}

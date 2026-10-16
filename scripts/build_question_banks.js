@@ -815,8 +815,17 @@ const companyTrackQuestions = [
   }
 ];
 
+// Read validated advanced visual questions with image-based option frames
+const advancedVisualPath = path.join(rootDir, 'questions_visual_advanced.json');
+let advancedVisualQuestions = [];
+if (fs.existsSync(advancedVisualPath)) {
+  advancedVisualQuestions = JSON.parse(fs.readFileSync(advancedVisualPath, 'utf8'));
+}
+
+const allVisualQuestions = [...visualQuestions, ...advancedVisualQuestions];
+
 // Write individual dataset files
-fs.writeFileSync(path.join(rootDir, 'questions_visual.json'), JSON.stringify({ version: "2.0", category: "visual_aptitude", questions: visualQuestions }, null, 2));
+fs.writeFileSync(path.join(rootDir, 'questions_visual.json'), JSON.stringify({ version: "3.0", category: "visual_aptitude", questions: allVisualQuestions }, null, 2));
 fs.writeFileSync(path.join(rootDir, 'questions_quantitative.json'), JSON.stringify({ version: "2.0", category: "quantitative_aptitude", questions: quantitativeQuestions }, null, 2));
 fs.writeFileSync(path.join(rootDir, 'questions_logical.json'), JSON.stringify({ version: "2.0", category: "logical_reasoning", questions: logicalQuestions }, null, 2));
 fs.writeFileSync(path.join(rootDir, 'questions_verbal.json'), JSON.stringify({ version: "2.0", category: "verbal_ability", questions: [...verbalQuestions, ...standardVerbalQuestions] }, null, 2));
@@ -827,7 +836,7 @@ fs.writeFileSync(path.join(rootDir, 'questions_company_tracks.json'), JSON.strin
 // Merge all unique questions into question_bank.json
 const allNewQuestions = [
   ...existingQuestions,
-  ...visualQuestions,
+  ...allVisualQuestions,
   ...standardVerbalQuestions.filter(q => !existingQuestions.some(e => e.id === q.id)),
   ...standardDIQuestions.filter(q => !existingQuestions.some(e => e.id === q.id)),
   ...companyTrackQuestions.filter(q => !existingQuestions.some(e => e.id === q.id))

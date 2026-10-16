@@ -77,6 +77,72 @@
       }
     },
     {
+      "id": "verb_03",
+      "track": "cognitive",
+      "topic": "Reading Comprehension",
+      "difficulty": "medium",
+      "question": "Read the premise: 'Closed-loop feedback systems dynamically adjust actuator outputs based on measured process deviation from setpoint. While they attenuate external disturbances, improper gain scheduling can induce self-sustaining oscillations.' What is the primary operational risk identified?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Complete actuator power failure"
+        },
+        {
+          "id": "B",
+          "text": "Instability through self-sustaining oscillations caused by poorly tuned controller gain"
+        },
+        {
+          "id": "C",
+          "text": "Inability to respond to process setpoint modifications"
+        },
+        {
+          "id": "D",
+          "text": "Excessive attenuation of desired signals"
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Instability through self-sustaining oscillations caused by poorly tuned controller gain",
+      "explanation": "The passage directly links the risk to 'improper gain scheduling' which 'can induce self-sustaining oscillations', representing closed-loop instability.",
+      "recommended_time_seconds": 50,
+      "provenance": {
+        "category": "verbal_ability",
+        "standard": "Technical Comprehension"
+      }
+    },
+    {
+      "id": "verb_01",
+      "track": "cognitive",
+      "topic": "Sentence Correction",
+      "difficulty": "easy",
+      "question": "Identify the grammatically correct sentence among the given options:",
+      "options": [
+        {
+          "id": "A",
+          "text": "Neither the plant operator nor the field technicians was present during calibration."
+        },
+        {
+          "id": "B",
+          "text": "Neither the plant operator nor the field technicians were present during calibration."
+        },
+        {
+          "id": "C",
+          "text": "Neither the plant operator nor the field technicians are present yesterday."
+        },
+        {
+          "id": "D",
+          "text": "Neither the plant operator or the field technicians were present during calibration."
+        }
+      ],
+      "correct_option_id": "B",
+      "correct_answer": "Neither the plant operator nor the field technicians were present during calibration.",
+      "explanation": "Rule of Proximity for correlative conjunctions 'neither... nor': When two subjects are connected by 'neither... nor', the verb must agree in number with the closer subject. 'Technicians' is plural, requiring the plural past-tense verb 'were'.",
+      "recommended_time_seconds": 45,
+      "provenance": {
+        "category": "verbal_ability",
+        "standard": "Subject-Verb Agreement"
+      }
+    },
+    {
       "id": "verb_02",
       "track": "cognitive",
       "topic": "Vocabulary & Analogies",

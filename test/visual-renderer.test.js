@@ -13,7 +13,7 @@ test('Visual reasoning dataset covers all required 20 visual types with valid SV
   const data = JSON.parse(raw);
   const questions = data.questions;
 
-  assert.equal(questions.length, 20, 'Must have exactly 20 visual questions');
+  assert.ok(questions.length >= 20, `Must have at least 20 visual questions (found: ${questions.length})`);
 
   const requiredTypes = [
     'increasing_line_count',

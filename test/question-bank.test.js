@@ -40,7 +40,7 @@ test('Question Bank conforms strictly to schema and integrity constraints', () =
 
     // Topic & Difficulty
     assert.ok(q.topic && q.topic.trim().length > 0, `Topic required for ${q.id}`);
-    assert.ok(['easy', 'medium', 'hard'].includes(q.difficulty), `Invalid difficulty for ${q.id}`);
+    assert.ok(['easy', 'medium', 'hard', 'expert'].includes(q.difficulty), `Invalid difficulty for ${q.id}`);
 
     // Prompt
     assert.ok(q.question && q.question.trim().length > 0, `Question prompt required for ${q.id}`);

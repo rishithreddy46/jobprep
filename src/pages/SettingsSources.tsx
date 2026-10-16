@@ -15,12 +15,15 @@ import {
   Activity,
   Bot,
   Trash2,
+  Sun,
+  Moon,
+  Monitor,
 } from 'lucide-react';
 import { api } from '../api/client';
 import { useApp } from '../context/AppContext';
 
 export const SettingsSources: React.FC = () => {
-  const { profile, updateProfile, addToast, refreshAll } = useApp();
+  const { profile, updateProfile, addToast, refreshAll, themePreference, setThemePreference, resolvedTheme } = useApp();
 
   // Profile Form State
   const [name, setName] = useState<string>(profile?.name || 'Candidate');
@@ -197,6 +200,51 @@ export const SettingsSources: React.FC = () => {
         <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', maxWidth: 800, lineHeight: 1.6 }}>
           Configure your candidate profile, manage local backups, inspect question bank QA metrics, review source citations, and explore practice question generation.
         </p>
+      </div>
+
+      {/* Theme & Display Mode */}
+      <div className="card" style={{ marginBottom: 24, padding: 20 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+          <div>
+            <h2 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}>
+              {resolvedTheme === 'dark' ? <Moon size={18} color="var(--blue)" /> : <Sun size={18} color="var(--amber-warning)" />}
+              Appearance & Theme
+            </h2>
+            <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: 4 }}>
+              Select your preferred visual mode: light minimal, comfortable dark mode, or system device sync.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', gap: 8, background: 'var(--bg-muted)', padding: 4, borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+            <button
+              type="button"
+              onClick={() => setThemePreference('light')}
+              className={`btn btn-sm ${themePreference === 'light' ? 'btn-primary' : 'btn-outline'}`}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, border: 'none', boxShadow: themePreference === 'light' ? undefined : 'none' }}
+            >
+              <Sun size={14} />
+              <span>Light</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setThemePreference('dark')}
+              className={`btn btn-sm ${themePreference === 'dark' ? 'btn-primary' : 'btn-outline'}`}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, border: 'none', boxShadow: themePreference === 'dark' ? undefined : 'none' }}
+            >
+              <Moon size={14} />
+              <span>Dark</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setThemePreference('system')}
+              className={`btn btn-sm ${themePreference === 'system' ? 'btn-primary' : 'btn-outline'}`}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, border: 'none', boxShadow: themePreference === 'system' ? undefined : 'none' }}
+            >
+              <Monitor size={14} />
+              <span>System</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Grid: Profile & Passcode */}

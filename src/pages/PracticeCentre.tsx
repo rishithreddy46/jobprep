@@ -17,7 +17,7 @@ import {
 import { useApp } from '../context/AppContext';
 import { api } from '../api/client';
 import { Question, PracticeCategory } from '../types';
-import { VisualQuestionRenderer } from '../components/VisualQuestionRenderer';
+import { VisualQuestionRenderer, VisualOptionCards, hasVisualOptions } from '../components/VisualQuestionRenderer';
 
 interface PracticeCentreProps {
   onNavigate: (tab: string, extra?: any) => void;
@@ -61,12 +61,19 @@ export const PracticeCentre: React.FC<PracticeCentreProps> = ({ onNavigate }) =>
   // Filter questions
   const filteredQuestions = questions.filter((q) => {
     if (selectedDifficulty !== 'all' && q.difficulty !== selectedDifficulty) return false;
+    if (selectedCategory === 'visual_reasoning') {
+      return Boolean(q.diagram_spec) || q.id.startsWith('adv_') || q.id.startsWith('vis_') || q.topic.toLowerCase().includes('visual');
+    }
     if (selectedCategory !== 'all') {
       const cat = categories.find((c) => c.id === selectedCategory);
       if (cat) {
-        const matchesTopic = cat.topics?.some((t) => q.topic.toLowerCase().includes(t.toLowerCase()));
-        const matchesTrack = cat.track && q.track === cat.track;
-        if (!matchesTopic && !matchesTrack) return false;
+        const catTopics = cat.topics || (cat as any).matchTopics || [];
+        if (catTopics.length > 0) {
+          const matches = catTopics.some((t: string) => q.topic.toLowerCase().includes(t.toLowerCase()));
+          if (!matches) return false;
+        } else if (cat.track && q.track !== cat.track) {
+          return false;
+        }
       }
     }
     return true;
@@ -235,39 +242,74 @@ export const PracticeCentre: React.FC<PracticeCentreProps> = ({ onNavigate }) =>
               )}
 
               {/* Options */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
-                {currentQ.options?.map((opt) => {
-                  const isSelected = selectedOptionId === opt.id;
-                  let cardClass = 'option-card';
-                  if (isSelected) cardClass += ' selected';
-                  if (isAnswerSubmitted) {
-                    if (opt.id === currentQ.correct_option_id) cardClass += ' correct';
-                    else if (isSelected && opt.id !== currentQ.correct_option_id) cardClass += ' incorrect';
-                  }
+              {hasVisualOptions(currentQ) ? (
+                <VisualOptionCards
+                  options={currentQ.options}
+                  selectedOptionId={selectedOptionId}
+                  correctOptionId={currentQ.correct_option_id}
+                  showResults={isAnswerSubmitted}
+                  disabled={isAnswerSubmitted}
+                  onSelectOption={(optId) => handleSelectOption(optId)}
+                />
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
+                  {currentQ.options?.map((opt) => {
+                    const isSelected = selectedOptionId === opt.id;
+                    let cardClass = 'option-card';
+                    if (isSelected) cardClass += ' selected';
+                    if (isAnswerSubmitted) {
+                      if (opt.id === currentQ.correct_option_id) cardClass += ' correct';
+                      else if (isSelected && opt.id !== currentQ.correct_option_id) cardClass += ' incorrect';
+                    }
 
-                  return (
-                    <div
-                      key={opt.id}
-                      className={cardClass}
-                      onClick={() => handleSelectOption(opt.id)}
-                    >
-                      <div className="option-badge">{opt.id}</div>
-                      <div style={{ flex: 1, fontSize: '0.92rem' }}>{opt.text}</div>
-                      {isAnswerSubmitted && opt.id === currentQ.correct_option_id && (
-                        <CheckCircle2 size={18} color="var(--emerald-success)" />
-                      )}
-                      {isAnswerSubmitted && isSelected && opt.id !== currentQ.correct_option_id && (
-                        <XCircle size={18} color="var(--coral-error)" />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                    return (
+                      <div
+                        key={opt.id}
+                        className={cardClass}
+                        onClick={() => handleSelectOption(opt.id)}
+                      >
+                        <div className="option-badge">{opt.id}</div>
+                        <div style={{ flex: 1, fontSize: '0.92rem' }}>{opt.text}</div>
+                        {isAnswerSubmitted && opt.id === currentQ.correct_option_id && (
+                          <CheckCircle2 size={18} color="var(--emerald-success)" />
+                        )}
+                        {isAnswerSubmitted && isSelected && opt.id !== currentQ.correct_option_id && (
+                          <XCircle size={18} color="var(--coral-error)" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-subtle)' }}>
-                  Question {activeQuestionIndex + 1} of {filteredQuestions.length}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    disabled={activeQuestionIndex === 0}
+                    onClick={() => {
+                      setSelectedOptionId(null);
+                      setIsAnswerSubmitted(false);
+                      setActiveQuestionIndex((prev) => Math.max(0, prev - 1));
+                    }}
+                  >
+                    ← Prev
+                  </button>
+                  <span style={{ fontSize: '0.84rem', color: 'var(--text-subtle)', fontWeight: 500 }}>
+                    Question {activeQuestionIndex + 1} of {filteredQuestions.length}
+                  </span>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    disabled={activeQuestionIndex >= filteredQuestions.length - 1}
+                    onClick={() => {
+                      setSelectedOptionId(null);
+                      setIsAnswerSubmitted(false);
+                      setActiveQuestionIndex((prev) => Math.min(filteredQuestions.length - 1, prev + 1));
+                    }}
+                  >
+                    Next →
+                  </button>
                 </div>
 
                 <div style={{ display: 'flex', gap: 10 }}>

@@ -108,6 +108,103 @@
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ==========================================================================
+   JobPrep Dark Theme Architecture (Polymath AI Dark Mode)
+   ========================================================================== */
+[data-theme='dark'] {
+  --navy: #0F172A;
+  --navy-dark: #020617;
+  --blue: #3B82F6;
+  --blue-light: #60A5FA;
+  --cyan: #38BDF8;
+  --purple: #A78BFA;
+  --coral: #FB7185;
+
+  /* Surfaces & Backgrounds */
+  --bg-white: #131A26;
+  --bg-light: #162030;
+  --bg-alt: #1A2536;
+  --bg-dark: #070B12;
+  --bg-main: #0B0F17;
+  --bg-surface: #131A26;
+  --bg-card: #131A26;
+  --bg-card-hover: #1A2434;
+  --bg-elevated: #1E293B;
+  --bg-muted: #162030;
+  --bg-header: rgba(19, 26, 38, 0.94);
+
+  /* Text Colors */
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-tertiary: #64748B;
+  --text-main: #F1F5F9;
+  --text-muted: #94A3B8;
+  --text-subtle: #64748B;
+  --text-white: #F8FAFC;
+  --text-white-dim: rgba(248, 250, 252, 0.7);
+  --text-white-muted: rgba(248, 250, 252, 0.45);
+
+  /* Borders */
+  --border: #1E293B;
+  --border-light: #1E293B;
+  --border-dim: #1E293B;
+  --border-subtle: #1E293B;
+  --border-hover: #334155;
+  --border-focus: #3B82F6;
+
+  /* Primary Interactive Mappings */
+  --primary: #3B82F6;
+  --primary-hover: #2563EB;
+  --primary-light: rgba(59, 130, 246, 0.15);
+  --primary-border: rgba(59, 130, 246, 0.3);
+
+  /* Semantic Feedback */
+  --amber-warning: #F59E0B;
+  --amber-bg: rgba(245, 158, 11, 0.12);
+  --amber-border: rgba(245, 158, 11, 0.3);
+
+  --emerald-success: #10B981;
+  --emerald-bg: rgba(16, 185, 129, 0.12);
+  --emerald-border: rgba(16, 185, 129, 0.3);
+
+  --coral-error: #EF4444;
+  --coral-bg: rgba(239, 68, 68, 0.12);
+  --coral-border: rgba(239, 68, 68, 0.3);
+
+  --violet-quest: #8B5CF6;
+  --violet-bg: rgba(139, 92, 246, 0.12);
+  --violet-border: rgba(139, 92, 246, 0.3);
+
+  --blue-info: #3B82F6;
+  --blue-bg: rgba(59, 130, 246, 0.12);
+  --blue-border: rgba(59, 130, 246, 0.3);
+}
+
+[data-theme='dark'] .top-header {
+  background: var(--bg-header);
+}
+
+[data-theme='dark'] .progress-bar-bg {
+  background: #1E293B;
+}
+
+[data-theme='dark'] .badge-neutral {
+  background: #1E293B;
+  border-color: #334155;
+  color: #94A3B8;
+}
+
+[data-theme='dark'] .option-badge {
+  background: #1E293B;
+  border-color: #334155;
+  color: #94A3B8;
+}
+
+[data-theme='dark'] select option {
+  background: #131A26;
+  color: #F1F5F9;
+}
+
 /* Base Reset */
 *, *::before, *::after {
   box-sizing: border-box;

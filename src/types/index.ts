@@ -87,13 +87,14 @@ export interface PracticeCategory {
 export interface QuestionOption {
   id: 'A' | 'B' | 'C' | 'D';
   text: string;
+  frame?: any;
 }
 
 export interface Question {
   id: string;
   track: 'cognitive' | 'instrumentation' | 'company_track' | 'verbal' | 'quantitative' | string;
   topic: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: 'easy' | 'medium' | 'hard' | 'expert';
   question: string;
   options: QuestionOption[];
   correct_option_id: 'A' | 'B' | 'C' | 'D';
